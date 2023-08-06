@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+    <title>Google</title>
+  </head>
+  <body>
+    <div class="nav">
+      <a
+        class="text-buttons"
+        href="https://about.google/?fg=1&utm_source=google-AU&utm_medium=referral&utm_campaign=hp-header"
+        >About</a
+      >
+      <a
+        class="text-buttons"
+        href="https://store.google.com/AU?utm_source=hp_header&utm_medium=google_ooo&utm_campaign=GS100042&hl=en-AU"
+        >Store</a
+      >
+      <div class="top-right">
+        <div class="top-right-items">
+          <a class="text-buttons" href="img-search.html">Image Search</a>
+        </div>
+        <div class="top-right-items">
+          <a class="text-buttons" href="index.html">Google Search</a>
+        </div>
+        <div class="top-right-items">
+          <div style="margin-top: 6px">
+            <a
+              class="google-apps"
+              href="https://www.google.com.au/intl/en/about/products"
+              ><img
+              src=https://vignette.wikia.nocookie.net/googology/images/f/f8/9_dots.png/revision/latest?cb=20180508211400
+              height="20px"></a
+            >
+          </div>
+        </div>
+        <div class="top-right-items">
+          <a
+            class="sign-in-button"
+            href="https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/&ec=GAZAmgQ"
+            >Sign in</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <form class="adv-search" action="https://www.google.com/search">
+      <div class="adv-logo">
+        <label>Advanced Search</label>
+      </div>
+      <div class="adv-search-table">
+        <table>
+          <thead>
+            <tr>
+              <th class="col-1">Find pages with...</th>
+              <th class="col-2"></th>
+              <th
+                class="col-3"
+                style="font-weight: bolder; color: #5f5e5e; font-size: 15px"
+              >
+                To do this in the search box.
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>All these words:</td>
+              <td>
+                <input type="text" name="as_q" class="adv-inputs" />
+              </td>
+              <td>
+                Type the important words:
+                <span class="key-words">tri-colour rat terrier</span>
+              </td>
+            </tr>
+            <tr>
+              <td>This exact word or phrase:</td>
+              <td>
+                <input type="text" name="as_epq" class="adv-inputs" />
+              </td>
+              <td>
+                Put exact words in quotes:
+                <span class="key-words">"rat terrier"</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Any of these words:</td>
+              <td>
+                <input type="text" name="as_oq" class="adv-inputs" />
+              </td>
+              <td>
+                Type OR between all the words you want:
+                <span class="key-words">miniature OR standard</span>
+              </td>
+            </tr>
+            <tr>
+              <td>None of these words:</td>
+              <td>
+                <input type="text" name="as_eq" class="adv-inputs" />
+              </td>
+              <td>
+                Put a minus sign just before words that you don't want:
+                <span class="key-words">-rodent, -"Jack Russell"</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Numbers ranging from:</td>
+              <td>
+                <input type="text" name="as_nlo" class="adv-inputs-half" /><span
+                  style="margin-left: 14px; margin-right: 14px"
+                  >to</span
+                >
+                <input type="text" name="as_nhi" class="adv-inputs-half" />
+              </td>
+              <td>
+                Put two full stops between the numbers and add a unit of
+                measurement:
+                <span class="key-words">10..35 kg, £300..£500, 2010..2011</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+        <input class="sign-in-button" type="submit" style="margin-left: 550px; margin-top: 3px; width: 162px" value="Advanced Search">
+      </div>
+    </form>
+  </body>
+</html>

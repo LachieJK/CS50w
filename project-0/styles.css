@@ -1,5 +1,5 @@
 body {
-  font-family: Google Sans, Roboto, Helvetica, Arial, sans-serif;
+  font-family: Arial;
   font-size: 14px;
 }
 
@@ -11,7 +11,7 @@ body {
 .top-right {
   float: right;
   display: grid;
-  grid-template-columns: 0fr 0fr 0fr 0fr;
+  grid-template-columns: 0.95fr 1fr 0fr 0fr;
   gap: 10px;
   position: relative;
 }
@@ -29,7 +29,7 @@ body {
   text-decoration: none;
 }
 
-.top-left-buttons:hover {
+.text-buttons:hover {
   text-decoration: underline;
 }
 
@@ -48,7 +48,6 @@ body {
   font-size: 14px;
   letter-spacing: 0.25px;
   line-height: 16px;
-  width: 48px;
   margin-right: 8px;
   min-width: 96px;
   padding: 9px 23px;
@@ -64,4 +63,110 @@ body {
 .sign-in-button:hover {
   background-color: #065dd8;
   transform: translateY(-2px);
+}
+
+.search {
+  padding-top: 150px;
+  text-align: center;
+}
+
+.search-box {
+  margin-top: 30px;
+  margin-left: 33%;
+  margin-bottom: 20px;
+  display: flex;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 20px;
+  overflow: hidden;
+  width: 34%;
+}
+
+.search-box:hover {
+  box-shadow: 0px 1px 3px rgba(92, 92, 92, 0.3);
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  padding-left: 40px;
+  font-size: 16px;
+}
+
+.search-button {
+  background-color: #f7f7f7;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 10px 5px;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  box-shadow: 0px 1px 3px #d1d1d1;
+}
+
+.adv-search {
+  margin-left: 40px;
+  margin-right: 20px;
+  padding-top: 40px;
+}
+
+.adv-logo {
+  padding-bottom: 25px;
+  color: red;
+  font-size: 20px;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.adv-search-table {
+  padding-top: 30px;
+  border-collapse: collapse;
+}
+
+.adv-search-table th {
+  font-size: 16px;
+  font-weight: 500;
+  font-style: inherit;
+  padding-bottom: 20px;
+  color: #333;
+}
+
+.adv-search-table td {
+  border-bottom: 10pt solid white;
+}
+
+.col-1 {
+  width: 250px;
+  text-align: left;
+}
+
+.col-2 {
+  width: 500px;
+  text-align: left;
+}
+
+.col-3 {
+  width: 500px;
+  text-align: left;
+}
+
+.adv-inputs {
+  width: 90%;
+  border-radius: 1px;
+  border: 1px solid #d9d9d9;
+  height: 25px;
+}
+
+.adv-inputs-half {
+  width: 40%;
+  border-radius: 1px;
+  border: 1px solid #d9d9d9;
+  height: 25px;
+}
+
+.key-words {
+  color: #666;
+  font-family: monospace;
+  white-space: pre;
 }
