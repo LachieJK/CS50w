@@ -10,6 +10,7 @@ code {
 h1 {
     margin-top: 0px;
     padding-top: 20px;
+    font-weight: 700;
 }
 
 textarea {
@@ -35,4 +36,13 @@ textarea {
 
 .sidebar h2 {
     margin-top: 5px;
+}
+
+.title-box {
+    width: 70%;
+}
+
+.content-box {
+    width:70%;
+    height: 300px;
 }
