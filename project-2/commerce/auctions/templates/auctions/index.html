@@ -3,5 +3,28 @@
 {% block body %}
     <h2>Active Listings</h2>
 
-    TODO
+    {% for listing in listings %}
+    <div class="container view-listing" data-listing-id="{{ listing.id }}" data-listing-url="{% url 'listing' listing.id %}">
+        <div class="left-section">
+            <img src="{{ listing.image }}">
+        </div>
+        <div class="right-section">
+            <h3>{{ listing.name }}</h3>
+            <p><b>Current Price:</b> ${{ listing.price }}</p>
+            <p>{{ listing.description }}</p>
+            <p class="bottom-right" style="color:crimson"><b>{{ listing.category }}</b></p>
+            <p class="bottom-left" style="color:grey"><em>{{ listing.created }}</em></p>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.view-listing').forEach(function(element) {
+        element.addEventListener('click', function() {
+            var listingUrl = this.getAttribute('data-listing-url');
+            window.location.href = listingUrl;
+        });
+    });
+    </script>
+    {% endfor %}
+
 {% endblock %}

@@ -1,3 +1,108 @@
 body {
+    padding: 30px;
+    padding-top: 100px;
+}
+
+h2 {
+    text-align: center;
+    font-weight: bold;
+}
+
+h3 {
+    padding-bottom: 10px;
+}
+
+.container img {
+    height: 265px;
+    vertical-align: center;
+}
+
+label {
+    padding-top: 20px;
+}
+
+select {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 16px;
+    width: 70%;
+}
+
+input[type="submit"] {
+    background-color: #007BFF; 
+    color: #fff; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+}
+  
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.container {
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    width: 95%;
+    height: 300px;
+    border-color:darkgrey;
+    border-style: solid;
+    border-width: 3px;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-left: 0px;
     padding: 10px;
+}
+
+.left-section {
+    height: 275px;
+    padding: 5px;
+    margin-right: 20px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: darkgrey;
+    border-radius: 5px;
+    position: relative;
+}
+
+.right-section {
+    height: 290px;
+    flex: 1;
+    padding: 15px;
+    position: relative;
+}
+
+.bottom-right {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.bottom-left {
+    position: absolute;
+    bottom: 10px;
+}
+
+.top-right {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.text-box {
+    width: 70%;
+}
+
+.description-box {
+    width:70%;
+    height: 300px;
+}
+
+.navbar-nav.ml-auto.dropdown {
+    position: absolute;
+    right: 0;
 }
