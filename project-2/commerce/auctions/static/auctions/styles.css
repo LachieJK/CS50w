@@ -82,7 +82,7 @@ select {
     font-size:small;
 }
 
-.create-form {
+.centered-form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -103,7 +103,9 @@ select {
 
 input[type="number"],
 input[type="text"],
-input[type="url"] {
+input[type="url"],
+input[type="password"],
+input[type="email"] {
     width: 50vw;
     padding: 5px;
     border-radius: 5px;

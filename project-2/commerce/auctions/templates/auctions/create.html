@@ -3,7 +3,7 @@
 {% block body %}
     <h1>Create Listing</h1>
 
-    <form method="POST" class="create-form"action="{% url 'create' %}" style="margin: 20px;">
+    <form method="POST" class="centered-form"action="{% url 'create' %}" style="margin: 20px;">
         {% csrf_token %}
 
         <div class="form-group">
