@@ -3,30 +3,43 @@
 {% block body %}
     <h1>Create Listing</h1>
 
-    <form method="POST" action="{% url 'create' %}" style="margin: 20px;">
+    <form method="POST" class="create-form"action="{% url 'create' %}" style="margin: 20px;">
         {% csrf_token %}
 
-        <label for="title" style="padding-top: 5px;">Title (Required)</label><br>
-        <input class="text-box" type="text" id="title" name="title" placeholder="Enter the Title Here"><br>
+        <div class="form-group">
+            <label for="title" style="padding-top: 5px;">Title:</label><br>
+            <input class="text-box" type="text" id="title" name="title" placeholder="Enter Title"><br>
+        </div>
 
-        <label for="description">Description (Required)</label><br>
-        <textarea class="description-box" id="description" name="description" placeholder="Describe the Listing Here"></textarea><br>
+        <div class="form-group">
+            <label for="description">Description:</label><br>
+            <textarea class="description-box" id="description" name="description" placeholder="Describe Listing"></textarea><br>
+        </div>
 
-        <label for="price">Starting Price (Required)</label><br>
-        <input class="text-box" type="number" id="price" name="price" placeholder="Enter the Price Here" step="0.01"><br>
+        <div class="form-group">
+            <label for="price">Starting Price:</label><br>
+            <input class="text-box" type="number" id="price" name="price" placeholder="Enter Price" step="0.01"><br>
+        </div>
 
-        <label for="url">Image URL</label><br>
-        <input class="text-box" type="url" id="url" name="url" placeholder="Enter the Image URL Here"><br>
+        <div class="form-group">
+            <label for="url">Image URL:</label><br>
+            <input class="text-box" type="url" id="url" name="url" placeholder="Enter URL"><br>
+        </div>
 
-        <label for="category">Category</label><br>
-        <select name="category" id="category">
-            <option value="" selected disabled>Select a Category</option>
-            {% for category in categories %}
-                <option>{{ category }}</option>
-            {% endfor %}
-        </select><br>
+        <div class="form-group">
+            <label for="category">Category:</label><br>
+            <select name="category" id="category" class="select">
+                <option value="" selected disabled>Select Category</option>
+                {% for category in categories %}
+                    <option>{{ category }}</option>
+                {% endfor %}
+            </select><br>
+        </div>
 
-        <input type="submit" id="create-listing" value="Create Listing" style="margin-top: 20px;">
+        <input type="submit" id="create-listing" value="Create Listing">
 
     </form>
 {% endblock %}
+
+
+<div class="form-group"></div>
