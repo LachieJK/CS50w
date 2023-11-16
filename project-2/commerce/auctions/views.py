@@ -17,16 +17,10 @@ def index(request):
 
 def create(request):
     if request.method == "GET":
-        unique_categories = set()
-        listings = Listings.objects.all()
-        for listing in listings:
-            if listing.category not in unique_categories:
-                unique_categories.add(listing.category)
         return render(request, "auctions/create.html", {
-            "categories": sorted(unique_categories, key=lambda category: category.name)
+            "categories": Category.objects.all().order_by('name')
         })
     else: 
-        
         if not request.user.is_authenticated:
             return redirect('error', message="Must be signed in to create a listing")
         title = request.POST.get('title')
@@ -41,9 +35,7 @@ def create(request):
         category_instance = Category.objects.get(name=category_name)
         listing = Listings(name = title, description = description, category = category_instance, owner = request.user, price = price, image = image)
         listing.save()
-        return render(request, "auctions/index.html", {
-            "listings": Listings.objects.all()
-        })
+        return redirect('index');
 
 def category(request, category_id):
     return render(request, "auctions/category.html", {
