@@ -221,3 +221,15 @@ input[type="submit"]:hover {
     top: 0;
     right: 0;
 }
+
+.time-since {
+    font-family: 'Courier New', Courier, monospace; 
+    color: grey; 
+    padding-bottom: 15px;
+    border-bottom: 1px solid lightgrey;
+}
+
+.not-found {
+    padding-top: 30px;
+    text-align: center;
+}

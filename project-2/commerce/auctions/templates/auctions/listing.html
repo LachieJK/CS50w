@@ -7,9 +7,49 @@
     <div class="right-side">
         <div class="descriptive-container">
             <input type="submit" id="add-to-watchlist" value="Add to Watchlist">
-            <h2 style="padding-bottom: 30px">{{ listing.name }} Listing</h2>
-            <p><em>"{{listing.description}}"</em></p>
-            <p>Listed by {{listing.owner}} at idk</p>
+            <h2 style="padding-bottom: 30px">{{ listing.name }}</h2>
+            <p style="padding-bottom: 15px"><em>"{{listing.description}}"</em></p>
+            <p class="time-since">Listed by {{listing.owner}} <span class="time-since-post" data-created="{{ listing.created.isoformat }}"></span></p>
+
         </div>
     </div>
+
+    <script>
+        const timeSincePostElements = document.querySelectorAll('.time-since-post');
+    
+        timeSincePostElements.forEach(element => {
+            const createdTimestamp = new Date(element.getAttribute('data-created')).getTime();
+            const currentTimestamp = new Date().getTime();
+    
+            const timeDifference = currentTimestamp - createdTimestamp;
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    
+            let displayText = '';
+
+            if (days === 1) {
+                displayText += '1 day';
+            } else if (days > 1) {
+                displayText += `${days} days`;
+            }
+
+            if (days > 0 && hours > 0) {
+                displayText += ', ';
+            }
+
+            if (hours === 1) {
+                displayText += '1 hour';
+            } else if (hours > 1) {
+                displayText += `${hours} hours`;
+            }
+
+            if (!days && !hours) {
+                displayText = 'Less than an hour ago';
+            }
+
+            element.innerText = displayText + ' ago';
+        });
+    </script>
+    
+    
 {% endblock %}

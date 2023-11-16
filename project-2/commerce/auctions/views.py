@@ -26,22 +26,24 @@ def create(request):
             "categories": sorted(unique_categories, key=lambda category: category.name)
         })
     else: 
+        
+        if not request.user.is_authenticated:
+            return redirect('error', message="Must be signed in to create a listing")
         title = request.POST.get('title')
         description = request.POST.get('description')
         price = request.POST.get('price')
         image = request.POST.get('url')
         category_name = request.POST.get('category')
-        category_instance = Category.objects.get(name=category_name)
         if not image.strip():
             image = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.stack.imgur.com%2Fy9DpT.jpg&f=1&nofb=1&ipt=65fd893c5b83c58d8fa2af05c63703caffeecceb1e383b5b7c7fccc73fed228d&ipo=images'
-        if not title.strip() or not description.strip() or not price.strip():
+        if not title.strip() or not description.strip() or not price.strip() or not category_name.strip():
             return redirect('error', message="Not all required fields were filled correctly")
-        else:
-            listing = Listings(name = title, description = description, category = category_instance, owner = request.user, price = price, image = image)
-            listing.save()
-            return render(request, "auctions/index.html", {
-                "listings": Listings.objects.all()
-            })
+        category_instance = Category.objects.get(name=category_name)
+        listing = Listings(name = title, description = description, category = category_instance, owner = request.user, price = price, image = image)
+        listing.save()
+        return render(request, "auctions/index.html", {
+            "listings": Listings.objects.all()
+        })
 
 def category(request, category_id):
     return render(request, "auctions/category.html", {
