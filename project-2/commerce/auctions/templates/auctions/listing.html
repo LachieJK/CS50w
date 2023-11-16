@@ -1,7 +1,15 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>{{ listing.name }} Listing</h2>
-
-    <p> This Works!!</p>
+    <div class="left-side">
+        <img src="{{ listing.image }}">
+    </div>
+    <div class="right-side">
+        <div class="descriptive-container">
+            <input type="submit" id="add-to-watchlist" value="Add to Watchlist">
+            <h2 style="padding-bottom: 30px">{{ listing.name }} Listing</h2>
+            <p><em>"{{listing.description}}"</em></p>
+            <p>Listed by {{listing.owner}} at idk</p>
+        </div>
+    </div>
 {% endblock %}

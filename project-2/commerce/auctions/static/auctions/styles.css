@@ -8,6 +8,10 @@ h1 {
     font-weight: bold;
 }
 
+h2 {
+    font-weight: 600;
+}
+
 h5 {
     padding: 2px;
     padding-bottom: 7px;
@@ -52,6 +56,11 @@ select {
     margin-top: 30px;
     margin-left: 0px;
     padding: 0px;
+    transition: filter 0.3s ease;
+}
+
+.container:hover {
+    filter: brightness(90%);
 }
 
 .top-section {
@@ -74,6 +83,7 @@ select {
     font-size:small;
 }
 
+
 .bottom-left {
     position: absolute;
     bottom: 10px;
@@ -91,8 +101,8 @@ select {
 .form-group {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Aligns label and input to the left */
-    margin-bottom: 10px; /* Adjust spacing between groups if needed */
+    align-items: flex-start;
+    margin-bottom: 10px;
   }
   
   label {
@@ -167,4 +177,47 @@ input[type="submit"]:hover {
     position: absolute;
     bottom: 37px;
     right: 25px;
+}
+
+.left-side {
+    width: 50%;
+    float: left;
+    box-sizing: border-box;
+}
+
+.left-side img {
+    margin: 100px;
+    width: calc(100% - 200px);
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    border-width: 5px;
+    border-color: darkslategrey;
+    border-style: solid;
+
+}
+
+.right-side {
+    padding: 20px;
+    width: 50%;
+    float: right;
+    box-sizing: border-box;
+}
+
+.descriptive-container {
+    position: relative;
+    padding: 20px;
+    border-width: 2px;
+    border-color: lightgrey;
+    border-style: solid;
+}
+
+#add-to-watchlist {
+    width: auto;
+    position: absolute;
+    margin: 10px;
+    top: 0;
+    right: 0;
 }

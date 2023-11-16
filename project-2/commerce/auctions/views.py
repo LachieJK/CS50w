@@ -52,7 +52,8 @@ def category(request, category_id):
 def listing(request, listing_id):
     listing = get_object_or_404(Listings, pk = listing_id)
     return render(request, "auctions/listing.html", {
-        "listing": listing
+        "listing": listing,
+        "categories": Category.objects.all().order_by('name')
     })
 
 def error(request, message):
