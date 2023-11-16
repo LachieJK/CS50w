@@ -23,9 +23,20 @@
                   <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="{% url 'index' %}">Active Listings</a>
                   </li>
+
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        {% for category in categories %}
+                            <li><a class="dropdown-item" href="{% url 'category' category.id %}">{{ category.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                  </li>
+
                   <li class="nav-item">
                     <a class="nav-link" href="{% url 'create' %}">Create Listing</a>
                   </li>
+
                   <li class="nav-item dropdown" style="position: absolute; right: 15px">
                     <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {% if user.is_authenticated %}

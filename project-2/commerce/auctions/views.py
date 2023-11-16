@@ -11,7 +11,8 @@ def open(request):
 
 def index(request):
     return render(request, "auctions/index.html", {
-        "listings": Listings.objects.all() 
+        "listings": Listings.objects.all().order_by('-created'),
+        "categories": Category.objects.all().order_by('name')
     })
 
 def create(request):
@@ -22,7 +23,7 @@ def create(request):
             if listing.category not in unique_categories:
                 unique_categories.add(listing.category)
         return render(request, "auctions/create.html", {
-            "categories": unique_categories
+            "categories": sorted(unique_categories, key=lambda category: category.name)
         })
     else: 
         title = request.POST.get('title')
@@ -31,6 +32,8 @@ def create(request):
         image = request.POST.get('url')
         category_name = request.POST.get('category')
         category_instance = Category.objects.get(name=category_name)
+        if not image.strip():
+            image = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.stack.imgur.com%2Fy9DpT.jpg&f=1&nofb=1&ipt=65fd893c5b83c58d8fa2af05c63703caffeecceb1e383b5b7c7fccc73fed228d&ipo=images'
         if not title.strip() or not description.strip() or not price.strip():
             return redirect('error', message="Not all required fields were filled correctly")
         else:
@@ -39,6 +42,12 @@ def create(request):
             return render(request, "auctions/index.html", {
                 "listings": Listings.objects.all()
             })
+
+def category(request, category_id):
+    return render(request, "auctions/category.html", {
+        "listings": Listings.objects.filter(category=category_id).order_by('-created'),
+        "categories": Category.objects.all().order_by('name')
+    })
 
 def listing(request, listing_id):
     listing = get_object_or_404(Listings, pk = listing_id)
@@ -68,7 +77,9 @@ def login_view(request):
                 "message": "Invalid username and/or password."
             })
     else:
-        return render(request, "auctions/login.html")
+        return render(request, "auctions/login.html", {
+            "categories": Category.objects.all().order_by('name')
+        })
 
 
 def logout_view(request):
@@ -100,4 +111,6 @@ def register(request):
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "auctions/register.html")
+        return render(request, "auctions/register.html", {
+            "categories": Category.objects.all().order_by('name')
+        })
