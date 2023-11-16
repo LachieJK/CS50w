@@ -1,20 +1,23 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
+    <h1>Active Listings</h1>
 
-    {% for listing in listings %}
-    <div class="container view-listing" data-listing-id="{{ listing.id }}" data-listing-url="{% url 'listing' listing.id %}">
-        <div class="left-section">
-            <img src="{{ listing.image }}">
+    <div class="grid-container">
+        {% for listing in listings %}
+        <div class="container view-listing" data-listing-id="{{ listing.id }}" data-listing-url="{% url 'listing' listing.id %}">
+            <div class="top-section">
+                <img src="{{ listing.image }}">
+            </div>
+            <div class="bottom-section">
+                <h5>{{ listing.name }}</h5>
+                <p class="price">${{ listing.price }}</p>
+                <p class="bid">{{ listing.bid_count}} bid(s)</p>
+                <p class="bottom-left" style="color:grey"><em>{{ listing.created }}</em></p>
+                <p class="bottom-right" style="color:crimson"><b>{{ listing.category }}</b></p>
+            </div>
         </div>
-        <div class="right-section">
-            <h3>{{ listing.name }}</h3>
-            <p><b>Current Price:</b> ${{ listing.price }}</p>
-            <p>{{ listing.description }}</p>
-            <p class="bottom-right" style="color:crimson"><b>{{ listing.category }}</b></p>
-            <p class="bottom-left" style="color:grey"><em>{{ listing.created }}</em></p>
-        </div>
+        {% endfor %}
     </div>
 
     <script>
@@ -25,6 +28,5 @@
         });
     });
     </script>
-    {% endfor %}
 
 {% endblock %}
