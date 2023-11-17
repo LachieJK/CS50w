@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from decimal import Decimal
 
 from .models import User, Listings, Category, Bids, Comments
 
@@ -40,15 +41,43 @@ def create(request):
 def category(request, category_id):
     return render(request, "auctions/category.html", {
         "listings": Listings.objects.filter(category=category_id).order_by('-created'),
-        "categories": Category.objects.all().order_by('name')
+        "categories": Category.objects.all().order_by('name'),
+        "title": Category.objects.get(id=category_id).name
     })
 
 def listing(request, listing_id):
-    listing = get_object_or_404(Listings, pk = listing_id)
-    return render(request, "auctions/listing.html", {
-        "listing": listing,
-        "categories": Category.objects.all().order_by('name')
-    })
+    if request.method == 'GET':
+        listing = get_object_or_404(Listings, pk = listing_id)
+        return render(request, "auctions/listing.html", {
+            "listing": listing,
+            "categories": Category.objects.all().order_by('name')
+        })
+    else:
+        if "bid" in request.POST:
+            price_str = request.POST.get('bid')
+            if not price_str.strip():
+                return redirect('error', message="Must enter a numeric bid value")
+            try:
+                price = Decimal(price_str)
+            except ValueError:
+                return redirect('error', message="Invalid bid value")
+            if price <= Listings.objects.get(id=listing_id).current_price():
+                return redirect('error', message="Bid must be larger than the current price")
+            bid = Bids(user = request.user, item = Listings.objects.get(id=listing_id), new_price = price)
+            bid.save()
+            listing = get_object_or_404(Listings, pk = listing_id)
+            return render(request, "auctions/listing.html", {
+                "listing": listing,
+                "categories": Category.objects.all().order_by('name')
+            })
+        if "close-listing" in request.POST:
+            listing = Listings.objects.get(id=listing_id)
+            listing.active = False
+            listing.save()
+            return render(request, "auctions/listing.html", {
+                "listing": listing,
+                "categories": Category.objects.all().order_by('name')
+            })
 
 def error(request, message):
     return render(request, "auctions/error.html", {

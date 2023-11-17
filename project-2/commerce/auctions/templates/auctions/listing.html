@@ -1,15 +1,49 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <div class="left-side">
-        <img src="{{ listing.image }}">
-    </div>
-    <div class="right-side">
-        <div class="descriptive-container">
-            <input type="submit" id="add-to-watchlist" value="Add to Watchlist">
-            <h2 style="padding-bottom: 30px">{{ listing.name }}</h2>
-            <p style="padding-bottom: 15px"><em>"{{listing.description}}"</em></p>
-            <p class="time-since">Listed by {{listing.owner}} <span class="time-since-post" data-created="{{ listing.created.isoformat }}"></span></p>
+    <div class="listing-container">
+        <div class="left-side">
+            <img src="{{ listing.image }}">
+        </div>
+        <div class="right-side">
+            <div class="descriptive-container">
+                <input type="submit" id="add-to-watchlist" value="Add to Watchlist">
+                <h2 style="padding-bottom: 30px">{{ listing.name }}</h2>
+                <p style="padding-bottom: 15px"><em>"{{listing.description}}"</em></p>
+                <p class="time-since">Listed by {{ listing.owner }} <span class="time-since-post" data-created="{{ listing.created.isoformat }}"></span></p>
+                <div class="centered-description">
+                    {% if listing.active %}
+                        <h4 style="padding-top: 20px"><span><b>Current Price: </b>${{ listing.current_price }}</span></h4>
+                    {% else %}
+                        <h4 style="padding-top: 20px"><span><b>Winning Bid: </b>${{ listing.current_price }}</span></h4>
+                    {% endif %}
+                    <span class="bid-info">
+                        {% if not listing.current_winner == user and listing.active %}
+                            <p class="description-bids">{{ listing.bid_count }} bid(s) so far.</p>
+                        {% elif listing.current_winner == user and listing.active %}
+                            <p class="description-bids">{{ listing.bid_count }} bid(s) so far.</p>
+                            <div style="padding-right: 20px"></div>
+                            <p class="description-bids" style="background-color: rgb(144, 250, 122)">Your bid is the highest!</p>
+                        {% elif listing.current_winner == user and not listing.active %}
+                            <p class="description-bids" style="background-color: rgb(144, 250, 122)">You won this listing!</p>
+                        {% elif not listing.current_winner == user and not listing.active %}
+                            <p class="description-bids">Listing is closed</p>
+                        {% endif %}
+                    </span>
+                    {% if user != listing.owner and listing.active %}
+                        <form class="centered-form" method="post" action="{% url 'listing' listing.id %}" style="padding-top: 15px">
+                            {% csrf_token %}
+                            <input class="text-box" type="number" id="bid" name="bid" placeholder="Enter Your Bid" step="0.01" style=" width: 15vw"><br>
+                            <input type="submit" id="place-bid" value="Place Bid" style=" width: auto; margin-bottom: 10px">
+                        </form>
+                    {% elif listing.active %}
+                    <form class="cenetered-form" method="post" action="{% url 'listing' listing.id %}">
+                        {% csrf_token %}
+                        <input type="submit" name="close-listing" value="Close Listing" style=" width: auto; margin-bottom: 10px; background-color: rgb(224, 56, 56)">
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.utils import timezone
+from django.db.models import Max
 
 
 class User(AbstractUser):
@@ -24,13 +24,28 @@ class Listings(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     image = models.URLField(max_length=200, verbose_name='Image URL', null=True)
     active = models.BooleanField(default=True)
+    watched_by = models.ManyToManyField(User, blank=True, related_name="watchlist")
 
     def __str__(self):
         return f"{self.name} sets are starting price of {self.price} for {self.price}"
 
     def bid_count(self):
         return self.bids.all().count()
+    
+    def current_price(self):
+        if self.bid_count() > 0:
+            return round(self.bids.aggregate(Max('new_price'))['new_price__max'], 2)
+        else:
+            return self.price
+        
+    def current_winner(self):
+        if self.bid_count() > 0:
+            return self.bids.get(new_price=self.current_price()).user
+        else:
+            return None
 
+    def in_watchlist(self, user):
+        return user.watchlist.filter(pk=self.pk).exists()
 
 class Bids(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bids")

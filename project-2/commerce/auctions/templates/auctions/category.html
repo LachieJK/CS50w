@@ -1,8 +1,7 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h1>Active Listings</h1>
-
+        <h1>Active {{ title }} Listings</h1>
     
     {% if not listings %}
         <p class="not-found">No listings were found in this category.</p> 
@@ -19,9 +18,9 @@
                     </div>
                     <div class="bottom-section">
                         <h5>{{ listing.name }}</h5>
-                        <p class="price">${{ listing.price }}</p>
+                        <p class="price">${{ listing.current_price }}</p>
                         <p class="bid">{{ listing.bid_count}} bid(s)</p>
-                        <p class="bottom-left" style="color:grey"><em>{{ listing.created }}</em></p>
+                        <p class="bottom-left" style="color:grey"><em>Starting Bid was ${{ listing.price }}</em></p>
                         <p class="bottom-right" style="color:crimson"><b>{{ listing.category }}</b></p>
                     </div>
                 </div>
