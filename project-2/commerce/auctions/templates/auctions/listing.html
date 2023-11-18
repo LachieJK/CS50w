@@ -46,6 +46,26 @@
             </div>
         </div>
     </div>
+    <div class="comments">
+        <form method="post" action="{% url 'listing' listing.id %}">
+            {% csrf_token %}
+            <div class="comments-heading">
+                <label for="comments"><h4><b>Comments</b></h4></label>
+                <h4 class="comment-counter"><b>{{ comments_count }}</b></h4>
+            </div>
+            <textarea class="comments-input" id="comments" name="comments" placeholder="Comment on Listing"></textarea><br>
+            <input type="submit" id="add-comment" value="Add Comment" style="width: auto; float: right;">
+        </form>
+        <div style="margin-top: 85px;">
+            {% for comment in comments %}
+                <div class="comment-box">
+                    <h6 style="padding: 0px"><b>{{ comment.user }}</b></h6>
+                    <p style="padding: 0; margin: 0px">{{ comment.description }}</p>
+                    <p class="time-since-post top-right" data-created="{{ comment.date.isoformat }}"></p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 
     <script>
         const timeSincePostElements = document.querySelectorAll('.time-since-post');
@@ -53,11 +73,12 @@
         timeSincePostElements.forEach(element => {
             const createdTimestamp = new Date(element.getAttribute('data-created')).getTime();
             const currentTimestamp = new Date().getTime();
-    
+
             const timeDifference = currentTimestamp - createdTimestamp;
             const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
             const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+
             let displayText = '';
 
             if (days === 1) {
@@ -66,7 +87,7 @@
                 displayText += `${days} days`;
             }
 
-            if (days > 0 && hours > 0) {
+            if (days > 0 && (hours > 0 || minutes > 0)) {
                 displayText += ', ';
             }
 
@@ -76,8 +97,18 @@
                 displayText += `${hours} hours`;
             }
 
-            if (!days && !hours) {
-                displayText = 'less than an hour';
+            if (days > 0 && hours > 0 && minutes > 0) {
+                displayText += ', ';
+            }
+
+            if (days === 0 && minutes === 1) {
+                displayText += '1 minute';
+            } else if (minutes > 1) {
+                displayText += `${minutes} minutes`;
+            }
+
+            if (!days && !hours && !minutes) {
+                displayText = 'less than a minute';
             }
 
             element.innerText = displayText + ' ago';

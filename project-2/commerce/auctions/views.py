@@ -50,7 +50,9 @@ def listing(request, listing_id):
         listing = get_object_or_404(Listings, pk = listing_id)
         return render(request, "auctions/listing.html", {
             "listing": listing,
-            "categories": Category.objects.all().order_by('name')
+            "categories": Category.objects.all().order_by('name'),
+            "comments": Comments.objects.filter(item=listing_id).order_by('-date'),
+            "comments_count": Comments.objects.filter(item=listing_id).count()
         })
     else:
         if "bid" in request.POST:
@@ -65,19 +67,22 @@ def listing(request, listing_id):
                 return redirect('error', message="Bid must be larger than the current price")
             bid = Bids(user = request.user, item = Listings.objects.get(id=listing_id), new_price = price)
             bid.save()
-            listing = get_object_or_404(Listings, pk = listing_id)
-            return render(request, "auctions/listing.html", {
-                "listing": listing,
-                "categories": Category.objects.all().order_by('name')
-            })
         if "close-listing" in request.POST:
             listing = Listings.objects.get(id=listing_id)
             listing.active = False
             listing.save()
-            return render(request, "auctions/listing.html", {
+        if "comments" in request.POST:
+            description = request.POST.get('comments')
+            comment = Comments(user = request.user, item = Listings.objects.get(id=listing_id), description = description)
+            comment.save()
+        listing = get_object_or_404(Listings, pk = listing_id)
+        return render(request, "auctions/listing.html", {
                 "listing": listing,
-                "categories": Category.objects.all().order_by('name')
-            })
+                "categories": Category.objects.all().order_by('name'),
+                "comments": Comments.objects.filter(item=listing_id).order_by('-date'),
+                "comments_count": Comments.objects.filter(item=listing_id).count()
+        })
+
 
 def error(request, message):
     return render(request, "auctions/error.html", {

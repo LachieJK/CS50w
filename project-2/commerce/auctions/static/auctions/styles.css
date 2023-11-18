@@ -274,3 +274,52 @@ input[type="submit"]:hover {
     border-radius: 8px;
     font-weight: 600;
 }
+
+.comments {
+    margin: 30px;
+    margin-left: 80px;
+    margin-right: 80px;
+}
+
+.comments-heading {
+    display: flex;
+    align-items: center;
+}
+
+.comment-counter {
+    margin-top: 6px;
+    padding: 10px;
+    margin-left: 15px;
+    background-color: rgb(235, 235, 235);
+    border-radius: 8px;
+}
+
+.comments-input {
+    width:100%;
+    height: 70px;
+    border-radius: 5px;
+    border: none;
+    border:solid 1px #ccc;
+    border-width: 2px;
+}
+
+.comment-box {
+    position: relative;
+    margin-top: 20px;
+    padding: 15px;
+    width:100%;
+    border-radius: 5px;
+    border:solid 1px #ccc;
+    border-width: 1px;
+    background-color: rgb(247, 247, 247);
+}
+
+.top-right {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-style: italic;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(100, 100, 100);
+}
