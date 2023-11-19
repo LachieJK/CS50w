@@ -1,0 +1,39 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+        <h1>{{ request.user }}'s Watchlist</h1>
+
+        <div class="watchlist">
+            {% for listing in listings %}
+                <div class="watchlist-container">
+                    <div class="watchlist-left-side">
+                        <img src="{{ listing.image }}">
+                    </div>
+                    <div class="watchlist-right-side">
+                        <h3 style="padding-bottom: 10px;"><b>{{ listing.name }}</b></h3>
+                        {% if listing.active and listing.current_winner != user %}
+                            <p class="price" style="font-size: 20px; padding-left: 3px">Price to Beat: ${{ listing.current_price }}</p>
+                        {% elif listing.active and listing.current_winner == user %}
+                            <p class="price" style="color: rgb(7, 179, 7); font-size: 20px; padding-left: 3px">Your Leading Bid: ${{ listing.current_price }}</p>
+                        {% elif not listing.active and listing.current_winner == user %}
+                            <p class="price" style="color: rgb(7, 179, 7); font-size: 20px; padding-left: 3px">You won this listing!</p>
+                        {% elif not listing.active and listing.current_winner != user %}
+                            <p class="price" style="font-size: 20px; padding-left: 3px">You lost this listing.</p>
+                        {% endif %}
+                        <form method="post" action="{% url 'watchlist' user.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="listing_id" value="{{ listing.id }}">
+                            <input class="remove-watchlist bottom-right" type="submit" name="remove-watchlist" value="Remove From Watchlist"" style="margin-bottom: 0px">
+                        </form>
+                        {% if listing.active %}
+                            <p class="status" style="background-color: rgb(144, 250, 122)">Active</p>
+                        {% else %}
+                            <p class="status" style="background-color: rgb(255, 167, 167)">Closed</p>
+                        {% endif %}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+{% endblock %}

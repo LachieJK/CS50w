@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from decimal import Decimal
@@ -48,13 +48,25 @@ def category(request, category_id):
 def listing(request, listing_id):
     if request.method == 'GET':
         listing = get_object_or_404(Listings, pk = listing_id)
+        watched_by_ids = listing.watched_by.values_list('id', flat=True)
         return render(request, "auctions/listing.html", {
             "listing": listing,
             "categories": Category.objects.all().order_by('name'),
             "comments": Comments.objects.filter(item=listing_id).order_by('-date'),
-            "comments_count": Comments.objects.filter(item=listing_id).count()
+            "comments_count": Comments.objects.filter(item=listing_id).count(),
+            "watched_by_ids": watched_by_ids
         })
     else:
+        listing = get_object_or_404(Listings, pk = listing_id)
+        watched_by_ids = listing.watched_by.values_list('id', flat=True)
+        if "add-to-watchlist" in request.POST:
+            current_user = request.user.id;
+            listing = Listings.objects.get(id=listing_id)
+            listing.watched_by.add(current_user)
+        if "remove-watchlist" in request.POST:
+            current_user = request.user.id;
+            listing = Listings.objects.get(id=listing_id)
+            listing.watched_by.remove(current_user)
         if "bid" in request.POST:
             price_str = request.POST.get('bid')
             if not price_str.strip():
@@ -75,12 +87,27 @@ def listing(request, listing_id):
             description = request.POST.get('comments')
             comment = Comments(user = request.user, item = Listings.objects.get(id=listing_id), description = description)
             comment.save()
-        listing = get_object_or_404(Listings, pk = listing_id)
         return render(request, "auctions/listing.html", {
-                "listing": listing,
-                "categories": Category.objects.all().order_by('name'),
-                "comments": Comments.objects.filter(item=listing_id).order_by('-date'),
-                "comments_count": Comments.objects.filter(item=listing_id).count()
+            "listing": listing,
+            "categories": Category.objects.all().order_by('name'),
+            "comments": Comments.objects.filter(item=listing_id).order_by('-date'),
+            "comments_count": Comments.objects.filter(item=listing_id).count(),
+            "watched_by_ids": watched_by_ids
+        })
+    
+def watchlist(request, user_id):
+    if request.method == 'GET':
+        return render(request, "auctions/watchlist.html", {
+            "listings": Listings.objects.filter(watched_by=user_id).order_by('name'),
+            "categories": Category.objects.all().order_by('name')
+        })
+    else:
+        listing_id = request.POST.get('listing_id')
+        listing = Listings.objects.get(id=listing_id)
+        listing.watched_by.remove(user_id)
+        return render(request, "auctions/watchlist.html", {
+            "listings": Listings.objects.filter(watched_by=user_id).order_by('name'),
+            "categories": Category.objects.all().order_by('name')
         })
 
 
