@@ -1,22 +1,37 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+
+    {% if success %}
+        {% for message in messages %} 
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success! </strong>{{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% else %}
+        {% for message in messages %} 
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error! </strong>{{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}  
+
     <div class="listing-container">
         <div class="left-side">
             <img src="{{ listing.image }}">
         </div>
         <div class="right-side">
             <div class="descriptive-container">
-                {% if listing.active %}
                 <form method="post" action="{% url 'listing' listing.id %}">
                     {% csrf_token %}
-                    {% if user.id not in watched_by_ids %}
+                    {% if user.id not in watched_by_ids and user.is_authenticated %}
                         <input type="submit" name="add-to-watchlist" id="add-to-watchlist" value="Add to Watchlist">
-                    {% else %}
+                    {% elif user.is_authenticated %}
                         <input class="remove-watchlist" id="add-to-watchlist" type="submit" name="remove-watchlist" value="Remove From Watchlist">
                     {% endif %}
                 </form>
-                {% endif %}
                 <h2 style="padding-bottom: 30px">{{ listing.name }}</h2>
                 <p style="padding-bottom: 15px"><em>"{{listing.description}}"</em></p>
                 <p class="time-since">Listed by {{ listing.owner }} <span class="time-since-post" data-created="{{ listing.created.isoformat }}"></span></p>
@@ -39,17 +54,19 @@
                             <p class="description-bids">Listing is closed</p>
                         {% endif %}
                     </span>
-                    {% if user != listing.owner and listing.active %}
+                    {% if user != listing.owner and listing.active and user.is_authenticated %}
                         <form class="centered-form" method="post" action="{% url 'listing' listing.id %}" style="padding-top: 15px">
                             {% csrf_token %}
                             <input class="text-box" type="number" id="bid" name="bid" placeholder="Enter Your Bid" step="0.01" style=" width: 15vw"><br>
                             <input type="submit" id="place-bid" value="Place Bid" style="width: auto; margin-bottom: 10px">
                         </form>
-                    {% elif listing.active %}
-                    <form class="cenetered-form" method="post" action="{% url 'listing' listing.id %}">
-                        {% csrf_token %}
-                        <input class="close-listing" type="submit" name="close-listing" value="Close Listing">
-                    </form>
+                    {% elif listing.active and user == listing.owner %}
+                        <form class="cenetered-form" method="post" action="{% url 'listing' listing.id %}">
+                            {% csrf_token %}
+                            <input class="close-listing" type="submit" name="close-listing" value="Close Listing">
+                        </form>
+                    {% elif not user.is_authenticated %}
+                        <p class="centered-form" style="color: crimson; padding-top: 20px;"><b>Must be signed in to place a bid</b></p>
                     {% endif %}
                 </div>
             </div>
@@ -62,10 +79,16 @@
                 <label for="comments"><h4><b>Comments</b></h4></label>
                 <h4 class="comment-counter"><b>{{ comments_count }}</b></h4>
             </div>
-            <textarea class="comments-input" id="comments" name="comments" placeholder="Comment on Listing"></textarea><br>
-            <input type="submit" id="add-comment" value="Add Comment" style="width: auto; float: right;">
+            {% if user.is_authenticated %}
+                <div style="padding-bottom: 70px;">
+                    <textarea class="comments-input" id="comments" name="comments" placeholder="Comment on Listing"></textarea><br>
+                    <input type="submit" id="add-comment" value="Add Comment" style="width: auto; float: right;">
+                </div>
+            {% else %}
+                <p style="color: crimson; padding-top: 10px; padding-bottom: 20px;"><b>Must be signed in to comment on this listing</b></p>
+            {% endif %}
         </form>
-        <div style="margin-top: 85px;">
+        <div>
             {% for comment in comments %}
                 <div class="comment-box">
                     <h6 style="padding: 0px"><b>{{ comment.user }}</b></h6>

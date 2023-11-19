@@ -349,6 +349,8 @@ input.remove-watchlist[type="submit"]:hover {
 }
 
 .watchlist-container {
+    cursor: pointer;
+    transition: filter 0.3s ease;
     display: flex;
     align-items: flex-start;
     width: 100%;
@@ -358,6 +360,10 @@ input.remove-watchlist[type="submit"]:hover {
     border-width: 1px;
     background-color: rgb(247, 247, 247);
     margin-bottom: 30px;
+}
+
+.watchlist-container:hover {
+    filter: brightness(90%);
 }
 
 .watchlist-left-side {
@@ -382,9 +388,18 @@ input.remove-watchlist[type="submit"]:hover {
     position: relative;
     height: 160px;
     margin: 20px;
+    margin-left: 40px;
     flex: 1;
     box-sizing: border-box;
     padding-left: 10px;
+}
+
+.watchlist-top-right {
+    position: absolute;
+    margin-top: 0px !important;
+    top: 0px;
+    right: 0px;
+    font-size:small;
 }
 
 .status {
@@ -398,4 +413,11 @@ input.remove-watchlist[type="submit"]:hover {
     padding-bottom: 5px;
     border-radius: 8px;
     font-weight: 600;
+}
+
+.watchlist-price {
+    font-size: 20px; 
+    padding-left: 3px;
+    font-style: italic;
+    color: rgb(100, 100, 100);
 }

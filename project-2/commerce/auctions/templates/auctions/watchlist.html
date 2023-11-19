@@ -1,29 +1,36 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+        {% for message in messages %} 
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success! </strong>{{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+
         <h1>{{ request.user }}'s Watchlist</h1>
 
         <div class="watchlist">
             {% for listing in listings %}
-                <div class="watchlist-container">
+                <div class="watchlist-container view-listing" data-listing-id="{{ listing.id }}" data-listing-url="{% url 'listing' listing.id %}">
                     <div class="watchlist-left-side">
                         <img src="{{ listing.image }}">
                     </div>
                     <div class="watchlist-right-side">
-                        <h3 style="padding-bottom: 10px;"><b>{{ listing.name }}</b></h3>
+                        <h3 style="padding-bottom: 10px; width: 500px;"><b>{{ listing.name }}</b></h3>
                         {% if listing.active and listing.current_winner != user %}
-                            <p class="price" style="font-size: 20px; padding-left: 3px">Price to Beat: ${{ listing.current_price }}</p>
+                            <p class="watchlist-price">Price to Beat: ${{ listing.current_price }}</p>
                         {% elif listing.active and listing.current_winner == user %}
-                            <p class="price" style="color: rgb(7, 179, 7); font-size: 20px; padding-left: 3px">Your Leading Bid: ${{ listing.current_price }}</p>
+                            <p class="watchlist-price">Your Leading Bid: ${{ listing.current_price }}</p>
                         {% elif not listing.active and listing.current_winner == user %}
-                            <p class="price" style="color: rgb(7, 179, 7); font-size: 20px; padding-left: 3px">You won this listing!</p>
+                            <p class="watchlist-price">You won this listing!</p>
                         {% elif not listing.active and listing.current_winner != user %}
-                            <p class="price" style="font-size: 20px; padding-left: 3px">You lost this listing.</p>
+                            <p class="watchlist-price">You lost this listing.</p>
                         {% endif %}
                         <form method="post" action="{% url 'watchlist' user.id %}">
                             {% csrf_token %}
                             <input type="hidden" name="listing_id" value="{{ listing.id }}">
-                            <input class="remove-watchlist bottom-right" type="submit" name="remove-watchlist" value="Remove From Watchlist"" style="margin-bottom: 0px">
+                            <input class="remove-watchlist watchlist-top-right" type="submit" name="remove-watchlist" value="Remove" style="margin-bottom: 0px">
                         </form>
                         {% if listing.active %}
                             <p class="status" style="background-color: rgb(144, 250, 122)">Active</p>
@@ -35,5 +42,14 @@
                 </div>
             {% endfor %}
         </div>
+
+        <script>
+            document.querySelectorAll('.view-listing').forEach(function(element) {
+            element.addEventListener('click', function() {
+                var listingUrl = this.getAttribute('data-listing-url');
+                window.location.href = listingUrl;
+            });
+        });
+        </script>
 
 {% endblock %}
