@@ -78,7 +78,7 @@ input[type="submit"]:hover {
     padding-bottom: 20px;
 }
 
-.email-container {
+.email-container-unread {
     display: flex;
     margin-top: 20px;
     padding: 10px;
@@ -86,6 +86,18 @@ input[type="submit"]:hover {
     border-radius: 2px;
     background: rgba(136, 135, 135, 0.6);
     overflow: hidden;
+    cursor: pointer;
+}
+
+.email-container-read {
+    display: flex;
+    margin-top: 20px;
+    padding: 10px;
+    border: solid 2px rgb(184, 184, 184);
+    border-radius: 2px;
+    background: rgba(236, 236, 236, 0.6);
+    overflow: hidden;
+    cursor: pointer;
 }
 
 .email-address {
@@ -125,4 +137,12 @@ input[type="submit"]:hover {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.empty-inbox {
+    text-align: center; 
+    font-size: large; 
+    font-weight: bold; 
+    color: red;
+    padding-top: 10px;
 }

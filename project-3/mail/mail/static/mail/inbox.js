@@ -51,7 +51,6 @@ function load_mailbox(mailbox) {
 document.getElementById('email-placeholder').innerHTML = '';
 
   const emailPlaceholder = document.getElementById('email-placeholder');
-  const container = document.querySelector('.email-container');
   
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
@@ -66,23 +65,55 @@ document.getElementById('email-placeholder').innerHTML = '';
   .then(emails => {
       // Logs all the emails
       console.log(emails);
-      
-      emails.forEach(email => {
-        const clone = container.cloneNode(true);
+      if (emails.length === 0) {
+        emailPlaceholder.innerHTML = '<p class="empty-inbox">Inbox is Empty</p>'
+      }
+      else {
+        emails.forEach(email => {
 
-        if (mailbox === 'sent') {
-          clone.querySelector('.email-address').innerHTML = `To ${email['recipients']}`;
-        }
-        else {
-          clone.querySelector('.email-address').innerHTML = `From ${email['recipients']}`;
-        }
-        
-        clone.querySelector('.email-subject b').innerHTML = email.subject;
-        clone.querySelector('.email-body').innerHTML = email.body;
-        clone.querySelector('.email-date i').innerHTML = email.timestamp;
-
-        emailPlaceholder.appendChild(clone);
-      });
+          //Create all the divs to display the contents of each email
+          const emailContainer = document.createElement("div");
+          if (email.read === true) {
+            emailContainer.className = 'email-container-read';
+          }
+          else {
+            emailContainer.className = 'email-container-unread';
+          }
+          const emailAddress = document.createElement("div");
+          emailAddress.className = 'email-address';
+          const emailContents = document.createElement("div");
+          emailContents.className = 'email-contents';
+          const emailSubject = document.createElement("div");
+          emailSubject.className = 'email-subject';
+          const emailSeperator = document.createElement("div");
+          emailSeperator.className = 'email-seperator';
+          const emailBody = document.createElement("div");
+          emailBody.className = 'email-body';
+          const emailDate = document.createElement("div");
+          emailDate.className = 'email-date';
+  
+          //Fill out the divs with the associative content
+          if (mailbox === 'sent') {
+            emailAddress.innerHTML = `To ${email['recipients']}`;
+          }
+          else {
+            emailAddress.innerHTML = `From ${email['recipients']}`;
+          }
+          emailSubject.innerHTML = `<b>${email['subject']}</b>`;
+          emailSeperator.innerHTML = ' - ';
+          emailBody.innerHTML = email.body;
+          emailDate.innerHTML = `<i>${email['timestamp']}</i>`;
+          
+          //Append the divs to html
+          emailPlaceholder.appendChild(emailContainer);
+          emailContainer.appendChild(emailAddress);
+          emailContainer.appendChild(emailContents);
+          emailContainer.appendChild(emailDate);
+          emailContents.appendChild(emailSubject);
+          emailContents.appendChild(emailSeperator);
+          emailContents.appendChild(emailBody);
+        });
+      }
   });
 }
 
