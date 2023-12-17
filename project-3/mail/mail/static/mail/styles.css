@@ -78,24 +78,24 @@ input[type="submit"]:hover {
     padding-bottom: 20px;
 }
 
-.email-container-unread {
+.email-container-read {
     display: flex;
     margin-top: 20px;
     padding: 10px;
     border: solid 2px rgb(82, 82, 82);
     border-radius: 2px;
-    background: rgba(136, 135, 135, 0.6);
+    background: rgba(136, 135, 135, 0.8);
     overflow: hidden;
     cursor: pointer;
 }
 
-.email-container-read {
+.email-container-unread {
     display: flex;
     margin-top: 20px;
     padding: 10px;
     border: solid 2px rgb(184, 184, 184);
     border-radius: 2px;
-    background: rgba(236, 236, 236, 0.6);
+    background: rgba(236, 236, 236, 0.8);
     overflow: hidden;
     cursor: pointer;
 }
