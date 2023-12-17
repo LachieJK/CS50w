@@ -52,6 +52,10 @@ ul.navbar-nav li.nav-item:hover {
     background: rgb(255, 255, 255, 0.85) !important;
 }
 
+.form-control:hover {
+    background: rgba(240, 240, 240, 0.85) !important;
+}
+
 textarea {
     height: 300px;
     border-radius: 5px;
@@ -93,6 +97,10 @@ input[type="submit"]:hover {
     cursor: pointer;
 }
 
+.email-container-read:hover {
+    background: rgba(168, 168, 168, 0.95); 
+}
+
 .email-container-unread {
     display: flex;
     margin-top: 20px;
@@ -102,6 +110,10 @@ input[type="submit"]:hover {
     background: rgba(236, 236, 236, 0.8);
     overflow: hidden;
     cursor: pointer;
+}
+
+.email-container-unread:hover {
+    background: rgba(206, 206, 206, 0.95);
 }
 
 .email-address {
