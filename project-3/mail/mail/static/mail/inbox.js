@@ -22,6 +22,9 @@ function compose_email() {
   document.querySelector('#email-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'block';
 
+  document.querySelector('#compose-recipients').disabled = false;
+  document.querySelector('#compose-subject').disabled = false;
+
   // Clear out composition fields
   document.querySelector('#compose-recipients').value = '';
   document.querySelector('#compose-subject').value = '';
@@ -149,7 +152,8 @@ document.getElementById('email-placeholder').innerHTML = '';
           }
           emailSubject.innerHTML = `<b>${email.subject}</b>`;
           emailSeperator.innerHTML = ' - ';
-          emailBody.innerHTML = email.body;
+          const formattedBody = email.body.replace(/\n/g, '<br>');
+          emailBody.innerHTML = formattedBody;
           emailDate.innerHTML = `<i>${email.timestamp}</i>`;
           
           //Append the divs to html
@@ -200,7 +204,8 @@ function load_mail(email) {
   pageToAddress.innerHTML = `<b>To: </b>${email.recipients}`;
   pageSubject.innerHTML = email.subject;
   pageTimestamp.innerHTML = email.timestamp;
-  pageBody.innerHTML = email.body;
+  const formattedBody = email.body.replace(/\n/g, '<br>');
+  pageBody.innerHTML = formattedBody;
   replyButton.innerHTML = '<button type="button" class="btn btn-primary" style="padding-left: 30px; padding-right: 30px;"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-reply-fill" viewBox="0 2 14 14" style="margin-right: 10px;"><path d="M5.921 11.9 1.353 8.62a.719.719 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z"></path></svg>Reply</button>';
   if (email.archived === false) {
     archiveButton.innerHTML = '<button type="button" class="btn btn-danger" style="padding-left: 30px; padding-right: 30px;"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-archive-fill" viewBox="0 0 18 18" style="margin-right: 8px;"><path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8H.8z"></path></svg>Archive</button>';
@@ -238,7 +243,28 @@ function load_mail(email) {
             archived: true
         })
       })
-      .then(response => load_mailbox('archive'))
+      .then(response => {
+        
+        const messagePlaceholder = document.getElementById('message-placeholder');
+        messagePlaceholder.innerHTML = '';
+
+        const div = document.createElement('div');
+        div.className = 'popup';
+        div.innerHTML = `The email "${email.subject}" was Archived Successfully!`;
+
+        messagePlaceholder.appendChild(div);
+
+        setTimeout(() => {
+          div.style.animation = 'popup 3s ease-out forwards';
+
+          //Remove the message after the animation ends
+          div.addEventListener('animationend', () => {
+            div.remove();
+          });
+        }, 100);
+
+        load_mailbox('archive')
+      })
     }
     else {
       fetch(`/emails/${email.id}`, {
@@ -247,8 +273,60 @@ function load_mail(email) {
             archived: false
         })
       })
-      .then(response => load_mailbox('inbox'))
+      .then(response => {
+        
+        const messagePlaceholder = document.getElementById('message-placeholder');
+        messagePlaceholder.innerHTML = '';
+
+        const div = document.createElement('div');
+        div.className = 'popup';
+        div.innerHTML = `The email "${email.subject}" was Unarchived Successfully!`;
+
+        messagePlaceholder.appendChild(div);
+
+        setTimeout(() => {
+          div.style.animation = 'popup 3s ease-out forwards';
+
+          //Remove the message after the animation ends
+          div.addEventListener('animationend', () => {
+            div.remove();
+          });
+        }, 100);
+
+        load_mailbox('inbox')
+      })
     }
+  });
+
+  //Reply button pressed
+  document.getElementById(`${email.id}-reply`).addEventListener('click', () => {
+
+    document.getElementById('inbox').classList.remove('active');
+    document.getElementById('compose').classList.add('active');
+    document.getElementById('sent').classList.remove('active');
+    document.getElementById('archived').classList.remove('active');
+    // Show compose view and hide other views
+    document.querySelector('#emails-view').style.display = 'none';
+    document.querySelector('#email-view').style.display = 'none';
+    document.querySelector('#compose-view').style.display = 'block';
+  
+    // Clear out composition fields
+    document.querySelector('#compose-recipients').value = email.recipients;
+    document.querySelector('#compose-recipients').disabled = true;
+    if (!email.subject.startsWith('Re:')) {
+      document.querySelector('#compose-subject').value = `Re: ${email.subject}`;
+    }
+    else {
+      document.querySelector('#compose-subject').value = email.subject;
+    }
+    document.querySelector('#compose-subject').disabled = true;
+
+    const initialContent = `\n
+---------------------------------------------------------------- \n
+On ${email.timestamp} ${email.sender} wrote: \n
+"${email.body}"`;
+    document.querySelector('#compose-body').value = initialContent;
+
   });
 
 }

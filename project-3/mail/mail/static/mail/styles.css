@@ -144,6 +144,7 @@ input[type="submit"]:hover {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-height: 24px;
   }
 
 .email-date {
