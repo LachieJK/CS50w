@@ -189,20 +189,29 @@ function load_mail(email) {
   pageTimestamp.className = 'page-timestamp';
   const pageBody = document.createElement('div');
   pageBody.className = 'page-body';
+  const pageButtons = document.createElement('div');
+  pageButtons.className = 'page-buttons';
+  const replyButton = document.createElement('div');
+  const archiveButton = document.createElement('div');
 
   pageFromAddress.innerHTML = `<b>From: </b>${email.sender}`;
   pageToAddress.innerHTML = `<b>To: </b>${email.recipients}`;
   pageSubject.innerHTML = email.subject;
   pageTimestamp.innerHTML = email.timestamp;
   pageBody.innerHTML = email.body;
+  replyButton.innerHTML = '<button type="button" class="btn btn-primary" style="padding-left: 30px; padding-right: 30px;"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-reply-fill" viewBox="0 2 14 14" style="margin-right: 10px;"><path d="M5.921 11.9 1.353 8.62a.719.719 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z"></path></svg>Reply</button>';
+  archiveButton.innerHTML = '<button type="button" class="btn btn-danger" style="padding-left: 30px; padding-right: 30px;"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-archive-fill" viewBox="0 0 18 18" style="margin-right: 8px;"><path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8H.8z"></path></svg>Archive</button>';
 
   emailPage.appendChild(pageHeadings);
   emailPage.appendChild(pageBody);
+  emailPage.appendChild(pageButtons)
   pageHeadings.appendChild(pageEmailAddresses);
   pageHeadings.appendChild(pageSubject);
   pageHeadings.appendChild(pageTimestamp);
   pageEmailAddresses.appendChild(pageFromAddress);
   pageEmailAddresses.appendChild(pageToAddress);
+  pageButtons.appendChild(replyButton);
+  pageButtons.appendChild(archiveButton);
 
   if (!email.read) {
     fetch(`/emails/${email.id}`, {
