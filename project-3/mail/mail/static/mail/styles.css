@@ -82,9 +82,9 @@ input[type="submit"]:hover {
     display: flex;
     margin-top: 20px;
     padding: 10px;
-    border: solid 2px rgb(82, 82, 82);
+    border: solid 2px rgb(128, 128, 128);
     border-radius: 2px;
-    background: rgba(136, 135, 135, 0.8);
+    background: rgba(184, 184, 184, 0.92);
     overflow: hidden;
     cursor: pointer;
 }
@@ -145,4 +145,44 @@ input[type="submit"]:hover {
     font-weight: bold; 
     color: red;
     padding-top: 10px;
+}
+
+.page-headings {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.page-subject {
+    font-weight: bold;
+    font-size: 30px;
+    padding-left: 40px;
+    padding-right: 40px;
+    text-align: center;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.page-timestamp {
+    justify-content: center;
+    text-align: right;
+    font-style: italic;
+}
+
+.page-email-addresses {
+    text-align: left;
+}
+
+.page-body {
+    margin: 10px;
+    padding: 10px;
+    width: 100%;
+    border: 2px solid rgb(77, 77, 77);
+    border-radius: 2px;
+    background: rgba(192, 192, 192, 0.8);
 }

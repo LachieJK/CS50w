@@ -109,15 +109,15 @@ document.getElementById('email-placeholder').innerHTML = '';
   
           //Fill out the divs with the associative content
           if (mailbox === 'sent') {
-            emailAddress.innerHTML = `To ${email['recipients']}`;
+            emailAddress.innerHTML = `To ${email.recipients}`;
           }
           else {
-            emailAddress.innerHTML = `From ${email['recipients']}`;
+            emailAddress.innerHTML = `From ${email.recipients}`;
           }
-          emailSubject.innerHTML = `<b>${email['subject']}</b>`;
+          emailSubject.innerHTML = `<b>${email.subject}</b>`;
           emailSeperator.innerHTML = ' - ';
           emailBody.innerHTML = email.body;
-          emailDate.innerHTML = `<i>${email['timestamp']}</i>`;
+          emailDate.innerHTML = `<i>${email.timestamp}</i>`;
           
           //Append the divs to html
           emailPlaceholder.appendChild(emailContainer);
@@ -137,14 +137,42 @@ document.getElementById('email-placeholder').innerHTML = '';
 
 function load_mail(email) {
 
+  const emailPage = document.querySelector('#email-view');
+  emailPage.innerHTML = '';
+
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#email-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
 
-  document.querySelector('#email-heading').innerHTML = email.subject;
+  const pageHeadings = document.createElement('div');
+  pageHeadings.className = 'page-headings';
+  const pageEmailAddresses = document.createElement('div');
+  pageEmailAddresses.className = 'page-email-addresses';
+  const pageFromAddress = document.createElement('div');
+  const pageToAddress = document.createElement('div');
+  const pageSubject = document.createElement('div');
+  pageSubject.className = 'page-subject';
+  const pageTimestamp = document.createElement('div');
+  pageTimestamp.className = 'page-timestamp';
+  const pageBody = document.createElement('div');
+  pageBody.className = 'page-body';
+
+  pageFromAddress.innerHTML = `<b>From: </b>${email.sender}`;
+  pageToAddress.innerHTML = `<b>To: </b>${email.recipients}`;
+  pageSubject.innerHTML = email.subject;
+  pageTimestamp.innerHTML = email.timestamp;
+  pageBody.innerHTML = email.body;
+
+  emailPage.appendChild(pageHeadings);
+  emailPage.appendChild(pageBody);
+  pageHeadings.appendChild(pageEmailAddresses);
+  pageHeadings.appendChild(pageSubject);
+  pageHeadings.appendChild(pageTimestamp);
+  pageEmailAddresses.appendChild(pageFromAddress);
+  pageEmailAddresses.appendChild(pageToAddress);
 
   if (!email.read) {
-    fetch('/emails/' + email['id'], {
+    fetch(`/emails/${email.id}`, {
       method: 'PUT',
       body: JSON.stringify({ read : true })
     })
