@@ -33,16 +33,49 @@ function send_email(event) {
 
   event.preventDefault();
 
+    recipients = document.querySelector('#compose-recipients').value;
+    subject = document.querySelector('#compose-subject').value;
+    body = document.querySelector('#compose-body').value
+
+    if (subject === '') {
+      subject = "(No Subject)";
+    }
+    if (body === '') {
+      body = "(No Body)";
+    }
+
     // Make a POST request using fetch
     fetch('/emails', {
       method: 'POST',
       body: JSON.stringify({
-          recipients: document.querySelector('#compose-recipients').value,
-          subject: document.querySelector('#compose-subject').value,
-          body: document.querySelector('#compose-body').value
+          recipients: recipients,
+          subject: subject,
+          body: body
       })
     })
-    .then(response => load_mailbox('sent'));
+    .then(response => {
+
+      const messagePlaceholder = document.getElementById('message-placeholder');
+      messagePlaceholder.innerHTML = '';
+
+      const div = document.createElement('div');
+      div.className = 'popup';
+      div.innerHTML = "Email was Sent Successfully!";
+
+      messagePlaceholder.appendChild(div);
+
+      setTimeout(() => {
+        div.style.animation = 'popup 3s ease-out forwards';
+
+        //Remove the message after the animation ends
+        div.addEventListener('animationend', () => {
+          div.remove();
+        });
+      }, 100);
+
+      load_mailbox('sent')
+
+    });
 }
 
 function load_mailbox(mailbox) {

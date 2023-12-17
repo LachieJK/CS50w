@@ -2,6 +2,10 @@ textarea {
     min-height: 400px;
 }
 
+body {
+    height: 100vh;
+}
+
 .home-page {
     background-image: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages.wallpapersden.com%2Fimage%2Fdownload%2Fmountain-layers_a2ZqbWaUmZqaraWkpJRoZWVlrWZrbWw.jpg&f=1&nofb=1&ipt=89db3efaf4c67f952f8adc3c3be661133a0d6c5f0357efac7831685581aea782&ipo=images');
     background-size: cover;
@@ -146,6 +150,52 @@ input[type="submit"]:hover {
     color: red;
     padding-top: 10px;
 }
+
+.popup {
+    text-align: center;
+    font-weight: bold;
+    font-size: large;
+    color: rgb(2, 110, 2);
+    padding: 10px;
+    line-height: 100%;
+    width: 100%;
+    border: 2px solid rgb(52, 192, 52);
+    border-radius: 20px;
+    background-color: rgb(94, 233, 94, 0.5);
+    margin-bottom: 15px;
+}
+
+@keyframes popup {
+    0% {
+        opacity: 1;
+        height: 100%;
+        line-height: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+    30% {
+        opacity: 1;
+        height: 100%;
+        line-height: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+    75% {
+        opacity: 0;
+        height: 100%;
+        line-height: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+    100% {
+        opacity: 0;
+        height: 0px;
+        line-height: 0px;
+        padding: 0px;
+        margin-bottom: 0px;
+    }
+}
+
 
 .page-headings {
     display: flex;
