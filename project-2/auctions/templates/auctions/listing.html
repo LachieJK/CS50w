@@ -1,0 +1,178 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    {% if success %}
+        <!-- Display success message alerts -->
+        {% for message in messages %} 
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success! </strong>{{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% else %}
+        <!-- Display error message alerts -->
+        {% for message in messages %} 
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error! </strong>{{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}    
+
+    <div class="listing-container">
+        <div class="left-side">
+            <!-- Displaying the listing image -->
+            <img src="{{ listing.image }}">
+        </div>
+        <div class="right-side">
+            <div class="descriptive-container">
+                <!-- Form for adding/removing from watchlist -->
+                <form method="post" action="{% url 'listing' listing.id %}">
+                    {% csrf_token %}
+                    {% if user.id not in watched_by_ids and user.is_authenticated %}
+                        <!-- Option to add to watchlist if not already added -->
+                        <input type="submit" name="add-to-watchlist" id="add-to-watchlist" value="Add to Watchlist">
+                    {% elif user.is_authenticated %}
+                        <!-- Option to remove from watchlist if already added -->
+                        <input class="remove-watchlist" id="add-to-watchlist" type="submit" name="remove-watchlist" value="Remove From Watchlist">
+                    {% endif %}
+                </form>
+                <!-- Listing details: name, description, listed by, time since posted -->
+                <h2 style="padding-bottom: 30px">{{ listing.name }}</h2>
+                <p style="padding-bottom: 15px"><em>"{{ listing.description }}"</em></p>
+                <p class="time-since">Listed by {{ listing.owner }} <span class="time-since-post" data-created="{{ listing.created.isoformat }}"></span></p>
+                <div class="centered-description">
+                    <!-- Displaying current price or winning bid based on listing status -->
+                    {% if listing.active %}
+                        <h4 style="padding-top: 20px"><span><b>Current Price: </b>${{ listing.current_price }}</span></h4>
+                    {% else %}
+                        <h4 style="padding-top: 20px"><span><b>Winning Bid: </b>${{ listing.current_price }}</span></h4>
+                    {% endif %}
+                    <span class="bid-info">
+                        <!-- Displaying bid-related information based on different conditions -->
+                        {% if not listing.current_winner == user and listing.active %}
+                            <p class="description-bids">{{ listing.bid_count }} bid(s) so far.</p>
+                        {% elif listing.current_winner == user and listing.active %}
+                            <p class="description-bids">{{ listing.bid_count }} bid(s) so far.</p>
+                            <div style="padding-right: 20px"></div>
+                            <p class="description-bids" style="background-color: rgb(144, 250, 122)">Your bid is the highest!</p>
+                        {% elif listing.current_winner == user and not listing.active %}
+                            <p class="description-bids" style="background-color: rgb(144, 250, 122)">You won this listing!</p>
+                        {% elif not listing.current_winner == user and not listing.active %}
+                            <p class="description-bids">Listing is closed</p>
+                        {% endif %}
+                    </span>
+                    <!-- Different forms/options based on user's role and listing status -->
+                    {% if user != listing.owner and listing.active and user.is_authenticated %}
+                        <!-- Form for placing a bid -->
+                        <form class="centered-form" method="post" action="{% url 'listing' listing.id %}" style="padding-top: 15px">
+                            {% csrf_token %}
+                            <input class="text-box" type="number" id="bid" name="bid" placeholder="Enter Your Bid" step="0.01" style=" width: 15vw"><br>
+                            <input type="submit" id="place-bid" value="Place Bid" style="width: auto; margin-bottom: 10px">
+                        </form>
+                    {% elif listing.active and user == listing.owner %}
+                        <!-- Form for closing the listing -->
+                        <form class="cenetered-form" method="post" action="{% url 'listing' listing.id %}">
+                            {% csrf_token %}
+                            <input class="close-listing" type="submit" name="close-listing" value="Close Listing">
+                        </form>
+                    {% elif not user.is_authenticated %}
+                        <!-- Prompt for signing in to place a bid -->
+                        <p class="centered-form" style="color: crimson; padding-top: 20px;"><b>Must be signed in to place a bid</b></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>    
+    <div class="comments">
+        <!-- Form for adding comments -->
+        <form method="post" action="{% url 'listing' listing.id %}">
+            {% csrf_token %}
+            <!-- Section for comments header and comment count -->
+            <div class="comments-heading">
+                <label for="comments"><h4><b>Comments</b></h4></label>
+                <h4 class="comment-counter"><b>{{ comments_count }}</b></h4>
+            </div>
+            {% if user.is_authenticated %}
+                <!-- Section for authenticated users to add comments -->
+                <div style="padding-bottom: 70px;">
+                    <textarea class="comments-input" id="comments" name="comments" placeholder="Comment on Listing"></textarea><br>
+                    <input type="submit" id="add-comment" value="Add Comment" style="width: auto; float: right;">
+                </div>
+            {% else %}
+                <!-- Message prompting users to sign in to comment -->
+                <p style="color: crimson; padding-top: 10px; padding-bottom: 20px;"><b>Must be signed in to comment on this listing</b></p>
+            {% endif %}
+        </form>
+        <!-- Displaying existing comments -->
+        <div>
+            {% for comment in comments %}
+                <div class="comment-box">
+                    <!-- Displaying commenter's name and comment -->
+                    <h6 style="padding: 0px"><b>{{ comment.user }}</b></h6>
+                    <p style="padding: 0; margin: 0px">{{ comment.description }}</p>
+                    <!-- Displaying time since the comment was posted -->
+                    <p class="time-since-post top-right" data-created="{{ comment.date.isoformat }}"></p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>    
+
+    <script>
+        // Selecting all elements with the class 'time-since-post'
+        const timeSincePostElements = document.querySelectorAll('.time-since-post');
+
+        // Iterating through each element
+        timeSincePostElements.forEach(element => {
+            // Extracting the timestamp when the post/comment was created from the 'data-created' attribute
+            const createdTimestamp = new Date(element.getAttribute('data-created')).getTime();
+            // Getting the current timestamp
+            const currentTimestamp = new Date().getTime();
+            // Calculating the time difference between the current time and the time the post/comment was created
+            const timeDifference = currentTimestamp - createdTimestamp;
+            // Calculating the days, hours, and minutes from the time difference
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            // Create empty string variable for the time-since-post data
+            let displayText = '';
+
+            // Constructing the display text based on the calculated time difference
+            if (days === 1) {
+                displayText += '1 day';
+            } else if (days > 1) {
+                displayText += `${days} days`;
+            }
+
+            if (days > 0 && (hours > 0 || minutes > 0)) {
+                displayText += ', ';
+            }
+
+            if (hours === 1) {
+                displayText += '1 hour';
+            } else if (hours > 1) {
+                displayText += `${hours} hours`;
+            }
+
+            if ((days > 0 || hours > 0) && minutes > 0) {
+                displayText += ', ';
+            }
+
+            if (days === 0 && minutes === 1) {
+                displayText += '1 minute';
+            } else if (minutes > 1) {
+                displayText += `${minutes} minutes`;
+            }
+
+            if (!days && !hours && !minutes) {
+                displayText = 'less than a minute';
+            }
+
+            // Setting the formatted display text as the content of the respective element
+            element.innerText = displayText + ' ago';
+        });
+
+    </script>
+    
+{% endblock %}

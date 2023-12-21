@@ -1,0 +1,478 @@
+/* Sets padding for the entire body, with extra padding at the top */
+body {
+    padding: 30px;
+    padding-top: 100px;
+}
+
+/* Styles for level 1 headings */
+h1 {
+    text-align: center; /* Centers the text */
+    font-weight: bold; /* Makes the text bold */
+}
+
+/* Styles for level 2 headings */
+h2 {
+    font-weight: 600; /* Sets a specific font weight */
+}
+
+/* Styles for level 5 headings */
+h5 {
+    padding: 2px;
+    padding-bottom: 7px; /* Adds padding at the bottom */
+    font-weight: 600; /* Sets a specific font weight */
+}
+
+/* Styles for images within elements with class 'container' */
+.container img {
+    width: 100%; /* Sets image width to 100% */
+    height: 100%; /* Sets image height to 100% */
+    object-fit: cover; /* Scales the image to cover its container */
+    object-position: center; /* Sets the center position for the image */
+}
+
+/* Styles for select elements */
+select {
+    /* Defines padding, border, and appearance */
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 16px;
+    width: 70%;
+}
+
+/* Styles for a grid container */
+.grid-container {
+    display: grid; /* Uses grid layout */
+    grid-template-columns: repeat(auto-fill, minmax(275px, 1fr)); /* Responsive grid columns */
+    grid-gap: 20px; /* Gap between grid items */
+    padding-left: 150px; /* Left padding for the grid container */
+    padding-right: 150px; /* Right padding for the grid container */
+}
+
+/* Styles for elements with class 'container' */
+.container {
+    /* Defines styles for a container element */
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    width: 275px;
+    height: 400px;
+    /* Border styles */
+    border-color: darkgrey;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    margin-top: 30px;
+    margin-left: 0px;
+    padding: 0px;
+    transition: filter 0.3s ease; /* Transition effect on hover */
+}
+
+/* Hover effect on elements with class 'container' */
+.container:hover {
+    filter: brightness(90%); /* Decreases brightness on hover */
+}
+
+/* Styles for the top section of elements with class 'container' */
+.top-section {
+    height: 65%; /* Sets the height of the top section */
+    border-bottom-color: lightgrey; /* Border color for the bottom of the top section */
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+/* Styles for the bottom section of elements with class 'container' */
+.bottom-section {
+    height: 35%; /* Sets the height of the bottom section */
+    padding: 15px; /* Adds padding inside the bottom section */
+}
+
+/* Styles for the bottom right position inside elements with class 'container' */
+.bottom-right {
+    position: absolute; /* Absolute positioning */
+    bottom: 10px; /* Positioned 10px from the bottom */
+    right: 10px; /* Positioned 10px from the right */
+    margin-bottom: 0px;
+    font-size: small; /* Sets font size */
+}
+
+/* Styles for the bottom left position inside elements with class 'container' */
+.bottom-left {
+    position: absolute; /* Absolute positioning */
+    bottom: 10px; /* Positioned 10px from the bottom */
+    left: 10px; /* Positioned 10px from the left */
+    margin-bottom: 0px;
+    font-size: small; /* Sets font size */
+}
+
+/* Styles for a centered form */
+.centered-form {
+    display: flex; /* Uses flexbox */
+    flex-direction: column; /* Arranges items in a column */
+    align-items: center; /* Centers items horizontally */
+}
+
+/* Styles for form groups */
+.form-group {
+    display: flex; /* Uses flexbox */
+    flex-direction: column; /* Arranges items in a column */
+    align-items: flex-start; /* Aligns items to the start */
+    margin-bottom: 10px; /* Adds margin at the bottom */
+}
+
+/* Styles for labels within form groups */
+label {
+    padding-bottom: 8px; /* Adds padding at the bottom of labels */
+    padding-top: 15px; /* Adds padding at the top of labels */
+}
+
+/* Styles for various input types */
+input[type="number"],
+input[type="text"],
+input[type="url"],
+input[type="password"],
+input[type="email"] {
+    width: 50vw; /* Sets width to 50% of the viewport width */
+    padding: 5px; /* Adds 5 pixels of padding */
+    border-radius: 5px; /* Rounds the corners with a 5px radius */
+    border: none; /* Removes default border */
+    border: solid 1px #ccc; /* Adds a solid border of 1px with color #ccc */
+    border-width: 2px; /* Specifies border width */
+}
+
+/* Styles for a description box */
+.description-box {
+    width: 50vw; /* Sets width to 50% of the viewport width */
+    height: 100px; /* Sets a specific height of 100 pixels */
+    border-radius: 5px; /* Rounds the corners with a 5px radius */
+    border: none; /* Removes default border */
+    border: solid 1px #ccc; /* Adds a solid border of 1px with color #ccc */
+    border-width: 2px; /* Specifies border width */
+}
+
+/* Styles for select elements */
+.select {
+    width: 50vw; /* Sets width to 50% of the viewport width */
+    border-radius: 5px; /* Rounds the corners with a 5px radius */
+    border: none; /* Removes default border */
+    border: solid 1px #ccc; /* Adds a solid border of 1px with color #ccc */
+    border-width: 2px; /* Specifies border width */
+}
+
+/* Styles for submit button */
+input[type="submit"] {
+    margin-top: 20px; /* Adds top margin of 20 pixels */
+    width: 50vw; /* Sets width to 50% of the viewport width */
+    background-color: #007BFF; /* Sets background color to #007BFF */
+    color: #fff; /* Sets text color to white */
+    padding: 10px 20px; /* Adds 10 pixels of padding on top/bottom, 20 pixels on left/right */
+    border: none; /* Removes default border */
+    border-radius: 5px; /* Rounds the corners with a 5px radius */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+}
+  
+/* Hover effect for submit button */
+input[type="submit"]:hover {
+    background-color: #0056b3; /* Changes background color on hover to #0056b3 */
+}
+
+/* Styles for specific types of submit buttons */
+input.close-listing[type="submit"],
+input.remove-watchlist[type="submit"] {
+    margin-top: 20px; /* Adds top margin of 20 pixels */
+    margin-bottom: 10px; /* Adds bottom margin of 10 pixels */
+    width: auto; /* Uses automatic width */
+    background-color: rgb(224, 56, 56); /* Sets background color to rgb(224, 56, 56) */
+    color: #fff; /* Sets text color to white */
+    padding: 10px 20px; /* Adds 10 pixels of padding on top/bottom, 20 pixels on left/right */
+    border: none; /* Removes default border */
+    border-radius: 5px; /* Rounds the corners with a 5px radius */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+}
+
+/* Hover effect for specific types of submit buttons */
+input.close-listing[type="submit"]:hover,
+input.remove-watchlist[type="submit"]:hover { 
+    background-color: rgb(192, 41, 41); /* Changes background color on hover to rgb(192, 41, 41) */
+}
+
+/* Styles for a specific navigation bar */
+.navbar-nav.ml-auto.dropdown {
+    position: absolute; /* Sets the position to absolute */
+    right: 0; /* Aligns to the right */
+}
+
+/* Styles for navigation items */
+.nav-item {
+    padding-left: 5px; /* Adds 5 pixels of padding on the left */
+    padding-right: 5px; /* Adds 5 pixels of padding on the right */
+}
+
+/* Styles for price display */
+.price {
+    font-size: x-large; /* Sets font size to x-large */
+    font-weight: 700; /* Sets font weight to 700 (bold) */
+    padding-left: 15px; /* Adds 15 pixels of padding on the left */
+    color: crimson; /* Sets text color to crimson */
+}
+
+/* Styles for a bid section */
+.bid {
+    position: absolute; /* Sets the position to absolute */
+    bottom: 37px; /* Sets the distance from the bottom to 37 pixels */
+    right: 25px; /* Sets the distance from the right to 25 pixels */
+}
+
+/* Styles for a listing container */
+.listing-container {
+    display: flex; /* Sets display property to flex */
+}
+
+/* Styles for the left-side section */
+.left-side {
+    flex: 0 0 auto; /* Fixed size; won't grow or shrink */
+    width: 50%; /* Occupies half the container */
+    position: relative; /* Positioned relative to its normal position */
+    display: flex; /* Uses flexbox for layout */
+    justify-content: center; /* Centers items horizontally */
+    align-items: center; /* Centers items vertically */
+}
+
+/* Styles for images inside the left-side section */
+.left-side img {
+    margin: 0;
+    padding: 5px;
+    max-width: 70%; /* Maximum width set to 70% of its container */
+    height: auto; /* Maintains aspect ratio */
+    max-height: 450px; /* Maximum height limited to 450px */
+    display: block; /* Displays as a block element */
+    object-fit: cover; /* Image is resized to cover its container */
+    object-position: center; /* Image is positioned at the center */
+    border-width: 5px; /* Border width */
+    border-color: darkslategrey; /* Border color */
+    border-style: solid; /* Border style */
+}
+
+/* Styles for the right-side section */
+.right-side {
+    flex: 1; /* Flexible size; fills remaining space */
+    padding: 20px; /* Padding around the content */
+    min-width: 600px; /* Minimum width set to 600px */
+    box-sizing: border-box; /* Includes padding in the element's total width/height */
+}
+
+/* Media query for screens with a maximum width of 600px */
+@media screen and (max-width: 600px) {
+    .container {
+        flex-direction: column; /* Changes layout to a column */
+    }
+    /* Adjustments for left-side and right-side sections at smaller screens */
+    .left-side,
+    .right-side {
+        width: 100%; /* Full width for both sections */
+    }
+}
+
+/* Styles for a descriptive container */
+.descriptive-container {
+    position: relative; /* Positioned relative to its normal position */
+    padding: 20px; /* Padding around the content */
+    border-width: 2px; /* Border width */
+    border-color: lightgrey; /* Border color */
+    border-style: solid; /* Border style */
+}
+
+/* Styles for an element with the ID 'add-to-watchlist' */
+#add-to-watchlist {
+    width: auto; /* Automatically adjust width based on content */
+    position: absolute; /* Positioned absolutely within its relative container */
+    margin: 10px; /* Margin around the element */
+    top: 0; /* Positioned at the top */
+    right: 0; /* Positioned at the right */
+}
+
+/* Styles for the time-since class */
+.time-since {
+    font-family: 'Courier New', Courier, monospace; /* Sets font family */
+    color: grey; /* Text color */
+    padding-bottom: 15px; /* Padding at the bottom */
+    border-bottom: 1px solid lightgrey; /* Bottom border */
+}
+
+/* Styles for the not-found class */
+.not-found {
+    padding-top: 30px; /* Padding at the top */
+    text-align: center; /* Centers the text */
+}
+
+/* Styles for a centered description */
+.centered-description {
+    display: flex; /* Uses flexbox for layout */
+    flex-direction: column; /* Arranges items in a column */
+    align-items: center; /* Centers items horizontally */
+}
+
+/* Styles for the bid-info class */
+.bid-info {
+    display: flex; /* Uses flexbox for layout */
+    align-items: center; /* Centers items vertically */
+}
+
+/* Styles for the description-bids class */
+.description-bids {
+    margin: 0; /* Resets margin */
+    font-size: small; /* Sets smaller font size */
+    background-color: rgb(235, 235, 235); /* Background color */
+    margin-top: 10px; /* Margin at the top */
+    padding: 2px; /* Padding around the content */
+    padding-left: 5px; /* Left padding */
+    padding-right: 5px; /* Right padding */
+    border-radius: 8px; /* Adds rounded corners */
+    font-weight: 600; /* Sets font weight */
+}
+
+/* Styles for the comments section */
+.comments {
+    margin: 30px; /* Margin around the comments */
+    margin-left: 80px; /* Left margin */
+    margin-right: 80px; /* Right margin */
+}
+
+/* Styles for the comments heading */
+.comments-heading {
+    display: flex; /* Uses flexbox for layout */
+    align-items: center; /* Centers items vertically */
+}
+
+/* Styles for the comment counter */
+.comment-counter {
+    margin-top: 6px; /* Margin at the top */
+    padding: 10px; /* Padding around the content */
+    margin-left: 15px; /* Left margin */
+    background-color: rgb(235, 235, 235); /* Background color */
+    border-radius: 8px; /* Adds rounded corners */
+}
+
+/* Styles for the comments input */
+.comments-input {
+    width: 100%; /* Full width */
+    height: 70px; /* Fixed height */
+    border-radius: 5px; /* Adds rounded corners */
+    border: none; /* Removes default border */
+    border: solid 1px #ccc; /* Sets border style and color */
+    border-width: 2px; /* Border width */
+}
+
+/* Styles for the comment box */
+.comment-box {
+    position: relative; /* Positioned relative to its normal position */
+    margin-top: 20px; /* Margin at the top */
+    padding: 15px; /* Padding around the content */
+    width: 100%; /* Full width */
+    border-radius: 5px; /* Adds rounded corners */
+    border: solid 1px #ccc; /* Sets border style and color */
+    border-width: 1px; /* Border width */
+    background-color: rgb(247, 247, 247); /* Background color */
+}
+
+/* Styles for the top-right text */
+.top-right {
+    position: absolute; /* Positioned absolutely within its relative container */
+    top: 15px; /* Positioned 15px from the top */
+    right: 15px; /* Positioned 15px from the right */
+    font-style: italic; /* Italic text */
+    font-size: 14px; /* Font size */
+    font-weight: 600; /* Font weight */
+    color: rgb(100, 100, 100); /* Text color */
+}
+
+/* Styles for the watchlist section */
+.watchlist {
+    margin: 30px; /* Margin around the watchlist */
+    margin-left: 80px; /* Left margin */
+    margin-right: 80px; /* Right margin */
+}
+
+/* Styles for the watchlist container */
+.watchlist-container {
+    cursor: pointer; /* Changes cursor on hover */
+    transition: filter 0.3s ease; /* Smooth transition for filter property */
+    display: flex; /* Uses flexbox for layout */
+    align-items: flex-start; /* Aligns items at the start */
+    width: 100%; /* Full width */
+    height: 200px; /* Fixed height */
+    border-radius: 5px; /* Adds rounded corners */
+    border: solid 1px #ccc; /* Sets border style and color */
+    border-width: 1px; /* Border width */
+    background-color: rgb(247, 247, 247); /* Background color */
+    margin-bottom: 30px; /* Margin at the bottom */
+}
+
+/* Hover effect for watchlist container */
+.watchlist-container:hover {
+    filter: brightness(90%); /* Adjusts brightness on hover */
+}
+
+/* Styles for the left side of the watchlist container */
+.watchlist-left-side {
+    flex: 0 0 auto; /* Fixed size; won't grow or shrink */
+    max-width: 191px; /* Maximum width */
+    height: 200px; /* Fixed height */
+    box-sizing: border-box; /* Includes padding in the element's total width/height */
+    padding-right: 10px; /* Right padding */
+}
+
+/* Styles for images inside the watchlist-left-side */
+.watchlist-left-side img {
+    height: 180px; /* Fixed image height */
+    width: 191px; /* Fixed image width */
+    object-fit: cover; /* Resizes the image to cover its container */
+    margin: 10px; /* Margin around the image */
+    border-width: 3px; /* Border width */
+    border-color: darkslategrey; /* Border color */
+    border-style: solid; /* Border style */
+}
+
+/* Styles for the right side of the watchlist container */
+.watchlist-right-side {
+    position: relative; /* Positioned relative to its normal position */
+    height: 160px; /* Fixed height */
+    margin: 20px; /* Margin around the container */
+    margin-left: 40px; /* Left margin */
+    flex: 1; /* Flexible size; fills remaining space */
+    box-sizing: border-box; /* Includes padding in the element's total width/height */
+    padding-left: 10px; /* Left padding */
+}
+
+/* Styles for the top-right text inside the watchlist container */
+.watchlist-top-right {
+    position: absolute; /* Positioned absolutely within its relative container */
+    margin-top: 0px !important; /* Overrides top margin */
+    top: 0px; /* Positioned at the top */
+    right: 0px; /* Positioned at the right */
+    font-size: small; /* Font size */
+}
+
+/* Styles for the status text inside the watchlist container */
+.status {
+    position: absolute; /* Positioned absolutely within its relative container */
+    bottom: 0px; /* Positioned at the bottom */
+    left: 10px; /* Positioned 10px from the left */
+    font-style: normal; /* Normal font style */
+    width: 200px; /* Fixed width */
+    text-align: center; /* Centers text horizontally */
+    padding-top: 5px; /* Padding at the top */
+    padding-bottom: 5px; /* Padding at the bottom */
+    border-radius: 8px; /* Adds rounded corners */
+    font-weight: 600; /* Font weight */
+}
+
+/* Styles for the price text inside the watchlist container */
+.watchlist-price {
+    font-size: 20px; /* Font size */
+    padding-left: 3px; /* Left padding */
+    font-style: italic; /* Italic font style */
+    color: rgb(100, 100, 100); /* Text color */
+}
+
