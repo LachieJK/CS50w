@@ -136,7 +136,7 @@ function load_mailbox(mailbox) {
           if (mailbox === 'sent') {
             emailAddress.innerHTML = `To ${email.recipients}`;
           } else {
-            emailAddress.innerHTML = `From ${email.recipients}`;
+            emailAddress.innerHTML = `From ${email.sender}`;
           }
           emailSubject.innerHTML = `<b>${email.subject}</b>`;
           emailSeperator.innerHTML = ' - ';
@@ -289,7 +289,7 @@ function load_mail(email) {
     document.querySelector('#email-view').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'block';
     // Clear out composition fields and set initial values for replying to the email
-    document.querySelector('#compose-recipients').value = email.recipients;
+    document.querySelector('#compose-recipients').value = email.sender;
     document.querySelector('#compose-recipients').disabled = true;
     // Check if the subject already starts with "Re:" and set the subject accordingly
     if (!email.subject.startsWith('Re:')) {
