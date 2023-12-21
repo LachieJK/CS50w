@@ -3,30 +3,37 @@
 {% block body %}
 
     {% for message in messages %} 
+        <!-- Display error messages -->
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Error! </strong>{{message}}
+            <strong>Error! </strong>{{ message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endfor %}
 
+    <!-- Registration form -->
     <h1>Register</h1>
-
     <form action="{% url 'register' %}" method="post" class="centered-form">
         {% csrf_token %}
         <div class="form-group">
+            <!-- Input field for username -->
             <input class="form-control" autofocus type="text" name="username" placeholder="Username" style="margin-top: 20px;">
         </div>
         <div class="form-group">
+            <!-- Input field for email -->
             <input class="form-control" type="email" name="email" placeholder="Email Address" style="margin-top: 20px;">
         </div>
         <div class="form-group">
+            <!-- Input field for password -->
             <input class="form-control" type="password" name="password" placeholder="Password" style="margin-top: 20px;">
         </div>
         <div class="form-group">
+            <!-- Input field to confirm password -->
             <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password" style="margin-top: 20px;">
         </div>
+        <!-- Submit button for registration -->
         <input class="btn btn-primary" type="submit" value="Register">
         <div style="padding-top: 50px">
+            <!-- Link to log in if the user already has an account -->
             Already have an account? <a href="{% url 'login' %}">Log In here.</a>
         </div>
     </form>

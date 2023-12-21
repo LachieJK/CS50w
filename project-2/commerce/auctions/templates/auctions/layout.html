@@ -2,81 +2,97 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">    
-        <title>{% block title %}Auctions{% endblock %}</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top border-bottom border-body" data-bs-theme="dark">
-            <div class="container-fluid" style="padding-top: 10px; padding-bottom: 10px; padding-left: 20px;">
-              <a class="navbar-brand" style="color: white">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Site title -->
+    <title>{% block title %}Auctions{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Static CSS file -->
+    <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+</head>
+<body>
+    <!-- Bootstrap navigation bar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid" style="padding-top: 10px; padding-bottom: 10px; padding-left: 20px;">
+            <a class="navbar-brand" style="color: white">
                 <strong>Auctions</strong><img src="https://www.iconsdb.com/icons/preview/white/shopping-bag-xxl.png" alt="logo" height="24" class="d-inline-block align-text-top" style="margin-left: 10px;">
-              </a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            </a>
+            <!-- Navbar toggler for mobile view -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            </button>
+            <!-- Navbar items -->
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{% url 'index' %}">Active Listings</a>
-                  </li>
-
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        {% for category in categories %}
-                            <li><a class="dropdown-item" href="{% url 'category' category.id %}">{{ category.name }}</a></li>
-                        {% endfor %}
-                    </ul>
-                  </li>
-                  {% if user.is_authenticated %}
+                    <!-- Active Listings link -->
                     <li class="nav-item">
-                      <a class="nav-link" aria-current="page" href="{% url 'watchlist' user.id %}">Watchlist</a>
+                        <a class="nav-link" aria-current="page" href="{% url 'index' %}">Active Listings</a>
                     </li>
-
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'create' %}">Create Listing</a>
+                    <!-- Dropdown for categories -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <!-- Loop through categories -->
+                            {% for category in categories %}
+                                <li><a class="dropdown-item" href="{% url 'category' category.id %}">{{ category.name }}</a></li>
+                            {% endfor %}
+                        </ul>
                     </li>
-                  {% endif %}
-                  
-                  <li class="nav-item dropdown" style="position: absolute; right: 15px">
-                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {% if user.is_authenticated %}
-                            <img src="https://www.pngarts.com/files/10/Default-Profile-Picture-Transparent-Image.png" height="24" class="d-inline-block align-text-top" style="margin-right: 10px;">
-                            Signed in as <strong>{{ user.username }}</strong>
-                        {% else %}
-                            Not signed in
-                        {% endif %}
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        {% if user.is_authenticated %}
-                            <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
-                        {% else %}
-                            <li><a class="dropdown-item" href="{% url 'login' %}">Log In</a></li>
-                            <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
-                        {% endif %}
-                    </ul>
-                  </li>
+                    <!-- Navigation items for authenticated users -->
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{% url 'watchlist' user.id %}">Watchlist</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'create' %}">Create Listing</a>
+                        </li>
+                    {% endif %}
+                    <!-- Dropdown for user authentication -->
+                    <li class="nav-item dropdown" style="position: absolute; right: 15px">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {% if user.is_authenticated %}
+                                <!-- Display user profile and username -->
+                                <img src="https://www.pngarts.com/files/10/Default-Profile-Picture-Transparent-Image.png" height="24" class="d-inline-block align-text-top" style="margin-right: 10px;">
+                                Signed in as <strong>{{ user.username }}</strong>
+                            {% else %}
+                                <!-- Display 'Not signed in' if user is not authenticated -->
+                                Not signed in
+                            {% endif %}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <!-- Authentication options -->
+                            {% if user.is_authenticated %}
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
+                            {% else %}
+                                <li><a class="dropdown-item" href="{% url 'login' %}">Log In</a></li>
+                                <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
                 </ul>
-              </div>
             </div>
-          </nav>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>          
-        <script>
-            const activePage = window.location.pathname;
-            const navLinks = document.querySelectorAll('nav a').
-            forEach(link => {
-                if(link.href.includes(`${activePage}`)){
-                    link.classList.add('active');
-                }
-            })
-        </script>
-        
-        {% block body %}
-        {% endblock %}
-    </body>
+        </div>
+    </nav>
+
+    <!-- Bootstrap and custom scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>          
+
+    <!-- Script to highlight active page in the navigation -->
+    <script>
+        const activePage = window.location.pathname;
+        const navLinks = document.querySelectorAll('nav a').
+        forEach(link => {
+            if(link.href.includes(`${activePage}`)){
+                link.classList.add('active');
+            }
+        })
+    </script>
+    
+    <!-- Body content block -->
+    {% block body %}
+    {% endblock %}
+</body>
 </html>
