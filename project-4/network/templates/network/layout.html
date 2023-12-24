@@ -32,15 +32,15 @@
                             </li>
                         {% endif %}
                         <!-- Dropdown for user authentication -->
-                        <li class="nav-item dropdown" style="position: absolute; right: 15px">
-                            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <li class="nav-item dropdown" style="position: absolute; right: 15px; margin: 0;">
+                            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="display: flex; align-items: center; padding: 0px;">
                                 {% if user.is_authenticated %}
                                     <!-- Display user profile and username -->
-                                    <img src="{{ MEDIA_URL }}{{ user.profile.picture }}" height="24" class="d-inline-block align-text-top" style="margin-right: 10px;">
-                                    Signed in as <strong>{{ user.username }}</strong>
+                                    <img src="{{ MEDIA_URL }}{{ user.profile.picture }}" alt="Profile Picture" class="nav-profile-picture d-inline-block align-text-top">
+                                    <span style="padding-right: 5px;">Signed in as <strong>{{ user.username }}</strong></span>
                                 {% else %}
                                     <!-- Display 'Not signed in' if user is not authenticated -->
-                                    Not signed in
+                                    <span style="line-height: 40px; display: flex; align-items: center; padding-right: 5px;">Not signed in</span>
                                 {% endif %}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
@@ -52,7 +52,7 @@
                                     <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
                                 {% endif %}
                             </ul>
-                        </li>
+                        </li>                        
                     </ul>
                 </div>
             </div>
