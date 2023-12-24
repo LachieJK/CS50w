@@ -3,6 +3,7 @@ body {
     padding-top: 57px; /* So the body starts underneath the navbar */
     padding-left: 20px;
     padding-right: 20px;
+    background-color: #f7f7f7; /* Slight shade of grey to make posts pop */
 }
 
 /* Styles for elements with class 'details-heading' */
@@ -14,10 +15,14 @@ body {
     padding-bottom: 20px; /* Adds bottom padding of 20px */
 }
 
+.all-content {
+    width: 60vw;
+    margin: 0 auto; /* This centers the element horizontally */
+    position: relative;
+}
+
 /* Styles for a centered form */
 .centered-form {
-    margin-left: 20px; /* Sets left margin to 20px */
-    margin-right: 20px; /* Sets right margin to 20px */
     display: flex; /* Uses flexbox */
     flex-direction: column; /* Arranges children in a column */
     align-items: center; /* Centers items horizontally */
@@ -38,8 +43,8 @@ body {
     border-radius: 5px; /* Rounds corners with a 5px radius */
     border: none; /* Removes default border */
     border: solid 1px #ccc; /* Adds a solid border with color #ccc */
+    background-color: white; /* Sets the background color to white */
     border-width: 2px; /* Sets border width to 2px */
-    background: rgb(255, 255, 255, 0.85) !important; /* Sets background color with opacity */
 }
 
 .nav-profile-picture {
@@ -49,6 +54,40 @@ body {
     height: 40px;
     border-radius: 50%; /* Makes the container circular */
     overflow: hidden; /* Hides any content that goes beyond the circular border */
-    border: 2px solid #ccc; /* Add a border around the circle */
+    border: 2px solid white; /* Add a border around the circle */
     object-fit: cover;
+}
+
+.post-container {
+    padding: 20px;
+    margin-bottom: 20px;
+    border: solid 2px rgb(226, 226, 226);
+    border-radius: 10px;
+    background-color: white; /* Sets the background color to white */
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.2); /* Adds a shadow on all sides */
+}
+
+.post-profile {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#time-since-post {
+    margin: 0px;
+    font-family: 'Courier New', Courier, monospace; /* Sets font family */
+    color: grey; /* Text color */
+    font-size: 15px;
+}
+
+.post-body {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 22px;
+    font-weight: 300;
 }

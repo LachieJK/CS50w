@@ -4,11 +4,22 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .models import User, Profile, Following, Post, Comment
 
 
 def index(request):
-    return render(request, "network/index.html")
+    if request.method == "POST":
+        posting_user = request.user 
+        post_body = request.POST.get('post-body')
+        post = Post(user=posting_user, body=post_body)
+        post.save()
+        return render(request, "network/index.html", {
+            "posts": Post.objects.all().order_by('-timestamp')
+        })
+    else: 
+        return render(request, "network/index.html", {
+            "posts": Post.objects.all().order_by('-timestamp')
+        })
 
 
 def login_view(request):
