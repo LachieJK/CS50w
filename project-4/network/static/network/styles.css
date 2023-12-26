@@ -87,7 +87,28 @@ body {
 
 .post-body {
     padding-left: 10px;
-    padding-right: 10px;
+    padding-right: 30px;
     font-size: 22px;
     font-weight: 300;
+}
+
+.post-likes {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.like-counter {
+    margin-right: 8px; /* Adjust the spacing as needed */
+    padding-bottom: 2px;
+}
+
+.heart {
+    display: flex;
+    color:#a7a7a7;
+    cursor: pointer;
+}
+
+.liked {
+    color: red;
 }

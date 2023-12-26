@@ -34,6 +34,7 @@ class Post(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     body = models.TextField(blank=False)
     likes = models.IntegerField(default=0)
+    liked_by = models.ManyToManyField(User, related_name='liked_posts', blank=True, null=True)
 
     def __str__(self):
         return f"{self.user} posted at {self.timestamp} and has {self.likes} like(s)"

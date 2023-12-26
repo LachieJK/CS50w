@@ -2,10 +2,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.http import JsonResponse
 from django.urls import reverse
-
 from .models import User, Profile, Following, Post, Comment
-
+from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
     if request.method == "POST":
@@ -72,3 +72,28 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+@csrf_exempt
+def likes(request, post_id):
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Post not found."}, status=404)
+
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            if not request.user in post.liked_by.all():
+                post.liked_by.add(request.user)
+                post.likes += 1
+            else:
+                post.liked_by.remove(request.user)
+                post.likes -= 1
+            post.save()
+ 
+    serialized_post = {
+        'id': post.id,
+        'timestamp': post.timestamp,
+        'body': post.body,
+        'likes': post.likes
+    }
+    return JsonResponse(serialized_post)
