@@ -1,48 +1,108 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    <div class="profile-top">
-        <div style="position: relative;">
-            <img class="profile-banner" src="{{ MEDIA_URL }}banner.png">
-            <img src="{{ MEDIA_URL }}{{ user.profile.picture }}" class="nav-profile-picture" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, 5%); width: 150px; height: 150px; margin: 0px;">
+
+    <div class="profile-main">
+        <div class="profile-top">
+            <div style="position: relative;">
+                <img class="profile-banner" src="{{ MEDIA_URL }}banner.png">
+                <img src="{{ MEDIA_URL }}{{ profile_user.profile.picture }}" class="nav-profile-picture" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, 5%); width: 150px; height: 150px; margin: 0px;">
+            </div>
+        </div>
+    
+        <div class="profile-username">
+            <h3><b>{{ profile_user.username }}</b></h3>
+        </div>
+    
+        {% if profile.name %}
+        <div class="profile-name">
+            <p><i>{{ profile.name }}</i></p>
+        </div>
+        {% endif %}
+    
+        <div class="profile-data">
+            <div>
+                {% if request.user.is_authenticated %}
+                    {% if profile.user == request.user %}
+                        <button type="button" class="btn btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16" style="margin-right: 5px;">
+                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"></path>
+                            </svg>
+                            Edit Profile
+                        </button>
+                    {% else %}
+                        {% if profile.user.id in following_users %}
+                            <button type="button" class="btn btn-danger">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-dash" viewBox="0 0 16 16" style="margin-right: 3px;">
+                                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1m0-7a3 3 0 1 1-6 0 3 3 0 0 1 6 0"></path>
+                                    <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4"></path>
+                                </svg>
+                                Unfollow
+                        </button>
+                        {% else %}
+                            <button type="button" class="btn btn-success">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16" style="margin-right: 3px;">
+                                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"></path>
+                                    <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4"></path>
+                                </svg>
+                                Follow
+                            </button>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="profile-stats">
+                <div>
+                    <span class="count">{{ post_count }}</span>
+                    <span class="heading">Posts</span>
+                </div>
+                <div>
+                    <span class="count">{{ followers_count }}</span>
+                    <span class="heading">Followers</span>
+                </div>
+                <div>
+                    <span class="count">{{ following_count }}</span>
+                    <span class="heading">Following</span>
+                </div>
+            </div>
+            {% if profile.bio %}
+                <div class="profile-bio">
+                    <h4>Bio</h4>
+                    <span>{{ profile.bio }}</span>
+                </div>
+            {% endif %}
         </div>
     </div>
-    <div class="profile-username">
-        <h3><b>{{ user.username }}</b></h3>
+
+    <div class="profile-posts">
+        {% for post in user_posts %}
+            <div class="post-container">
+                <div class="post-profile">
+                    <img src="{{ MEDIA_URL }}{{ post.user.profile.picture }}" alt="Profile Picture" class="nav-profile-picture" style="width: 60px; height: 60px;">
+                    <div class="profile-info">
+                        <strong>{{ post.user.username }}</strong>
+                        <p id="time-since-post">Posted <span class="time-since-post" data-created="{{ post.timestamp.isoformat }}"></span></p>
+                    </div>
+                </div>
+                <div class="post-body">{{ post.body }}</div>
+                <div class="post-likes">
+                    <span class="like-counter" data-like-counter="{{ post.id }}">{{ post.likes }}</span>
+                    <div class="heart" data-post-id="{{ post.id }}">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-    {% if profile.name %}
-    <div class="profile-name">
-        <h3><i>{{ profile.name }}</i></h3>
-    </div>
-    {% endif %}
-    {% if request.user.is_authenticated %}
-        {% if profile.user == request.user %}
-            <button type="button" class="btn btn-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"></path>
-                </svg>
-                Edit Profile
-            </button>
-        {% else %}
-            {% if profile.user.id in following_users %}
-                <button type="button" class="btn btn-danger">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-dash" viewBox="0 0 16 16">
-                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1m0-7a3 3 0 1 1-6 0 3 3 0 0 1 6 0"></path>
-                        <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4"></path>
-                    </svg>
-                    Unfollow
-            </button>
-            {% else %}
-                <button type="button" class="btn btn-success">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
-                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"></path>
-                        <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4"></path>
-                    </svg>
-                    Follow
-                </button>
-            {% endif %}
-        {% endif %}
-    {% endif %}
-    <div>Followers: {{ followers_count }}</div>
-    <div>Following: {{ following_count }}</div>
+
+    <script>
+        window.isAuthenticated = "{{ user.is_authenticated }}"; // Assuming user.is_authenticated is a boolean
+        window.userId = "{{ user.id }}"; // Assuming you have access to the user's ID
+    </script>
+    
+    {% load static %}
+    <script src="{% static 'network/time_since_post.js' %}"></script>
+    <script src="{% static 'network/heart_button.js' %}"></script>
+    <script src="https://kit.fontawesome.com/a1b59462b2.js" crossorigin="anonymous"></script>
+
 {% endblock %}

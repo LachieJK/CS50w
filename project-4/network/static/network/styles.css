@@ -113,6 +113,14 @@ body {
     color: red;
 }
 
+.profile-main {
+    margin-top: 20px;
+    padding-bottom: 15px;
+    background-color:#f1f1f1;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 .profile-top {
     display: flex;
     justify-content: center;
@@ -136,4 +144,71 @@ body {
 
 .profile-name {
     text-align: center;
+}
+
+.profile-data {
+    display: flex;
+    flex-direction: column; /* Arrange children vertically */
+    align-items: center;
+    margin-top: 20px;
+}
+
+.profile-data > div {
+    flex: 1; /* Each div takes up 100% width */
+    margin-bottom: 10px; /* Optional: Add margin between each div */
+}
+
+.profile-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+    background-color: #F8DE88;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 10px;
+
+    /* Adjust styles for spacing, alignment, etc. */
+}
+
+.profile-stats div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.count {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.heading {
+    font-size: 14px;
+    color: #585858;
+}
+
+.profile-bio {
+    margin-top: 15px;
+    background-color: rgb(252, 252, 252);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 427px; /* Adjust as needed */
+}
+
+.profile-bio h4 {
+    font-weight: 600;
+    text-align: center;
+}
+
+.profile-posts {
+    width: 60vw;
+    margin: 0 auto; /* This centers the element horizontally */
+    position: relative;
+    margin-top: 50px;
 }

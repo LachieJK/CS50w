@@ -24,26 +24,34 @@ def index(request):
 
 def profile(request, user_id):
     if request.user.is_authenticated:
-        user = User.objects.get(pk=user_id);
-        profile = Profile.objects.get(user=user)
-        following_count = Following.objects.filter(user=user).count()
-        followers_count = Following.objects.filter(user_followed=user).count()
+        profile_user = User.objects.get(pk=user_id)
+        profile = Profile.objects.get(user=profile_user)
+        user_posts = Post.objects.filter(user=profile_user).order_by('-timestamp')
+        post_count = Post.objects.filter(user=profile_user).count()
+        following_count = Following.objects.filter(user=profile_user).count()
+        followers_count = Following.objects.filter(user_followed=profile_user).count()
         following_users = Following.objects.filter(user=request.user).values_list('user_followed', flat=True)
         return render(request, "network/profile.html", {
-            "user": user,
+            "profile_user": profile_user,
             "profile": profile,
+            "user_posts": user_posts,
+            "post_count": post_count,
             "following_count": following_count,
             "followers_count": followers_count,
             "following_users": following_users
         })
     else:
-        user = User.objects.get(pk=user_id);
-        profile = Profile.objects.get(user=user)
-        following_count = Following.objects.filter(user=user).count()
-        followers_count = Following.objects.filter(user_followed=user).count()
+        profile_user = User.objects.get(pk=user_id)
+        profile = Profile.objects.get(user=profile_user)
+        user_posts = Post.objects.filter(user=profile_user).order_by('-timestamp')
+        post_count = Post.objects.filter(user=profile_user).count()
+        following_count = Following.objects.filter(user=profile_user).count()
+        followers_count = Following.objects.filter(user_followed=profile_user).count()
         return render(request, "network/profile.html", {
-            "user": user,
+            "profile_user": profile_user,
             "profile": profile,
+            "user_posts": user_posts,
+            "post_count": post_count,
             "following_count": following_count,
             "followers_count": followers_count
         })
