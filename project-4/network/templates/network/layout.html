@@ -29,7 +29,7 @@
                         <!-- Navigation items for authenticated users -->
                         {% if request.user.is_authenticated %}
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="#">Following</a>
+                                <a class="nav-link" aria-current="page" href="{% url 'following' %}">Following</a>
                             </li>
                         {% endif %}
                         <!-- Dropdown for user authentication -->

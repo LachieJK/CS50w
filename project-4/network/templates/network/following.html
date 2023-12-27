@@ -1,0 +1,42 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    <div class="all-content">
+        <div style="position: absolute; margin-top: 20px;">
+            {% if posts %}  
+                {% for post in posts %}
+                    <div class="post-container">
+                        <div class="post-profile">
+                            <a href="{% url 'profile' user_id=post.user.id %}">
+                                <img src="{{ MEDIA_URL }}{{ post.user.profile.picture }}" alt="Profile Picture" class="nav-profile-picture" style="width: 60px; height: 60px; cursor: pointer">
+                            </a>
+                            <div class="profile-info">
+                                <strong>{{ post.user.username }}</strong>
+                                <p id="time-since-post">Posted <span class="time-since-post" data-created="{{ post.timestamp.isoformat }}"></span></p>
+                            </div>
+                        </div>
+                        <div class="post-body">{{ post.body }}</div>
+                        <div class="post-likes">
+                            <span class="like-counter" data-like-counter="{{ post.id }}">{{ post.likes }}</span>
+                            <div class="heart" data-post-id="{{ post.id }}">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Sorry, you aren't following anyone or the people you follow haven't posted anything yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        window.isAuthenticated = "{{ user.is_authenticated }}"; // Assuming user.is_authenticated is a boolean
+        window.userId = "{{ user.id }}"; // Assuming you have access to the user's ID
+    </script>
+    
+
+    <script src="static/network/time_since_post.js"></script>
+    <script src="static/network/heart_button.js"></script>
+    <script src="https://kit.fontawesome.com/a1b59462b2.js" crossorigin="anonymous"></script>
+{% endblock %}

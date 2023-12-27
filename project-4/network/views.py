@@ -55,6 +55,15 @@ def profile(request, user_id):
             "following_count": following_count,
             "followers_count": followers_count
         })
+    
+
+def following(request):
+    users_following = Following.objects.filter(user=request.user)
+    following_users = [follow.user_followed for follow in users_following]
+    return render(request, "network/following.html", {
+        "posts": Post.objects.filter(user__in=following_users)
+    })
+
 
 
 def login_view(request):
