@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.urls import reverse
-from .models import User, Profile, Following, Post, Comment
+from .models import User, Profile, Following, Post
 from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
@@ -19,6 +19,33 @@ def index(request):
     else: 
         return render(request, "network/index.html", {
             "posts": Post.objects.all().order_by('-timestamp')
+        })
+
+
+def profile(request, user_id):
+    if request.user.is_authenticated:
+        user = User.objects.get(pk=user_id);
+        profile = Profile.objects.get(user=user)
+        following_count = Following.objects.filter(user=user).count()
+        followers_count = Following.objects.filter(user_followed=user).count()
+        following_users = Following.objects.filter(user=request.user).values_list('user_followed', flat=True)
+        return render(request, "network/profile.html", {
+            "user": user,
+            "profile": profile,
+            "following_count": following_count,
+            "followers_count": followers_count,
+            "following_users": following_users
+        })
+    else:
+        user = User.objects.get(pk=user_id);
+        profile = Profile.objects.get(user=user)
+        following_count = Following.objects.filter(user=user).count()
+        followers_count = Following.objects.filter(user_followed=user).count()
+        return render(request, "network/profile.html", {
+            "user": user,
+            "profile": profile,
+            "following_count": following_count,
+            "followers_count": followers_count
         })
 
 

@@ -40,16 +40,6 @@ class Post(models.Model):
         return f"{self.user} posted at {self.timestamp} and has {self.likes} like(s)"
 
 
-class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
-    timestamp = models.DateTimeField(auto_now_add=True)
-    body = models.TextField(blank=False)
-
-    def __str__(self):
-        return f"{self.user} commented on {self.post.user.username}'s post at {self.timestamp}"
-
-
 # Signal handlers
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

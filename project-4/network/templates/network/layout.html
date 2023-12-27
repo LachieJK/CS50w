@@ -14,7 +14,8 @@
           <!-- Bootstrap navigation bar -->
         <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top border-bottom border-body">
             <div class="container-fluid">
-                <a class="navbar-brand" style="padding-left: 10px">Network</a>
+                <img src="{{ MEDIA_URL }}logo.png" alt="logo" height="40" class="d-inline-block align-text-top" style="margin-right: 8px; margin-left: 10px; padding: 0px;">
+                <a class="navbar-brand" style="padding-left: 5px">Network</a>
                 <!-- Navbar toggler for mobile view -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,7 +27,7 @@
                             <a class="nav-link" aria-current="page" href="{% url 'index' %}">All Posts</a>
                         </li>
                         <!-- Navigation items for authenticated users -->
-                        {% if user.is_authenticated %}
+                        {% if request.user.is_authenticated %}
                             <li class="nav-item">
                                 <a class="nav-link" aria-current="page" href="#">Following</a>
                             </li>
@@ -34,10 +35,10 @@
                         <!-- Dropdown for user authentication -->
                         <li class="nav-item dropdown" style="position: absolute; right: 15px; margin: 0;">
                             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="display: flex; align-items: center; padding: 0px;">
-                                {% if user.is_authenticated %}
+                                {% if request.user.is_authenticated %}
                                     <!-- Display user profile and username -->
-                                    <img src="{{ MEDIA_URL }}{{ user.profile.picture }}" alt="Profile Picture" class="nav-profile-picture d-inline-block align-text-top">
-                                    <span style="padding-right: 5px;">Signed in as <strong>{{ user.username }}</strong></span>
+                                    <img src="{{ MEDIA_URL }}{{ request.user.profile.picture }}" alt="Profile Picture" class="nav-profile-picture d-inline-block align-text-top">
+                                    <span style="padding-right: 5px;">Signed in as <strong>{{ request.user.username }}</strong></span>
                                 {% else %}
                                     <!-- Display 'Not signed in' if user is not authenticated -->
                                     <span style="line-height: 40px; display: flex; align-items: center; padding-right: 5px;">Not signed in</span>
@@ -45,7 +46,8 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <!-- Authentication options -->
-                                {% if user.is_authenticated %}
+                                {% if request.user.is_authenticated %}
+                                    <li><a class="dropdown-item" href="{% url 'profile' user_id=request.user.id %}">Profile</a></li>
                                     <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
                                 {% else %}
                                     <li><a class="dropdown-item" href="{% url 'login' %}">Log In</a></li>

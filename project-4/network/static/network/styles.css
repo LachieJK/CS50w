@@ -112,3 +112,28 @@ body {
 .liked {
     color: red;
 }
+
+.profile-top {
+    display: flex;
+    justify-content: center;
+    height: 340px;
+}
+
+.profile-banner {
+    width: 80vw;
+    margin-top: 20px;
+    border-radius: 15px;
+    height: 240px;
+    max-width: 968px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.profile-username {
+    text-align: center;
+    padding: 0px;
+}
+
+.profile-name {
+    text-align: center;
+}

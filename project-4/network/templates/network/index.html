@@ -16,7 +16,9 @@
             {% for post in posts %}
                 <div class="post-container">
                     <div class="post-profile">
-                        <img src="{{ MEDIA_URL }}{{ post.user.profile.picture }}" alt="Profile Picture" class="nav-profile-picture" style="width: 60px; height: 60px;">
+                        <a href="{% url 'profile' user_id=post.user.id %}">
+                            <img src="{{ MEDIA_URL }}{{ post.user.profile.picture }}" alt="Profile Picture" class="nav-profile-picture" style="width: 60px; height: 60px; cursor: pointer">
+                        </a>
                         <div class="profile-info">
                             <strong>{{ post.user.username }}</strong>
                             <p id="time-since-post">Posted <span class="time-since-post"" data-created="{{ post.timestamp.isoformat }}"></span></p>
