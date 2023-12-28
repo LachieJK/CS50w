@@ -65,20 +65,22 @@
             {% endblock %}
         </div>
 
-    </body>
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-
-    <script>
-        const activePage = window.location.pathname;
-        const navLinks = document.querySelectorAll('nav a').
-        forEach(link => {
-            if(link.href.includes(`${activePage}`)){
-                link.classList.add('active');
+        <script>
+            const activePage = window.location.pathname;
+            if (!activePage.startsWith('/profile') && !activePage.startsWith('/login') && !activePage.startsWith('/register')) {
+                const navLinks = document.querySelectorAll('nav a').
+                forEach(link => {
+                    if(link.href.includes(`${activePage}`)){
+                        link.classList.add('active');
+                    }
+                })
             }
-        })
-    </script>
+        </script>
+
+    </body>
 
 </html>
 

@@ -14,11 +14,6 @@
                                 <strong>{{ post.user.username }}</strong>
                                 <p id="time-since-post">Posted <span class="time-since-post" data-created="{{ post.timestamp.isoformat }}"></span></p>
                             </div>
-                            <div class="post-three-dots">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="rgb(75, 75, 75)" class="bi bi-three-dots" viewBox="0 0 16 16" style="cursor: pointer">
-                                    <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
-                                  </svg>
-                            </div>
                         </div>
                         <div class="post-body">{{ post.body }}</div>
                         <div class="post-likes">

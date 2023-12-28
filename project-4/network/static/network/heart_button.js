@@ -1,3 +1,19 @@
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const heartIcons = document.querySelectorAll('.heart i');
 
@@ -19,6 +35,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 fetch(`/likes/${postId}`, {
                     method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken') // Including CSRF token from cookies
+                    },
                     body: JSON.stringify({ 
                         action: 'toggle_like' 
                     })

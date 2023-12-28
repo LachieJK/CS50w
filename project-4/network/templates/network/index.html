@@ -2,6 +2,65 @@
 
 {% block body %}
 
+    <script>
+        window.isAuthenticated = "{{ user.is_authenticated }}"; // Assuming user.is_authenticated is a boolean
+        window.userId = "{{ user.id }}"; // Assuming you have access to the user's ID
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function save_body_changes(post_id) {
+            const new_body = document.getElementById(`body_textarea_${post_id}`).value;
+            const body = document.getElementById(`body_${post_id}`);
+            const modal = document.getElementById(`edit_post_modal_${post_id}`);
+            const modal_backdrop = document.getElementsByClassName('modal-backdrop');
+
+            fetch(`/edit_post/${post_id}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken') // Including CSRF token from cookies
+                },
+                body: JSON.stringify({
+                    new_body: new_body
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                body.innerHTML = data.new_body;
+                modal.classList.remove('show');
+                modal.setAttribute('aria-hidden', 'true');
+                modal.style.display = 'none';
+                
+                while (modal_backdrop.length > 0) {
+                    document.body.removeChild(modal_backdrop[0]);
+                }
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            });
+        }
+
+    </script>
+
     {% if message %}
     <!-- Displays an alert if 'message' is provided -->
     <div class="alert alert-danger alert-dismissible fade show justify-content-center" role="alert" style="margin-top: 20px; width: 60vw; margin-left: auto; margin-right: auto;">
@@ -23,7 +82,7 @@
                     </div>
                 </form>
             {% endif %}
-            
+
             {% for post in posts %}
                 <div class="post-container" style="margin-top: 20px;">
                     <div class="post-profile">
@@ -34,13 +93,37 @@
                             <strong>{{ post.user.username }}</strong>
                             <p id="time-since-post">Posted <span class="time-since-post" data-created="{{ post.timestamp.isoformat }}"></span></p>
                         </div>
-                        <div class="post-three-dots">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="rgb(75, 75, 75)" class="bi bi-three-dots" viewBox="0 0 16 16" style="cursor: pointer">
-                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
-                              </svg>
-                        </div>
+                        {% if request.user == post.user %}
+                            <div class="post-three-dots">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="rgb(75, 75, 75)" class="bi bi-three-dots" viewBox="0 0 16 16" style="cursor: pointer">
+                                    <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                                </svg>
+                                <div class="dropdown-menu">
+                                    <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#edit_post_modal_{{ post.id }}">Edit</a>
+                                    <a href="{% url 'delete_post' post.id %}" class="dropdown-item">Delete</a>
+                                </div>
+                                <div class="modal fade" id="edit_post_modal_{{ post.id }}" tabindex="-1" role="dialog" aria-labelledby="editPostLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="editPostLabel">Edit Post</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <!-- Your form or content goes here -->
+                                          <textarea id="body_textarea_{{ post.id }}" name="change_body" class="form-control" style="padding: 10px;" rows="5">{{ post.body }}</textarea>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                          <button type="button" class="btn btn-primary" onclick="save_body_changes(`{{ post.id }}`)">Save changes</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>      
+                        {% endif %}
                     </div>
-                    <div class="post-body">{{ post.body }}</div>
+                    <div class="post-body" id="body_{{ post.id }}">{{ post.body }}</div>
                     <div class="post-likes">
                         <span class="like-counter" data-like-counter="{{ post.id }}">{{ post.likes }}</span>
                         <div class="heart" data-post-id="{{ post.id }}">
@@ -92,14 +175,9 @@
 
         </div>
     </div>
-
-    <script>
-        window.isAuthenticated = "{{ user.is_authenticated }}"; // Assuming user.is_authenticated is a boolean
-        window.userId = "{{ user.id }}"; // Assuming you have access to the user's ID
-    </script>
     
-
     <script src="static/network/time_since_post.js"></script>
     <script src="static/network/heart_button.js"></script>
+    <script src="static/network/edit_delete_post.js"></script>
     <script src="https://kit.fontawesome.com/a1b59462b2.js" crossorigin="anonymous"></script>
 {% endblock %}

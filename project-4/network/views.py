@@ -1,12 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.urls import reverse
 from .models import User, Profile, Following, Post
-from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
+import json
 
 def open(request):
     return redirect('index');
@@ -81,6 +81,15 @@ def following(request):
     })
 
 
+def delete_post(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    post.delete()
+    referer_url = request.META.get('HTTP_REFERER')
+    if referer_url:
+        return HttpResponseRedirect(referer_url)
+    # Fallback if referer URL is not set
+    return HttpResponseRedirect('/index')
+
 
 def login_view(request):
     if request.method == "POST":
@@ -134,7 +143,6 @@ def register(request):
         return render(request, "network/register.html")
 
 
-@csrf_exempt
 def likes(request, post_id):
     try:
         post = Post.objects.get(pk=post_id)
@@ -160,7 +168,6 @@ def likes(request, post_id):
     return JsonResponse(serialized_post)
 
 
-@csrf_exempt
 def follow(request, profile_user_id):
     profile_user = User.objects.get(pk=profile_user_id)
     request_user = request.user
@@ -177,3 +184,12 @@ def follow(request, profile_user_id):
     return JsonResponse({
         'count': followers_count
     })
+
+
+def edit_post(request, post_id):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        post = Post.objects.get(pk=post_id)
+        post.body = data["new_body"]
+        post.save()
+        return JsonResponse({'new_body': post.body})
