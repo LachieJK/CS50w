@@ -78,6 +78,12 @@ body {
     justify-content: center;
 }
 
+.post-three-dots {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+}
+
 #time-since-post {
     margin: 0px;
     font-family: 'Courier New', Courier, monospace; /* Sets font family */

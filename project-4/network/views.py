@@ -1,24 +1,34 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.urls import reverse
 from .models import User, Profile, Following, Post
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 
+def open(request):
+    return redirect('index');
+
 def index(request):
-    if request.method == "POST":
-        posting_user = request.user 
-        post_body = request.POST.get('post-body')
-        post = Post(user=posting_user, body=post_body)
-        post.save()
-    
     all_posts = Post.objects.all().order_by('-timestamp')
     paginator = Paginator(all_posts, 10)
     page_num = request.GET.get('page')
     posts = paginator.get_page(page_num)
+
+    if request.method == "POST":
+        posting_user = request.user 
+        post_body = request.POST.get('post-body')
+        if post_body == "":
+            return render(request, "network/index.html", {
+                "message": "You must type a message in order to post",
+                "posts": posts
+            })
+        else:
+            post = Post(user=posting_user, body=post_body)
+            post.save()
+
     return render(request, "network/index.html", {
         "posts": posts
     })

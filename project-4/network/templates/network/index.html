@@ -1,20 +1,31 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
+
+    {% if message %}
+    <!-- Displays an alert if 'message' is provided -->
+    <div class="alert alert-danger alert-dismissible fade show justify-content-center" role="alert" style="margin-top: 20px; width: 60vw; margin-left: auto; margin-right: auto;">
+        <strong>Error! </strong>{{message}} <!-- Displays the error message -->
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
     <div class="all-content">
         <div style="position: absolute">
-            <form class="centered-form" method="POST" action="{% url 'index' %}">
-                {% csrf_token %} <!-- Adds CSRF token for security -->
-                <div style="padding-bottom: 50px;">
-                    <div class="form-group">
-                        <textarea class="form-control" id="post-body" name="post-body" placeholder="What's on your mind?" style="margin-top: 20px; height: 100px;"></textarea> <!-- Text area for email body -->
+            {% if user.is_authenticated %}
+                <form class="centered-form" method="POST" action="{% url 'index' %}">
+                    {% csrf_token %} <!-- Adds CSRF token for security -->
+                    <div style="padding-bottom: 30px;">
+                        <div class="form-group">
+                            <textarea class="form-control" id="post-body" name="post-body" placeholder="What's on your mind?" style="margin-top: 20px; height: 100px;"></textarea> <!-- Text area for email body -->
+                        </div>
+                        <input class="btn btn-primary" type="submit" value="Post" style="left: 0px;">
                     </div>
-                    <input class="btn btn-primary" type="submit" value="Post" style="left: 0px;">
-                </div>
-            </form>
+                </form>
+            {% endif %}
             
             {% for post in posts %}
-                <div class="post-container">
+                <div class="post-container" style="margin-top: 20px;">
                     <div class="post-profile">
                         <a href="{% url 'profile' user_id=post.user.id %}">
                             <img src="{{ MEDIA_URL }}{{ post.user.profile.picture }}" alt="Profile Picture" class="nav-profile-picture" style="width: 60px; height: 60px; cursor: pointer">
@@ -22,6 +33,11 @@
                         <div class="profile-info">
                             <strong>{{ post.user.username }}</strong>
                             <p id="time-since-post">Posted <span class="time-since-post" data-created="{{ post.timestamp.isoformat }}"></span></p>
+                        </div>
+                        <div class="post-three-dots">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="rgb(75, 75, 75)" class="bi bi-three-dots" viewBox="0 0 16 16" style="cursor: pointer">
+                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                              </svg>
                         </div>
                     </div>
                     <div class="post-body">{{ post.body }}</div>

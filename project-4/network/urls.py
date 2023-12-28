@@ -5,7 +5,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", views.open, name="open"),
+    path("index", views.index, name="index"),
     path("profile/<int:user_id>", views.profile, name="profile"),
     path("following", views.following, name="following"),
     path("login", views.login_view, name="login"),
