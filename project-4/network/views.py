@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.urls import reverse
 from .models import User, Profile, Following, Post
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 
 def index(request):
     if request.method == "POST":
@@ -13,13 +14,14 @@ def index(request):
         post_body = request.POST.get('post-body')
         post = Post(user=posting_user, body=post_body)
         post.save()
-        return render(request, "network/index.html", {
-            "posts": Post.objects.all().order_by('-timestamp')
-        })
-    else: 
-        return render(request, "network/index.html", {
-            "posts": Post.objects.all().order_by('-timestamp')
-        })
+    
+    all_posts = Post.objects.all().order_by('-timestamp')
+    paginator = Paginator(all_posts, 10)
+    page_num = request.GET.get('page')
+    posts = paginator.get_page(page_num)
+    return render(request, "network/index.html", {
+        "posts": posts
+    })
 
 
 def profile(request, user_id):
@@ -60,8 +62,12 @@ def profile(request, user_id):
 def following(request):
     users_following = Following.objects.filter(user=request.user)
     following_users = [follow.user_followed for follow in users_following]
+    filtered_posts = Post.objects.filter(user__in=following_users)
+    paginator = Paginator(filtered_posts, 10)
+    page_num = request.GET.get('page')
+    posts = paginator.get_page(page_num)
     return render(request, "network/following.html", {
-        "posts": Post.objects.filter(user__in=following_users)
+        "posts": posts
     })
 
 

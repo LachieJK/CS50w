@@ -27,6 +27,46 @@
             {% else %}
                 <p>Sorry, you aren't following anyone or the people you follow haven't posted anything yet.</p>
             {% endif %}
+
+            {% if posts.paginator.num_pages > 1 %}
+                <nav aria-label="Page navigation example" style="padding-top: 10px;">
+                    <ul class="pagination d-flex justify-content-center">
+                        {% if posts.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% for page in posts.paginator.page_range %}
+                            {% if page == posts.number %}
+                                <li class="page-item active"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if posts.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
         </div>
     </div>
 
