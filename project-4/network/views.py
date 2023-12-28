@@ -117,6 +117,7 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
+
 @csrf_exempt
 def likes(request, post_id):
     try:
@@ -141,3 +142,22 @@ def likes(request, post_id):
         'likes': post.likes
     }
     return JsonResponse(serialized_post)
+
+
+@csrf_exempt
+def follow(request, profile_user_id):
+    profile_user = User.objects.get(pk=profile_user_id)
+    request_user = request.user
+    request_users_following = Following.objects.filter(user=request_user)
+    request_following_users = [follow.user_followed for follow in request_users_following]
+    
+    if request.method == "POST":
+        if profile_user not in request_following_users:
+            Following.objects.create(user=request_user, user_followed=profile_user)
+        else:
+             Following.objects.filter(user=request_user, user_followed=profile_user).delete()
+    
+    followers_count = Following.objects.filter(user_followed=profile_user).count()
+    return JsonResponse({
+        'count': followers_count
+    })

@@ -32,7 +32,7 @@
                         </button>
                     {% else %}
                         {% if profile.user.id in following_users %}
-                            <button type="button" class="btn btn-danger">
+                            <button type="button" class="btn btn-danger" id="unfollowBtn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-dash" viewBox="0 0 16 16" style="margin-right: 3px;">
                                     <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1m0-7a3 3 0 1 1-6 0 3 3 0 0 1 6 0"></path>
                                     <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4"></path>
@@ -40,7 +40,7 @@
                                 Unfollow
                         </button>
                         {% else %}
-                            <button type="button" class="btn btn-success">
+                            <button type="button" class="btn btn-success" id="followBtn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16" style="margin-right: 3px;">
                                     <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"></path>
                                     <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4"></path>
@@ -57,7 +57,7 @@
                     <span class="heading">Posts</span>
                 </div>
                 <div>
-                    <span class="count">{{ followers_count }}</span>
+                    <span class="count" id="followers_count">{{ followers_count }}</span>
                     <span class="heading">Followers</span>
                 </div>
                 <div>
@@ -98,11 +98,13 @@
     <script>
         window.isAuthenticated = "{{ user.is_authenticated }}"; // Assuming user.is_authenticated is a boolean
         window.userId = "{{ user.id }}"; // Assuming you have access to the user's ID
+        window.profileUserId = "{{ profile.user.id }}";
     </script>
     
     {% load static %}
     <script src="{% static 'network/time_since_post.js' %}"></script>
     <script src="{% static 'network/heart_button.js' %}"></script>
+    <script src="{% static 'network/follow.js' %}"></script>
     <script src="https://kit.fontawesome.com/a1b59462b2.js" crossorigin="anonymous"></script>
 
 {% endblock %}
