@@ -1,63 +1,83 @@
-{% extends "network/layout.html" %}
+{% extends "network/layout.html" %} <!-- Extends a base layout template -->
 
-{% block body %}
+{% block body %} <!-- Starts the body content block -->
     <div class="all-content">
+        <!-- Container for posts and related content -->
         <div style="position: absolute; margin-top: 20px;">
-            {% if posts %}  
-                {% for post in posts %}
+            {% if posts %}  <!-- Check if there are posts to display -->
+                {% for post in posts %} <!-- Loop over each post -->
                     <div class="post-container">
+                        <!-- Container for a single post -->
                         <div class="post-profile">
+                            <!-- Profile section of the post -->
                             <a href="{% url 'profile' user_id=post.user.id %}">
+                                <!-- Link to the user's profile -->
                                 <img src="{{ MEDIA_URL }}{{ post.user.profile.picture }}" alt="Profile Picture" class="nav-profile-picture" style="width: 60px; height: 60px; cursor: pointer">
+                                <!-- User's profile picture -->
                             </a>
                             <div class="profile-info">
-                                <strong>{{ post.user.username }}</strong>
+                                <!-- Container for profile info (username and post timestamp) -->
+                                <strong>{{ post.user.username }}</strong> <!-- Username of the poster -->
                                 <p id="time-since-post">Posted <span class="time-since-post" data-created="{{ post.timestamp.isoformat }}"></span></p>
+                                <!-- Timestamp of the post -->
                             </div>
                         </div>
-                        <div class="post-body">{{ post.body }}</div>
+                        <div class="post-body">{{ post.body }}</div> <!-- Body of the post -->
                         <div class="post-likes">
+                            <!-- Container for likes -->
                             <span class="like-counter" data-like-counter="{{ post.id }}">{{ post.likes }}</span>
+                            <!-- Counter for the number of likes -->
                             <div class="heart" data-post-id="{{ post.id }}">
+                                <!-- Heart icon for liking the post -->
                                 <i class="fas fa-heart"></i>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
             {% else %}
+                <!-- Message displayed if there are no posts -->
                 <p>Sorry, you aren't following anyone or the people you follow haven't posted anything yet.</p>
             {% endif %}
 
             {% if posts.paginator.num_pages > 1 %}
+                <!-- Pagination controls -->
                 <nav aria-label="Page navigation example" style="padding-top: 10px;">
                     <ul class="pagination d-flex justify-content-center">
+                        <!-- Pagination list -->
                         {% if posts.has_previous %}
+                            <!-- Link to the previous page -->
                             <li class="page-item">
                                 <a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="Previous">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
                         {% else %}
-                        <li class="page-item">
-                            <a class="page-link" href="" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
+                            <!-- Disabled link if no previous page -->
+                            <li class="page-item">
+                                <a class="page-link" href="" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
                         {% endif %}
                         {% for page in posts.paginator.page_range %}
+                            <!-- Loop through each page number -->
                             {% if page == posts.number %}
+                                <!-- Highlight the current page -->
                                 <li class="page-item active"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
                             {% else %}
+                                <!-- Link to other pages -->
                                 <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
                             {% endif %}
                         {% endfor %}
                         {% if posts.has_next %}
+                            <!-- Link to the next page -->
                             <li class="page-item">
                                 <a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Next">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>
                         {% else %}
+                            <!-- Disabled link if no next page -->
                             <li class="page-item">
                                 <a class="page-link" href="" aria-label="Next">
                                     <span aria-hidden="true">&raquo;</span>
@@ -71,12 +91,12 @@
     </div>
 
     <script>
-        window.isAuthenticated = "{{ user.is_authenticated }}"; // Assuming user.is_authenticated is a boolean
-        window.userId = "{{ user.id }}"; // Assuming you have access to the user's ID
+        window.isAuthenticated = "{{ user.is_authenticated }}"; // Store user's authentication status in a global variable
+        window.userId = "{{ user.id }}"; // Store user's ID in a global variable
     </script>
     
-
-    <script src="static/network/time_since_post.js"></script>
-    <script src="static/network/heart_button.js"></script>
-    <script src="https://kit.fontawesome.com/a1b59462b2.js" crossorigin="anonymous"></script>
+    <!-- Linking external JavaScript files for additional functionalities -->
+    <script src="static/network/time_since_post.js"></script> <!-- Script for calculating time since post was made -->
+    <script src="static/network/heart_button.js"></script> <!-- Script for heart (like) button functionality -->
+    <script src="https://kit.fontawesome.com/a1b59462b2.js" crossorigin="anonymous"></script> <!-- FontAwesome icons -->
 {% endblock %}

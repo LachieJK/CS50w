@@ -1,255 +1,284 @@
-/* Styles for body */
+/* Body styles */
 body {
-    padding-top: 57px; /* So the body starts underneath the navbar */
-    padding-left: 20px;
-    padding-right: 20px;
-    background-color: #f7f7f7; /* Slight shade of grey to make posts pop */
+    padding-top: 57px; /* Offset from top to account for fixed navbar */
+    padding-left: 20px; /* Left padding for body content */
+    padding-right: 20px; /* Right padding for body content */
+    background-color: #f7f7f7; /* Light grey background for contrast */
 }
 
+/* Label styles */
 label {
-    padding-bottom: 3px;
+    padding-bottom: 3px; /* Small padding below labels for spacing */
 }
 
-/* Styles for elements with class 'details-heading' */
+/* Styles for '.details-heading' class */
 .details-heading {
-    text-align: center; /* Aligns text to the center */
-    font-weight: bold; /* Sets font weight to bold */
-    font-size: 40px; /* Sets font size to 40px */
-    padding-top: 30px; /* Adds top padding of 30px */
-    padding-bottom: 20px; /* Adds bottom padding of 20px */
+    text-align: center; /* Centers the heading text */
+    font-weight: bold; /* Makes the heading text bold */
+    font-size: 40px; /* Sets font size of heading to 40 pixels */
+    padding-top: 30px; /* Adds space above the heading */
+    padding-bottom: 20px; /* Adds space below the heading */
 }
 
+/* Container for wrapping all content */
 .all-content {
-    width: 60vw;
-    margin: 0 auto; /* This centers the element horizontally */
-    position: relative;
+    width: 60vw; /* Width set to 60% of the viewport width */
+    margin: 0 auto; /* Auto margins for horizontal centering */
+    position: relative; /* Position relative for layout purposes */
 }
 
 /* Styles for a centered form */
 .centered-form {
-    display: flex; /* Uses flexbox */
-    flex-direction: column; /* Arranges children in a column */
-    align-items: center; /* Centers items horizontally */
+    display: flex; /* Uses flexbox for layout */
+    flex-direction: column; /* Stacks child elements vertically */
+    align-items: center; /* Centers children horizontally within the form */
 }
 
-/* Styles for form groups */
+/* Styles for form groupings */
 .form-group {
-    width: 60vw; /* Sets width to 60% of viewport width */
-    display: flex; /* Uses flexbox */
-    flex-direction: column; /* Arranges children in a column */
-    align-items: flex-start; /* Aligns items to the start */
-    margin-bottom: 15px; /* Adds bottom margin of 15px */
+    width: 60vw; /* Width of each form group is 60% of the viewport width */
+    display: flex; /* Uses flexbox for layout */
+    flex-direction: column; /* Stacks elements vertically */
+    align-items: flex-start; /* Aligns items to the start of the flex container */
+    margin-bottom: 15px; /* Adds spacing below each form group */
 }
 
-/* Styles for form controls */
+/* Styling for form control elements */
 .form-control {
-    padding: 5px; /* Sets padding to 5px */
-    border-radius: 5px; /* Rounds corners with a 5px radius */
+    padding: 5px; /* Padding inside form control for better text visibility */
+    border-radius: 5px; /* Rounds the corners of form controls */
     border: none; /* Removes default border */
-    border: solid 1px #ccc; /* Adds a solid border with color #ccc */
-    background-color: white; /* Sets the background color to white */
-    border-width: 2px; /* Sets border width to 2px */
+    border: solid 1px #ccc; /* Adds a light grey solid border */
+    background-color: white; /* White background for form controls */
+    border-width: 2px; /* Sets the border width to 2 pixels */
 }
 
+/* Styles for navigation profile picture */
 .nav-profile-picture {
-    margin-top: 0px;
-    margin-right: 15px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%; /* Makes the container circular */
-    overflow: hidden; /* Hides any content that goes beyond the circular border */
-    border: 2px solid white; /* Add a border around the circle */
-    object-fit: cover;
+    margin-top: 0px; /* No top margin */
+    margin-right: 15px; /* Space to the right for separation */
+    width: 40px; /* Fixed width of the profile picture */
+    height: 40px; /* Fixed height of the profile picture */
+    border-radius: 50%; /* Rounds the image to create a circular shape */
+    overflow: hidden; /* Hides excess parts of the image outside the circle */
+    border: 2px solid white; /* Adds a white border around the image */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
 }
 
+/* Styling for post containers */
 .post-container {
-    padding: 20px;
-    margin-bottom: 20px;
-    border: solid 2px rgb(226, 226, 226);
-    border-radius: 10px;
-    background-color: white; /* Sets the background color to white */
-    box-shadow: 0 0 7px rgba(0, 0, 0, 0.2); /* Adds a shadow on all sides */
+    padding: 20px; /* Padding inside the container for content spacing */
+    margin-bottom: 20px; /* Space below each post container */
+    border: solid 2px rgb(226, 226, 226); /* Light grey border for the container */
+    border-radius: 10px; /* Rounded corners for the container */
+    background-color: white; /* White background for readability */
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.2); /* Shadow for a 3D effect */
 }
 
+/* Styling for the profile section within a post */
 .post-profile {
-    display: flex;
-    margin-bottom: 15px;
+    display: flex; /* Uses flexbox for layout */
+    margin-bottom: 15px; /* Space below the profile section */
 }
 
+/* Styles for the profile information section */
 .profile-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: flex; /* Uses flexbox for layout */
+    flex-direction: column; /* Stacks elements vertically */
+    justify-content: center; /* Centers content vertically within the container */
 }
 
+/* Styles for the three-dot menu in posts */
 .post-three-dots {
-    display: flex;
-    flex: 1;
-    justify-content: flex-end;
+    display: flex; /* Uses flexbox for layout */
+    flex: 1; /* Flex grow factor, allows this item to fill available space */
+    justify-content: flex-end; /* Aligns the dots to the end (right side) */
 }
 
+/* Styles for the dropdown menu */
 .dropdown-menu {
-    display: none;
-    position: absolute;
-    right: 0;
-    margin-top: 25px;
-    background-color: white;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+    display: none; /* Initially hidden */
+    position: absolute; /* Positioned absolutely relative to its positioned ancestor */
+    right: 0; /* Aligned to the right edge of the parent element */
+    margin-top: 25px; /* Space above the dropdown */
+    background-color: white; /* White background for dropdown */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Shadow for depth effect */
+    z-index: 1; /* Stacks above other elements */
 }
 
+/* Styles for each item in the dropdown menu */
 .dropdown-menu .dropdown-item {
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    color: black;
+    padding: 12px 16px; /* Padding for each item for spacing */
+    text-decoration: none; /* No underline for text */
+    display: block; /* Display as block for full-width click area */
+    color: black; /* Text color */
 }
 
+/* Hover effect for dropdown items */
 .dropdown-menu .dropdown-item:hover {
-    background-color: #f1f1f1;
+    background-color: #f1f1f1; /* Light grey background on hover */
 }
 
+/* Styling for the time since the post was published */
 #time-since-post {
-    margin: 0px;
-    font-family: 'Courier New', Courier, monospace; /* Sets font family */
-    color: grey; /* Text color */
-    font-size: 15px;
+    margin: 0px; /* No margin */
+    font-family: 'Courier New', Courier, monospace; /* Monospaced font for a typewriter-like appearance */
+    color: grey; /* Grey color for the text */
+    font-size: 15px; /* Font size */
 }
 
+/* Styling for the main body of a post */
 .post-body {
-    padding-left: 10px;
-    padding-right: 30px;
-    font-size: 22px;
-    font-weight: 300;
+    padding-left: 10px; /* Left padding */
+    padding-right: 30px; /* Right padding */
+    font-size: 22px; /* Larger font size for readability */
+    font-weight: 300; /* Lighter font weight for a sleek look */
 }
 
+/* Flexbox layout for the likes section of a post */
 .post-likes {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    display: flex; /* Uses flexbox */
+    align-items: center; /* Vertically centers items in the flex container */
+    justify-content: flex-end; /* Aligns items to the end (right side) */
 }
 
+/* Style for the like counter */
 .like-counter {
-    margin-right: 8px; /* Adjust the spacing as needed */
-    padding-bottom: 2px;
+    margin-right: 8px; /* Right margin for spacing */
+    padding-bottom: 2px; /* Bottom padding for alignment */
 }
 
+/* Styling for the heart icon used for liking posts */
 .heart {
-    display: flex;
-    color:#a7a7a7;
-    cursor: pointer;
+    display: flex; /* Uses flexbox for layout */
+    color: #a7a7a7; /* Grey color */
+    cursor: pointer; /* Changes cursor to indicate clickable */
 }
 
+/* Style when the heart icon is in 'liked' state */
 .liked {
-    color: red;
+    color: red; /* Changes color to red to indicate liked state */
 }
 
+/* Main container for the profile */
 .profile-main {
-    margin-top: 20px;
-    padding-bottom: 15px;
-    background-color:#f1f1f1;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px; /* Adds space above the profile container */
+    padding-bottom: 15px; /* Padding at the bottom inside the container */
+    background-color: #f1f1f1; /* Light grey background color */
+    border-radius: 10px; /* Rounded corners for the container */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for a 3D effect */
 }
 
+/* Container for the top part of the profile */
 .profile-top {
-    display: flex;
-    justify-content: center;
-    height: 340px;
+    display: flex; /* Enables flexbox layout */
+    justify-content: center; /* Centers content horizontally */
+    height: 340px; /* Fixed height for the container */
 }
 
+/* Styling for the profile banner image */
 .profile-banner {
-    width: 80vw;
-    margin-top: 20px;
-    border-radius: 15px;
-    height: 240px;
-    max-width: 968px;
-    border-radius: 15px;
-    object-fit: cover;
+    width: 80vw; /* Width is 80% of the viewport width */
+    margin-top: 20px; /* Space above the banner */
+    border-radius: 15px; /* Rounded corners for the banner */
+    height: 240px; /* Fixed height for the banner */
+    max-width: 968px; /* Maximum width to maintain aspect ratio */
+    border-radius: 15px; /* Repeated property, can be removed */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
 }
 
+/* Styles for username in the profile */
 .profile-username {
-    text-align: center;
-    padding: 0px;
+    text-align: center; /* Centers the username text */
+    padding: 0px; /* No padding */
 }
 
+/* Styles for the profile name */
 .profile-name {
-    text-align: center;
+    text-align: center; /* Centers the profile name text */
 }
 
+/* Container for additional profile data */
 .profile-data {
-    display: flex;
-    flex-direction: column; /* Arrange children vertically */
-    align-items: center;
-    margin-top: 20px;
+    display: flex; /* Enables flexbox layout */
+    flex-direction: column; /* Stacks child elements vertically */
+    align-items: center; /* Centers items horizontally */
+    margin-top: 20px; /* Space above the data container */
 }
 
+/* Styling for div elements inside '.profile-data' */
 .profile-data > div {
-    flex: 1; /* Each div takes up 100% width */
-    margin-bottom: 10px; /* Optional: Add margin between each div */
+    flex: 1; /* Each div takes up equal space */
+    margin-bottom: 10px; /* Adds space below each div */
 }
 
+/* Container for profile statistics */
 .profile-stats {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 15px;
-    background-color: #F8DE88;
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    border-radius: 10px;
-
-    /* Adjust styles for spacing, alignment, etc. */
+    display: flex; /* Enables flexbox layout */
+    justify-content: space-around; /* Distributes items with equal space around them */
+    margin-top: 15px; /* Space above the stats container */
+    background-color: #F8DE88; /* Light yellow background color */
+    padding-left: 50px; /* Left padding inside the container */
+    padding-right: 50px; /* Right padding inside the container */
+    padding-top: 15px; /* Top padding */
+    padding-bottom: 15px; /* Bottom padding */
+    border-radius: 10px; /* Rounded corners */
 }
 
+/* Styles for div elements inside '.profile-stats' */
 .profile-stats div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding-left: 30px;
-    padding-right: 30px;
+    display: flex; /* Enables flexbox layout */
+    flex-direction: column; /* Stacks child elements vertically */
+    align-items: center; /* Centers items horizontally */
+    text-align: center; /* Centers text */
+    padding-left: 30px; /* Left padding for each stat */
+    padding-right: 30px; /* Right padding for each stat */
 }
 
+/* Styles for elements displaying counts, like followers, posts, etc. */
 .count {
-    font-weight: bold;
-    font-size: 18px;
+    font-weight: bold; /* Bold font for emphasis */
+    font-size: 18px; /* Font size for readability */
 }
 
+/* Styling for heading elements within a profile */
 .heading {
-    font-size: 14px;
-    color: #585858;
+    font-size: 14px; /* Smaller font size for subheadings */
+    color: #585858; /* Dark grey color for text */
 }
 
+/* Styling for the biography section of a profile */
 .profile-bio {
-    margin-top: 15px;
-    background-color: rgb(252, 252, 252);
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 427px; /* Adjust as needed */
+    margin-top: 15px; /* Space above the bio section */
+    background-color: rgb(252, 252, 252); /* Very light grey background */
+    border-radius: 10px; /* Rounded corners for the container */
+    padding: 20px; /* Padding inside the container for spacing */
+    text-align: center; /* Centers the text within the bio section */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    width: 427px; /* Fixed width, can be adjusted as needed */
 }
 
+/* Styles for h4 headings within the profile bio */
 .profile-bio h4 {
-    font-weight: 600;
-    text-align: center;
+    font-weight: 600; /* Slightly bolder than normal for emphasis */
+    text-align: center; /* Centers the heading text */
 }
 
+/* Container for posts in the profile */
 .profile-posts {
-    width: 60vw;
-    margin: 0 auto; /* This centers the element horizontally */
-    position: relative;
-    margin-top: 50px;
+    width: 60vw; /* Width is 60% of the viewport width */
+    margin: 0 auto; /* Centered horizontally with auto margins */
+    position: relative; /* Positioned relative for layout purposes */
+    margin-top: 50px; /* Space above the posts container */
 }
 
+/* Container for editing profile information */
 .edit-profile-container {
-    background-color: white; /* White background */
-    border-radius: 10px; /* Curved edges */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    padding: 20px; /* Some padding inside the box */
-    margin: 30px auto; /* Center the box with some margin */
-    width: 80vw; /* Set the width */
-    max-width: 100%; /* Ensure it doesn't overflow the viewport */
+    background-color: white; /* White background for clarity */
+    border-radius: 10px; /* Rounded corners for aesthetic appeal */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Shadow for a 3D effect */
+    padding: 20px; /* Padding inside the container for spacing */
+    margin: 30px auto; /* Centered horizontally and vertically with margin */
+    width: 80vw; /* Width is 80% of the viewport width */
+    max-width: 100%; /* Maximum width to ensure it doesn't exceed viewport */
 }

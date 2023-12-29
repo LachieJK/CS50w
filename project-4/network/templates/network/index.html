@@ -1,38 +1,45 @@
-{% extends "network/layout.html" %}
+{% extends "network/layout.html" %} <!-- Extends a base layout template -->
 
-{% block body %}
+{% block body %} <!-- Starts the body content block -->
 
     <script>
+        // Storing user authentication status and user ID in global JavaScript variables
         window.isAuthenticated = "{{ user.is_authenticated }}"; // Assuming user.is_authenticated is a boolean
         window.userId = "{{ user.id }}"; // Assuming you have access to the user's ID
 
+        // Function to retrieve a specific cookie's value by its name
         function getCookie(name) {
             let cookieValue = null;
             if (document.cookie && document.cookie !== '') {
                 const cookies = document.cookie.split(';');
                 for (let i = 0; i < cookies.length; i++) {
                     const cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
+                    // Check if the current cookie string begins with the specified name
                     if (cookie.substring(0, name.length + 1) === (name + '=')) {
                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
+                        break; // Exit the loop once the cookie is found
                     }
                 }
             }
-            return cookieValue;
+            return cookieValue; // Return the value of the cookie or null if not found
         }
 
+        // Function to save changes to a post's body
         function save_body_changes(post_id) {
+            // Retrieve the new body content from the textarea element
             const new_body = document.getElementById(`body_textarea_${post_id}`).value;
+            // Get references to the post's body element and the modal element
             const body = document.getElementById(`body_${post_id}`);
             const modal = document.getElementById(`edit_post_modal_${post_id}`);
+            // Get references to any modal backdrops (for UI purposes)
             const modal_backdrop = document.getElementsByClassName('modal-backdrop');
 
+            // Send a POST request to update the post's content
             fetch(`/edit_post/${post_id}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken') // Including CSRF token from cookies
+                    'X-CSRFToken': getCookie('csrftoken') // Include CSRF token for security
                 },
                 body: JSON.stringify({
                     new_body: new_body
@@ -45,7 +52,9 @@
                 return response.json();
             })
             .then(data => {
+                // Update the post's body with the new content
                 body.innerHTML = data.new_body;
+                // Close the modal and remove the backdrop
                 modal.classList.remove('show');
                 modal.setAttribute('aria-hidden', 'true');
                 modal.style.display = 'none';
@@ -62,58 +71,73 @@
     </script>
 
     {% if message %}
-    <!-- Displays an alert if 'message' is provided -->
-    <div class="alert alert-danger alert-dismissible fade show justify-content-center" role="alert" style="margin-top: 20px; width: 60vw; margin-left: auto; margin-right: auto;">
-        <strong>Error! </strong>{{message}} <!-- Displays the error message -->
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+        <!-- Displays an alert if 'message' is provided -->
+        <div class="alert alert-danger alert-dismissible fade show justify-content-center" role="alert" style="margin-top: 20px; width: 60vw; margin-left: auto; margin-right: auto;">
+            <strong>Error! </strong>{{message}} <!-- Displays the error message -->
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     {% endif %}
 
     <div class="all-content">
+        <!-- Container for the main content -->
         <div style="position: absolute">
             {% if user.is_authenticated %}
+                <!-- Form for submitting a new post, shown only to authenticated users -->
                 <form class="centered-form" method="POST" action="{% url 'index' %}">
                     {% csrf_token %} <!-- Adds CSRF token for security -->
                     <div style="padding-bottom: 30px;">
                         <div class="form-group">
-                            <textarea class="form-control" id="post-body" name="post-body" placeholder="What's on your mind?" style="margin-top: 20px; height: 100px;"></textarea> <!-- Text area for email body -->
+                            <!-- Text area for creating a new post -->
+                            <textarea class="form-control" id="post-body" name="post-body" placeholder="What's on your mind?" style="margin-top: 20px; height: 100px;"></textarea>
                         </div>
+                        <!-- Submit button for the post -->
                         <input class="btn btn-primary" type="submit" value="Post" style="left: 0px;">
                     </div>
                 </form>
             {% endif %}
 
             {% for post in posts %}
+                <!-- Loop through each post -->
                 <div class="post-container" style="margin-top: 20px;">
+                    <!-- Container for a single post -->
                     <div class="post-profile">
+                        <!-- User profile section of the post -->
                         <a href="{% url 'profile' user_id=post.user.id %}">
+                            <!-- Link to the user's profile -->
                             <img src="{{ MEDIA_URL }}{{ post.user.profile.picture }}" alt="Profile Picture" class="nav-profile-picture" style="width: 60px; height: 60px; cursor: pointer">
                         </a>
                         <div class="profile-info">
+                            <!-- Display user's username and post timestamp -->
                             <strong>{{ post.user.username }}</strong>
                             <p id="time-since-post">Posted <span class="time-since-post" data-created="{{ post.timestamp.isoformat }}"></span></p>
                         </div>
                         {% if request.user == post.user %}
+                            <!-- Options to edit or delete the post, shown only to the post's author -->
                             <div class="post-three-dots">
+                                <!-- Dropdown menu for editing and deleting -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="rgb(75, 75, 75)" class="bi bi-three-dots" viewBox="0 0 16 16" style="cursor: pointer">
                                     <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
                                 </svg>
                                 <div class="dropdown-menu">
+                                    <!-- Links to edit and delete post -->
                                     <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#edit_post_modal_{{ post.id }}">Edit</a>
                                     <a href="{% url 'delete_post' post.id %}" class="dropdown-item">Delete</a>
                                 </div>
+                                <!-- Modal for editing post -->
                                 <div class="modal fade" id="edit_post_modal_{{ post.id }}" tabindex="-1" role="dialog" aria-labelledby="editPostLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                       <div class="modal-content">
                                         <div class="modal-header">
+                                          <!-- Modal title -->
                                           <h5 class="modal-title" id="editPostLabel">Edit Post</h5>
                                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                          <!-- Your form or content goes here -->
+                                          <!-- Text area for editing the post -->
                                           <textarea id="body_textarea_{{ post.id }}" name="change_body" class="form-control" style="padding: 10px;" rows="5">{{ post.body }}</textarea>
                                         </div>
                                         <div class="modal-footer">
+                                          <!-- Buttons to close the modal or save changes -->
                                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                           <button type="button" class="btn btn-primary" onclick="save_body_changes(`{{ post.id }}`)">Save changes</button>
                                         </div>
@@ -124,9 +148,12 @@
                         {% endif %}
                     </div>
                     <div class="post-body" id="body_{{ post.id }}">{{ post.body }}</div>
+                    <!-- Display the post body -->
                     <div class="post-likes">
+                        <!-- Section for displaying and interacting with post likes -->
                         <span class="like-counter" data-like-counter="{{ post.id }}">{{ post.likes }}</span>
                         <div class="heart" data-post-id="{{ post.id }}">
+                            <!-- Heart icon for liking the post -->
                             <i class="fas fa-heart"></i>
                         </div>
                     </div>
@@ -134,8 +161,10 @@
             {% endfor %}
 
             {% if posts.paginator.num_pages > 1 %}
+                <!-- Pagination section, displayed only if there are multiple pages -->
                 <nav aria-label="Page navigation example" style="padding-top: 10px;">
                     <ul class="pagination d-flex justify-content-center">
+                        <!-- Previous page link -->
                         {% if posts.has_previous %}
                             <li class="page-item">
                                 <a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="Previous">
@@ -143,19 +172,24 @@
                                 </a>
                             </li>
                         {% else %}
-                        <li class="page-item">
-                            <a class="page-link" href="" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
+                            <!-- Disabled previous page link if on the first page -->
+                            <li class="page-item">
+                                <a class="page-link" href="" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
                         {% endif %}
+                        <!-- Loop through each page number for pagination -->
                         {% for page in posts.paginator.page_range %}
                             {% if page == posts.number %}
+                                <!-- Highlight the current page number -->
                                 <li class="page-item active"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
                             {% else %}
+                                <!-- Other page numbers -->
                                 <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
                             {% endif %}
                         {% endfor %}
+                        <!-- Next page link -->
                         {% if posts.has_next %}
                             <li class="page-item">
                                 <a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Next">
@@ -163,6 +197,7 @@
                                 </a>
                             </li>
                         {% else %}
+                            <!-- Disabled next page link if on the last page -->
                             <li class="page-item">
                                 <a class="page-link" href="" aria-label="Next">
                                     <span aria-hidden="true">&raquo;</span>
@@ -175,9 +210,10 @@
 
         </div>
     </div>
-    
-    <script src="static/network/time_since_post.js"></script>
-    <script src="static/network/heart_button.js"></script>
-    <script src="static/network/edit_delete_post.js"></script>
-    <script src="https://kit.fontawesome.com/a1b59462b2.js" crossorigin="anonymous"></script>
+
+    <!-- Linking external JavaScript files for additional functionalities -->
+    <script src="static/network/time_since_post.js"></script> <!-- Script for calculating time since post was made -->
+    <script src="static/network/heart_button.js"></script> <!-- Script for heart (like) button functionality -->
+    <script src="static/network/edit_delete_post.js"></script> <!-- Script for editing and deleting posts -->
+    <script src="https://kit.fontawesome.com/a1b59462b2.js" crossorigin="anonymous"></script> <!-- FontAwesome icons -->
 {% endblock %}

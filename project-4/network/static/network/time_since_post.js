@@ -16,33 +16,41 @@ timeSincePostElements.forEach(element => {
     // Create empty string variable for the time-since-post data
     let displayText = '';
 
-    // Constructing the display text based on the calculated time difference
+    // Function to append comma if needed
+    function appendCommaIfNeeded() {
+        if (displayText.length > 0) {
+            displayText += ', ';
+        }
+    }
+
+    // Formatting the display text based on the calculated time differences
     if (days === 1) {
         displayText += '1 day';
     } else if (days > 1) {
         displayText += `${days} days`;
     }
 
-    if (days > 0 && (hours > 0 || minutes > 0)) {
-        displayText += ', ';
-    }
-
     if (hours === 1) {
+        appendCommaIfNeeded();
         displayText += '1 hour';
     } else if (hours > 1) {
+        appendCommaIfNeeded();
         displayText += `${hours} hours`;
     }
 
-    if ((days > 0 || hours > 0) && minutes > 0) {
-        displayText += ', ';
-    }
-
-    if (days === 0 && minutes === 1) {
+    if (minutes === 1) {
+        if (days > 0 || hours > 0) {
+            appendCommaIfNeeded();
+        }
         displayText += '1 minute';
     } else if (minutes > 1) {
+        if (days > 0 || hours > 0) {
+            appendCommaIfNeeded();
+        }
         displayText += `${minutes} minutes`;
     }
 
+    // Handling the case where less than a minute has passed
     if (!days && !hours && !minutes) {
         displayText = 'less than a minute';
     }
