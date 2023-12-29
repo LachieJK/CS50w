@@ -69,10 +69,30 @@ def profile(request, user_id):
         })
     
 
+def edit_profile(request, user_id):
+    user = User.objects.get(pk=user_id)
+    profile = Profile.objects.get(user=user)
+    if request.method == "GET":
+        return render(request, "network/edit_profile.html", {
+            "user_id": user_id,
+            "profile": profile
+        })
+    else:
+        name = request.POST.get('name')
+        bio = request.POST.get('bio')
+        profile_picture = request.FILES.get('profile_pic')
+        profile.name = name
+        profile.bio = bio
+        if profile_picture:
+            profile.picture = profile_picture
+        profile.save()
+        return redirect('profile', user_id=user_id)
+
+
 def following(request):
     users_following = Following.objects.filter(user=request.user)
     following_users = [follow.user_followed for follow in users_following]
-    filtered_posts = Post.objects.filter(user__in=following_users)
+    filtered_posts = Post.objects.filter(user__in=following_users).order_by('-timestamp')
     paginator = Paginator(filtered_posts, 10)
     page_num = request.GET.get('page')
     posts = paginator.get_page(page_num)
