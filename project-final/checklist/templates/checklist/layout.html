@@ -1,0 +1,68 @@
+{% load static %} <!-- Django template tag to load static files -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Cross Check{% endblock %}</title> <!-- Title block for the page -->
+        <!-- Bootstrap CSS for styling -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <!-- Link to the static CSS file for custom styles -->
+        <link href="{% static 'checklist/styles.css' %}" rel="stylesheet">
+    </head>
+    <body>
+
+        <!-- Bootstrap navigation bar -->
+        <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top border-bottom border-body">
+            <div class="container-fluid">
+                <!-- Logo and brand name -->
+                <a class="navbar-brand" style="padding-left: 5px">Cross Check</a>
+                <!-- Navbar toggler for mobile view -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- Navbar items -->
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <!-- Navigation items -->
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{% url 'index' %}">Checklist</a>
+                        </li>
+                        <!-- Dropdown for user authentication -->
+                        <li class="nav-item dropdown" style="position: absolute; right: 15px; margin: 0;">
+                            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="display: flex; align-items: center; padding: 0px;">
+                                {% if request.user.is_authenticated %}
+                                    <!-- Display user profile and username if authenticated -->
+                                    <img src="https://www.pngarts.com/files/10/Default-Profile-Picture-Transparent-Image.png" alt="Profile Picture" class="nav-profile-picture d-inline-block align-text-top">
+                                    <span style="padding-right: 5px;">Signed in as <strong>{{ request.user.username }}</strong></span>
+                                {% else %}
+                                    <!-- Display 'Not signed in' if user is not authenticated -->
+                                    <span style="line-height: 40px; display: flex; align-items: center; padding-right: 5px;">Not signed in</span>
+                                {% endif %}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <!-- Authentication options -->
+                                {% if request.user.is_authenticated %}
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
+                                {% else %}
+                                    <li><a class="dropdown-item" href="{% url 'login' %}">Log In</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main content area where page-specific content will be injected -->
+        <div class="body">
+            {% block body %}
+            {% endblock %}
+        </div>
+
+        <!-- Bootstrap JavaScript bundle -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    </body>
+
+</html>

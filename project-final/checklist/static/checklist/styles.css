@@ -1,0 +1,66 @@
+/* Body styles */
+body {
+    padding-top: 57px; /* Offset from top to account for fixed navbar */
+    padding-left: 20px; /* Left padding for body content */
+    padding-right: 20px; /* Right padding for body content */
+    background-color: #f7f7f7; /* Light grey background for contrast */
+}
+
+/* Label styles */
+label {
+    padding-bottom: 3px; /* Small padding below labels for spacing */
+}
+
+/* Styles for '.details-heading' class */
+.details-heading {
+    text-align: center; /* Centers the heading text */
+    font-weight: bold; /* Makes the heading text bold */
+    font-size: 40px; /* Sets font size of heading to 40 pixels */
+    padding-top: 30px; /* Adds space above the heading */
+    padding-bottom: 20px; /* Adds space below the heading */
+}
+
+/* Container for wrapping all content */
+.all-content {
+    width: 60vw; /* Width set to 60% of the viewport width */
+    margin: 0 auto; /* Auto margins for horizontal centering */
+    position: relative; /* Position relative for layout purposes */
+}
+
+/* Styles for a centered form */
+.centered-form {
+    display: flex; /* Uses flexbox for layout */
+    flex-direction: column; /* Stacks child elements vertically */
+    align-items: center; /* Centers children horizontally within the form */
+}
+
+/* Styles for form groupings */
+.form-group {
+    width: 60vw; /* Width of each form group is 60% of the viewport width */
+    display: flex; /* Uses flexbox for layout */
+    flex-direction: column; /* Stacks elements vertically */
+    align-items: flex-start; /* Aligns items to the start of the flex container */
+    margin-bottom: 15px; /* Adds spacing below each form group */
+}
+
+/* Styling for form control elements */
+.form-control {
+    padding: 5px; /* Padding inside form control for better text visibility */
+    border-radius: 5px; /* Rounds the corners of form controls */
+    border: none; /* Removes default border */
+    border: solid 1px #ccc; /* Adds a light grey solid border */
+    background-color: white; /* White background for form controls */
+    border-width: 2px; /* Sets the border width to 2 pixels */
+}
+
+/* Styles for navigation profile picture */
+.nav-profile-picture {
+    margin-top: 0px; /* No top margin */
+    margin-right: 15px; /* Space to the right for separation */
+    width: 40px; /* Fixed width of the profile picture */
+    height: 40px; /* Fixed height of the profile picture */
+    border-radius: 50%; /* Rounds the image to create a circular shape */
+    overflow: hidden; /* Hides excess parts of the image outside the circle */
+    border: 2px solid white; /* Adds a white border around the image */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+}
