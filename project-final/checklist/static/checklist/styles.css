@@ -1,8 +1,8 @@
 /* Body styles */
 body {
-    padding-top: 57px; /* Offset from top to account for fixed navbar */
-    padding-left: 20px; /* Left padding for body content */
-    padding-right: 20px; /* Right padding for body content */
+    padding-top: 80px; /* Offset from top to account for fixed navbar */
+    padding-left: 50px; /* Left padding for body content */
+    padding-right: 50px; /* Right padding for body content */
     background-color: #f7f7f7; /* Light grey background for contrast */
 }
 

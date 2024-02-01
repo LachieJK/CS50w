@@ -4,7 +4,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.urls import reverse
-from .models import User
+from .models import User, List, Task
+from itertools import chain
 
 # Create your views here.
 def open(request):
@@ -13,7 +14,17 @@ def open(request):
 
 
 def index(request):
-    return render(request, "checklist/index.html")
+    if request.method == 'POST':
+        title = request.POST["title"]
+        new_list = List(owner=request.user, listName=title)
+        new_list.save()
+    lists_owned = List.objects.filter(owner=request.user)
+    lists_collaborating = List.objects.filter(collaborators=request.user)
+    all_lists = list(chain(lists_owned, lists_collaborating))
+    return render(request, "checklist/index.html", {
+        "user": request.user,
+        "lists": all_lists
+    })
 
 
 def login_view(request):
