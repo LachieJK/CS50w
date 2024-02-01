@@ -27,6 +27,23 @@ def index(request):
     })
 
 
+def delete_list(request, list_id):
+    # Retrieve and delete the specified list
+    list = List.objects.get(pk=list_id)
+    list.delete()
+    return HttpResponseRedirect('/index')
+
+
+def edit_list_name(request, list_id):
+    # Retrieve the list and edit the name
+    list = List.objects.get(pk=list_id)
+    name = request.POST.get('rename_list')
+    print(name)
+    list.listName = name
+    list.save()
+    return HttpResponseRedirect('/index')
+
+
 def login_view(request):
     if request.method == "POST":
         # Attempt to sign user in

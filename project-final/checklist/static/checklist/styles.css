@@ -3,7 +3,7 @@ body {
     padding-top: 80px; /* Offset from top to account for fixed navbar */
     padding-left: 50px; /* Left padding for body content */
     padding-right: 50px; /* Right padding for body content */
-    background-color: #f7f7f7; /* Light grey background for contrast */
+    background-color: #fafafa; /* Light grey background for contrast */
 }
 
 /* Label styles */
@@ -32,6 +32,12 @@ label {
     display: flex; /* Uses flexbox for layout */
     flex-direction: column; /* Stacks child elements vertically */
     align-items: center; /* Centers children horizontally within the form */
+}
+
+.centered-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
 }
 
 /* Styles for form groupings */
@@ -63,4 +69,153 @@ label {
     overflow: hidden; /* Hides excess parts of the image outside the circle */
     border: 2px solid white; /* Adds a white border around the image */
     object-fit: cover; /* Ensures the image covers the area without distortion */
+}
+
+.list-contents {
+    display: flex;
+    width: 100%;
+    cursor: pointer;
+    border: solid 2px rgb(226, 226, 226); /* Light grey border for the container */
+    border-radius: 10px;
+    margin: 20px 0px;
+    background-color: white;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+}
+
+.list-contents:hover {
+    box-shadow: 0 0 14px rgba(0, 0, 0, 0.4); /* Enhanced shadow for pop effect */
+    transform: scale(1.03); /* Slightly scale up the box */
+    background-color: #f8f8f8; /* Optional: slightly change background color */
+}
+
+.list-contents-left-side {
+    flex-grow: 1;
+    flex-shrink: 1;
+    display: flex;
+    padding: 20px 0px 20px 20px;
+    flex-basis: calc(100% - 120px); /* Adjust based on the right side's width */
+    min-width: 0; /* Important for overflow in flexbox */
+    align-items: center;
+    font-size: larger;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.list-contents-right-side {
+    width: 180px;
+    padding: 10px 20px 20px 0px;
+    flex-direction: column;
+    justify-content: space-between; /* Align one at the top, one at the bottom */
+    text-align: right;
+}
+
+.list-complete-count {
+    font-family: 'Courier New', Courier, monospace; /* Sets font family */
+    color: rgb(0, 170, 0); /* Green text for completed count */
+}
+
+.list-issues-count {
+    font-family: 'Courier New', Courier, monospace; /* Sets font family */
+    color: red; /* Red text for issues */
+}
+
+.create-list-button {
+    height: auto;
+    transition: .5s linear;
+    position: relative;
+    display: block;
+    overflow: hidden;
+    padding: 15px;
+    text-align: center;
+    margin: 0 auto; /* Centering horizontally */
+    background: transparent;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #4b4b4b;
+}
+  
+  .create-list-button:before {
+    position: absolute;
+    content: '';
+    left: 0;
+    bottom: 0;
+    height: 4px;
+    width: 100%;
+    border-bottom: 3px solid transparent;
+    border-left: 3px solid transparent;
+    box-sizing: border-box;
+    transform: translateX(100%);
+  }
+  
+  .create-list-button:after {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    border-top: 3px solid transparent;
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    transform: translateX(-100%);
+  }
+  
+  .create-list-button:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  }
+  
+  .create-list-button:hover:before {
+    border-color: #4b4b4b;
+    height: 100%;
+    transform: translateX(0);
+    transition: .5s transform linear, .5s height linear .5s;
+  }
+  
+  .create-list-button:hover:after {
+    border-color: #4b4b4b;
+    height: 100%;
+    transform: translateX(0);
+    transition: .5s transform linear, .5s height linear .5s;
+  }
+  
+  button {
+    color: #4b4b4b;
+    text-decoration: none;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    background: transparent;
+  }
+
+  /* Styles for the three-dot menu in posts */
+.post-three-dots {
+    display: flex; /* Uses flexbox for layout */
+    flex: 1; /* Flex grow factor, allows this item to fill available space */
+    justify-content: flex-end; /* Aligns the dots to the end (right side) */
+    padding-bottom: 15px;
+}
+
+/* Styles for the dropdown menu */
+.dropdown-menu {
+    display: none; /* Initially hidden */
+    position: absolute; /* Positioned absolutely relative to its positioned ancestor */
+    right: 0; /* Aligned to the right edge of the parent element */
+    margin-top: 25px; /* Space above the dropdown */
+    background-color: white; /* White background for dropdown */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Shadow for depth effect */
+    z-index: 1; /* Stacks above other elements */
+}
+
+/* Styles for each item in the dropdown menu */
+.dropdown-menu .dropdown-item {
+    padding: 12px 16px; /* Padding for each item for spacing */
+    text-decoration: none; /* No underline for text */
+    display: block; /* Display as block for full-width click area */
+    color: black; /* Text color */
+}
+
+/* Hover effect for dropdown items */
+.dropdown-menu .dropdown-item:hover {
+    background-color: #f1f1f1; /* Light grey background on hover */
 }

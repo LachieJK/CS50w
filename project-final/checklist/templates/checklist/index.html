@@ -11,7 +11,13 @@
     {% endif %}
    
     <!-- Button trigger create new list modal -->
-    <button type="button" class="btn btn-primary" style="width: 100%; padding: 10px;" data-bs-toggle="modal" data-bs-target="#createListModal">Create List</button>
+    <div class="centered-container">
+        <button type="button" data-bs-toggle="modal" data-bs-target="#createListModal">
+            <span class="create-list-button" style="width: 60vw;">
+                Create New List
+            </span>
+        </button>
+    </div>
 
     <!-- Create new list modal -->
     <div class="modal fade" id="createListModal" tabindex="-1" aria-labelledby="createListModalLabel" aria-hidden="true">
@@ -38,10 +44,62 @@
 
     {% if lists %}
         {% for list in lists %}
-            <p>{{list.listName}}</p>
+            <div class="list-contents">
+                <div class="list-contents-left-side">
+                    <div class="list-name-{{ list.id }}">
+                        {{list.listName}}
+                    </div>
+                </div>
+                <div class="list-contents-right-side">
+                    <!-- Options to edit or delete the list -->
+                    <div class="post-three-dots">
+                        <!-- Dropdown menu for editing and deleting -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="rgb(75, 75, 75)" class="bi bi-three-dots" viewBox="0 0 16 16">
+                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                        </svg>
+                        <div class="dropdown-menu">
+                            <!-- Links to edit and delete list -->
+                            <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#rename_list_modal_{{ list.id }}">Rename</a>
+                            <a href="{% url 'delete_list' list.id %}" class="dropdown-item">Delete</a>
+                        </div>
+                    </div>      
+                    <div class="list-complete-count">
+                        <b>Completed: </b>{{ list.completed_task_count }}/{{ list.total_task_count }}
+                    </div>
+                    <div class="list-issues-count">
+                        <b>Issues: </b>{{ list.issue_task_count }}/{{ list.total_task_count }}
+                    </div>
+                </div>
+            </div>
+             <!-- Modal for editing list -->
+            <div class="modal fade" id="rename_list_modal_{{ list.id }}" tabindex="-1" role="dialog" aria-labelledby="renameListLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form action="{% url 'edit_list_name' list.id %}" method="POST">
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="renameListNameLabel">Edit List Name</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Text area for editing the list -->
+                                <textarea id="name_textarea_{{ list.id }}" name="rename_list" class="form-control">{{ list.listName }}</textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <!-- Buttons to close the modal or save changes -->
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary" value="Save changes">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         {% endfor %}
     {% else %}
         Your account currently has no lists
     {% endif %}
+
+    <script src="static/checklist/edit_delete_list.js"></script> <!-- Script for editing and deleting lists -->
 
 {% endblock %}

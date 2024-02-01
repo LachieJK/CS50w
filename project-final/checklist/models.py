@@ -9,6 +9,15 @@ class List(models.Model):
     collaborators = models.ManyToManyField(User, related_name="collaborations", blank=True)
     timeCreated = models.DateTimeField(auto_now_add=True)
     listName = models.CharField(max_length=200)
+
+    def total_task_count(self):
+        return self.tasks.count()
+    
+    def completed_task_count(self):
+        return self.tasks.filter(completedStatus=True).count()
+    
+    def issue_task_count(self):
+        return self.tasks.filter(issueStatus=True).count()
     
 class Task(models.Model):
     list = models.ForeignKey(List, on_delete=models.CASCADE, related_name="tasks")
