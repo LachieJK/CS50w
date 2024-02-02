@@ -299,7 +299,11 @@ label {
 }
 
 .not-complete svg {
-    fill: rgb(186, 199, 186); /* Makes the SVG icon transparent */
+    fill: rgb(186, 199, 186); /* SVG icon starts as a very light green unselected */
+}
+
+.not-complete svg:hover {
+    fill: rgb(57, 175, 57); /* Changes the SVG icon to green when hovered over */
 }
 
 .complete svg {
@@ -307,9 +311,13 @@ label {
 }
 
 .no-issue svg {
-    fill: rgb(255, 204, 204);; /* Makes the SVG icon transparent */
+    fill: rgb(255, 204, 204);; /* SVG icon starts as a very light red unselected */
+}
+
+.no-issue svg:hover {
+    fill: rgb(245, 95, 95); /* Changes the SVG icon to red when hovered over */
 }
 
 .issue svg {
-    fill: rgb(245, 95, 95); /* Changes the SVG icon to green when selected */
+    fill: rgb(245, 95, 95); /* Changes the SVG icon to red when selected */
 }

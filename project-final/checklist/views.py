@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.urls import reverse
 from .models import User, List, Task
 from itertools import chain
+from datetime import datetime
 
 # Create your views here.
 def open(request):
@@ -73,6 +74,36 @@ def edit_task(request, task_id):
     task.description = description
     task.save()
     return redirect(reverse('checklist', args=[list_id]))
+
+
+def toggle_issue_status(request, task_id):
+    if request.method == 'POST':
+        task = Task.objects.get(pk=task_id)
+        task.issueStatus = not task.issueStatus
+        if task.issueStatus == True:
+            task.alertedBy = request.user
+            task.timeAlertedIssue = datetime.now()
+        else:
+            task.alertedBy = None
+            task.timeAlertedIssue = None
+        task.save()
+        return JsonResponse({'success': True, 'currentStatus': task.issueStatus})
+    return JsonResponse({'success': False}, status=400)
+
+
+def toggle_completion_status(request, task_id):
+    if request.method == 'POST':
+        task = Task.objects.get(pk=task_id)
+        task.completedStatus = not task.completedStatus
+        if task.completedStatus == True:
+            task.completedBy = request.user
+            task.timeCompleted = datetime.now()
+        else:
+            task.completedBy = None
+            task.timeCompleted = None
+        task.save()
+        return JsonResponse({'success': True, 'currentStatus': task.completedStatus})
+    return JsonResponse({'success': False}, status=400)
 
 
 def login_view(request):

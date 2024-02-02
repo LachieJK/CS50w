@@ -11,5 +11,7 @@ urlpatterns = [
     path("delete_list/<int:list_id>", views.delete_list, name="delete_list"),
     path("edit_list_name/<int:list_id>", views.edit_list_name, name="edit_list_name"),
     path("delete_task/<int:task_id>", views.delete_task, name="delete_task"),
-    path("edit_task/<int:task_id>", views.edit_task, name="edit_task")
+    path("edit_task/<int:task_id>", views.edit_task, name="edit_task"),
+    path('toggle-issue-status/<int:task_id>', views.toggle_issue_status, name='toggle_issue_status'),
+    path('toggle-completion-status/<int:task_id>', views.toggle_completion_status, name='toggle_completion_status')
 ]
