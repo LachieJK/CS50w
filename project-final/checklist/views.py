@@ -27,6 +27,20 @@ def index(request):
     })
 
 
+def checklist(request, list_id):
+    list = List.objects.get(pk=list_id)
+    tasks = Task.objects.filter(list=list)
+    if request.method == "POST":
+        description = request.POST["description"]
+        new_task = Task(list=list, description=description)
+        new_task.save()
+    return render(request, "checklist/list.html", {
+        "user": request.user,
+        "list": list,
+        "tasks": tasks
+    })
+
+
 def delete_list(request, list_id):
     # Retrieve and delete the specified list
     list = List.objects.get(pk=list_id)
@@ -38,10 +52,27 @@ def edit_list_name(request, list_id):
     # Retrieve the list and edit the name
     list = List.objects.get(pk=list_id)
     name = request.POST.get('rename_list')
-    print(name)
     list.listName = name
     list.save()
     return HttpResponseRedirect('/index')
+
+
+def delete_task(request, task_id):
+    # Retrieve and delete the specified task
+    task = Task.objects.get(pk=task_id)
+    list_id = task.list.id
+    task.delete()
+    return redirect(reverse('checklist', args=[list_id]))
+
+
+def edit_task(request, task_id):
+    # Retrieve the list and edit the name
+    task = Task.objects.get(pk=task_id)
+    list_id = task.list.id
+    description = request.POST.get('edit_task')
+    task.description = description
+    task.save()
+    return redirect(reverse('checklist', args=[list_id]))
 
 
 def login_view(request):

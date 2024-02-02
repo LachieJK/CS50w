@@ -1,0 +1,127 @@
+{% extends "checklist/layout.html" %} <!-- Extends a base layout template -->
+
+{% block body %} <!-- Starts the body content block -->
+
+    {% if message %}
+        <!-- Displays an alert if 'message' is provided -->
+        <div class="alert alert-danger alert-dismissible fade show justify-content-center" role="alert" style="margin-top: 20px; width: 60vw; margin-left: auto; margin-right: auto;">
+            <strong>Error! </strong>{{message}} <!-- Displays the error message -->
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+
+    <!-- Button trigger create new task modal -->
+    <div class="centered-container">
+        <button type="button" data-bs-toggle="modal" data-bs-target="#addTaskModal">
+            <span class="animated-box-button" style="width: 60vw;">
+                Add a Task
+            </span>
+        </button>
+    </div>
+
+    <!-- Add a task modal -->
+    <div class="modal fade" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addTaskModalLabel">Add a Task</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="{% url 'checklist' list.id %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <textarea id="task_description_textarea" name="description" class="form-control" placeholder="Not another thing..."></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+   
+    {% if tasks %}
+        {% for task in tasks %}
+            <div class="task-contents">
+                <div class="task-contents-left-side">
+                    <div class="task-name-{{ task.id }}">
+                        {{ task.description }}
+                    </div>
+                </div>
+                <div class="task-contents-right-side">
+                    <!-- Options to edit or delete the task -->
+                    <div class="three-dots" style="padding: 0px; padding-right: 10px;">
+                        <!-- Dropdown menu for editing and deleting -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="rgb(75, 75, 75)" class="bi bi-three-dots" viewBox="0 0 16 16">
+                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                        </svg>
+                        <div class="dropdown-menu" style="margin-right: 30px;">
+                            <!-- Links to edit and delete task -->
+                            <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#edit_task_modal_{{ task.id }}">Edit</a>
+                            <a href="{% url 'delete_task' task.id %}" class="dropdown-item">Delete</a>
+                        </div>
+                    </div>
+                    <div class="task-contents-right-side-buttons">
+                        <div class="task-complete-button">
+                            <button class="task-buttons not-complete" id="completeTaskButton">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                  </svg>
+                            </button>
+                        </div>
+                        <div class="task-issues-button">
+                            <button class="task-buttons no-issue" id="issueTaskButton">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>      
+                </div>
+            </div>
+             <!-- Modal for editing task -->
+            <div class="modal fade" id="edit_task_modal_{{ task.id }}" tabindex="-1" role="dialog" aria-labelledby="editTaskLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form action="{% url 'edit_task' task.id %}" method="POST">
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editTaskDescriptionLabel">Edit Task</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Text area for editing the task -->
+                                <textarea id="description_textarea_{{ task.id }}" name="edit_task" class="form-control">{{ task.description }}</textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <!-- Buttons to close the modal or save changes -->
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary" value="Save changes">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        This list currently has no tasks.
+    {% endif %}
+
+    {% load static %}
+    <script src="{% static 'checklist/three_dots_dropdown.js' %}"></script> <!-- Script for editing and deleting tasks -->
+
+    <script>
+        document.getElementById('completeTaskButton').addEventListener('click', function() {
+            this.classList.toggle('complete');
+            this.classList.toggle('not-complete');
+        });
+
+        document.getElementById('issueTaskButton').addEventListener('click', function() {
+            this.classList.toggle('issue');
+            this.classList.toggle('no-issue');
+        });
+    </script>
+    
+
+{% endblock %}

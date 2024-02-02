@@ -4,7 +4,7 @@ document.querySelectorAll('.bi-three-dots').forEach(item => {
     item.addEventListener('click', event => {
         // Find the closest parent element with the class '.post-three-dots' 
         // and within it, find the element with the class '.dropdown-menu'
-        let dropdown = event.target.closest('.post-three-dots').querySelector('.dropdown-menu');
+        let dropdown = event.target.closest('.three-dots').querySelector('.dropdown-menu');
         // Toggle the display of the dropdown menu: if it's visible (display = 'block'), hide it; if hidden, show it
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     });

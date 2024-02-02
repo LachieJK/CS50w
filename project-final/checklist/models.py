@@ -26,6 +26,7 @@ class Task(models.Model):
     completedStatus = models.BooleanField(default=False)
     timeAlertedIssue = models.DateTimeField(null=True, blank=True)
     issueStatus = models.BooleanField(default=False)
+    importantFlag = models.BooleanField(default=False)
 
     def __str__(self):
         return f"The task '{self.description}' is apart of the {self.list.listName} list."
