@@ -97,7 +97,9 @@
 
         {% endfor %}
     {% else %}
-        Your account currently has no lists
+        <div class="empty-message">
+            Your account currently has no lists.
+        </div>
     {% endif %}
 
     <script src="static/checklist/three_dots_dropdown.js"></script> <!-- Script for editing and deleting lists -->

@@ -48,6 +48,17 @@
                     <div class="task-name-{{ task.id }}">
                         {{ task.description }}
                     </div>
+                    <div class="task-completion-message">
+                        {% if task.completedStatus == True and task.issueStatus == False %}
+                            {{ task.completedBy }} has checked off this task at {{ task.timeCompleted }}
+                        {% elif task.issueStatus == True and task.completedStatus == False %}
+                            {{ task.alertedBy }} has reported an issue with this task at {{ task.timeAlertedIssue }}
+                        {% elif task.issueStatus == True and task.completedStatus == True %}
+                            {{ task.completedBy }} has checked off, but also found an issue with this task at {{ task.timeCompleted }}
+                        {% else %}
+                        {% endif %}
+
+                    </div>
                 </div>
                 <div class="task-contents-right-side">
                     <!-- Options to edit or delete the task -->
@@ -64,14 +75,14 @@
                     </div>
                     <div class="task-contents-right-side-buttons">
                         <div class="task-complete-button">
-                            <button class="task-buttons not-complete" id="completeTaskButton">
+                            <button class="complete-task-buttons not-complete" data-task-id="{{ task.id }}" id="complete-task-button-{{ task.id }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
                                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
                                   </svg>
                             </button>
                         </div>
                         <div class="task-issues-button">
-                            <button class="task-buttons no-issue" id="issueTaskButton">
+                            <button class="issue-task-buttons no-issue" data-task-id="{{ task.id }}" id="issue-task-button-{{ task.id }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16">
                                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
                                 </svg>
@@ -105,23 +116,13 @@
             </div>
         {% endfor %}
     {% else %}
-        This list currently has no tasks.
+        <div class="empty-message">
+            This list currently has no tasks.
+        </div>
     {% endif %}
 
     {% load static %}
     <script src="{% static 'checklist/three_dots_dropdown.js' %}"></script> <!-- Script for editing and deleting tasks -->
-
-    <script>
-        document.getElementById('completeTaskButton').addEventListener('click', function() {
-            this.classList.toggle('complete');
-            this.classList.toggle('not-complete');
-        });
-
-        document.getElementById('issueTaskButton').addEventListener('click', function() {
-            this.classList.toggle('issue');
-            this.classList.toggle('no-issue');
-        });
-    </script>
-    
+    <script src="{% static 'checklist/task-buttons.js' %}"></script>
 
 {% endblock %}

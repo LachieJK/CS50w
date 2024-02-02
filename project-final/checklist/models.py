@@ -23,8 +23,10 @@ class Task(models.Model):
     list = models.ForeignKey(List, on_delete=models.CASCADE, related_name="tasks")
     description = models.TextField()
     timeCompleted = models.DateTimeField(null=True, blank=True)
+    completedBy = models.ForeignKey(User, on_delete=models.CASCADE, related_name="completed_by", null=True, blank=True)
     completedStatus = models.BooleanField(default=False)
     timeAlertedIssue = models.DateTimeField(null=True, blank=True)
+    alertedBy = models.ForeignKey(User, on_delete=models.CASCADE, related_name="alerted_by", null=True, blank=True)
     issueStatus = models.BooleanField(default=False)
     importantFlag = models.BooleanField(default=False)
 
