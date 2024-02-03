@@ -19,13 +19,14 @@ def index(request):
         title = request.POST["title"]
         new_list = List(owner=request.user, listName=title)
         new_list.save()
-    lists_owned = List.objects.filter(owner=request.user)
-    lists_collaborating = List.objects.filter(collaborators=request.user)
-    all_lists = lists_owned.union(lists_collaborating).order_by('-timeCreated')
-    return render(request, "checklist/index.html", {
-        "user": request.user,
-        "lists": all_lists
-    })
+    if request.user.is_authenticated:
+        lists_owned = List.objects.filter(owner=request.user)
+        lists_collaborating = List.objects.filter(collaborators=request.user)
+        all_lists = lists_owned.union(lists_collaborating).order_by('-timeCreated')
+        return render(request, "checklist/index.html", {
+            "lists": all_lists
+        })
+    return render(request, "checklist/index.html")
 
 
 def checklist(request, list_id):
@@ -123,7 +124,7 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))  # Redirect to index page on successful login
         else:
-            return render(request, "network/login.html", {
+            return render(request, "checklist/login.html", {
                 "message": "Invalid username and/or password."
             })
     else:

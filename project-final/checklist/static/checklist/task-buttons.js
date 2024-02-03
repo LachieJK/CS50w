@@ -96,3 +96,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const importantIcons = document.querySelectorAll('.important-task-buttons svg');
+
+    importantIcons.forEach(importantIcon => {
+        importantIcon.addEventListener('click', function() {
+            // Assuming the button is the immediate parent of the SVG
+            const button = importantIcon.parentElement;
+            // Retrieve the task ID from the data-task-id attribute
+            const taskId = button.getAttribute('data-task-id');
+            fetch(`/toggle_important/${taskId}`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'), // Function to get CSRF token; see note below
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Refresh the page after the toggle action completes successfully
+                    window.location.reload();
+                } else {
+                    // Handle errors
+                    console.error('Failed to toggle the important flag.');
+                }
+            });
+        });
+    });
+});
