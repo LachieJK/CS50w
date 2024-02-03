@@ -21,7 +21,7 @@ def index(request):
         new_list.save()
     lists_owned = List.objects.filter(owner=request.user)
     lists_collaborating = List.objects.filter(collaborators=request.user)
-    all_lists = list(chain(lists_owned, lists_collaborating))
+    all_lists = lists_owned.union(lists_collaborating).order_by('-timeCreated')
     return render(request, "checklist/index.html", {
         "user": request.user,
         "lists": all_lists
@@ -46,7 +46,7 @@ def delete_list(request, list_id):
     # Retrieve and delete the specified list
     list = List.objects.get(pk=list_id)
     list.delete()
-    return HttpResponseRedirect('/index')
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 def edit_list_name(request, list_id):
@@ -55,7 +55,7 @@ def edit_list_name(request, list_id):
     name = request.POST.get('rename_list')
     list.listName = name
     list.save()
-    return HttpResponseRedirect('/index')
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 def delete_task(request, task_id):
@@ -63,7 +63,7 @@ def delete_task(request, task_id):
     task = Task.objects.get(pk=task_id)
     list_id = task.list.id
     task.delete()
-    return redirect(reverse('checklist', args=[list_id]))
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 def edit_task(request, task_id):
@@ -73,7 +73,14 @@ def edit_task(request, task_id):
     description = request.POST.get('edit_task')
     task.description = description
     task.save()
-    return redirect(reverse('checklist', args=[list_id]))
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def toggle_important(request, task_id):
+    task = Task.objects.get(pk=task_id)
+    task.importantFlag = not task.importantFlag
+    task.save()
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 def toggle_issue_status(request, task_id):
@@ -87,8 +94,7 @@ def toggle_issue_status(request, task_id):
             task.alertedBy = None
             task.timeAlertedIssue = None
         task.save()
-        return JsonResponse({'success': True, 'currentStatus': task.issueStatus})
-    return JsonResponse({'success': False}, status=400)
+        return JsonResponse({'success': True, 'completedStatus': '{{ task.completedStatus }}'})
 
 
 def toggle_completion_status(request, task_id):
@@ -102,8 +108,7 @@ def toggle_completion_status(request, task_id):
             task.completedBy = None
             task.timeCompleted = None
         task.save()
-        return JsonResponse({'success': True, 'currentStatus': task.completedStatus})
-    return JsonResponse({'success': False}, status=400)
+        return JsonResponse({'success': True, 'issueStatus': '{{ task.issueStatus }}'})
 
 
 def login_view(request):

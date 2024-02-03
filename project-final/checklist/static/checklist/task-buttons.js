@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const button = completeIcon.parentElement;
             // Retrieve the task ID from the data-task-id attribute
             const taskId = button.getAttribute('data-task-id');
+            const taskDiv = document.getElementById(taskId);
             fetch(`/toggle-completion-status/${taskId}`, {
                 method: 'POST',
                 headers: {
@@ -35,17 +36,20 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    if (button.classList.contains('complete')) {
-                        button.classList.remove('complete')
-                        button.classList.add('not-complete')
+                    console.log('Issue status toggled successfully:', data.currentStatus);
+                    if (taskDiv.classList.contains('task-completed-with-issue')) {
+                        taskDiv.classList.toggle('task-completed-with-issue');
+                        taskDiv.classList.toggle('task-issue');
                     }
-                    else if (button.classList.contains('not-complete')) {
-                        button.classList.remove('not-complete')
-                        button.classList.add('complete')
+                    else if (taskDiv.classList.contains('task-issue')) {
+                        taskDiv.classList.toggle('task-completed-with-issue');
                     }
-                    window.location.reload();
-                    console.log('Completion status toggled successfully:', data.currentStatus);
-                    // Optionally toggle classes or update the UI based on the new status
+                    else {
+                        taskDiv.classList.toggle('task-completed');
+                    }
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 500);
                 }
             });
         });
@@ -54,14 +58,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    const completeIcons = document.querySelectorAll('.issue-task-buttons svg');
+    const issueIcons = document.querySelectorAll('.issue-task-buttons svg');
 
-    completeIcons.forEach(completeIcon => {
-        completeIcon.addEventListener('click', function() {
+    issueIcons.forEach(issueIcon => {
+        issueIcon.addEventListener('click', function() {
             // Assuming the button is the immediate parent of the SVG
-            const button = completeIcon.parentElement;
+            const button = issueIcon.parentElement;
             // Retrieve the task ID from the data-task-id attribute
             const taskId = button.getAttribute('data-task-id');
+            const taskDiv = document.getElementById(taskId);
             fetch(`/toggle-issue-status/${taskId}`, {
                 method: 'POST',
                 headers: {
@@ -72,17 +77,20 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    if (button.classList.contains('issue')) {
-                        button.classList.remove('issue')
-                        button.classList.add('no-issue')
-                    }
-                    else if (button.classList.contains('no-issue')) {
-                        button.classList.remove('no-issue')
-                        button.classList.add('issue')
-                    }
-                    window.location.reload();
                     console.log('Issue status toggled successfully:', data.currentStatus);
-                    // Optionally toggle classes or update the UI based on the new status
+                    if (taskDiv.classList.contains('task-completed-with-issue')) {
+                        taskDiv.classList.toggle('task-completed-with-issue');
+                        taskDiv.classList.toggle('task-completed');
+                    }
+                    else if (taskDiv.classList.contains('task-completed')) {
+                        taskDiv.classList.toggle('task-completed-with-issue');
+                    }
+                    else {
+                        taskDiv.classList.toggle('task-issue');
+                    }
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 500);
                 }
             });
         });

@@ -229,17 +229,31 @@ label {
 .task-contents {
     display: flex;
     width: 100%;
-    border: solid 2px rgb(224, 224, 224); /* Adds a solid border */
+    border: solid 2px rgb(224, 224, 224);
     border-radius: 8px;
     margin: 20px 0px;
-    background: rgba(238, 238, 238, 0.8); /* Sets background color with opacity */
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    background-color: rgba(238, 238, 238, 1);
+    transition: background-color 0.5s ease, border 0.5s ease, transform 0.5s ease;
 }
 
-.task-contents:hover {
-    background: rgba(223, 223, 223, 0.95); /* Changes background color on hover */
-    border: solid 2px rgb(212, 212, 212); /* Changes border color on hover */
-    transform: scale(1.02); /* Slightly scale up the box */
+.task-completed {
+    background-color: rgba(155, 231, 155, 0.3); /* This will now smoothly transition */
+    transform: scale(0.9); /* Scale down to 80% size */
+    border: solid 2px rgba(95, 151, 95, 0.3);
+    transition: background-color 0.5s ease, border 0.5s ease, transform 0.5s ease;
+}
+
+.task-issue {
+    background-color: rgba(221, 111, 111, 0.3); /* This will now smoothly transition */
+    transform: scale(0.9); /* Scale down to 80% size */
+    border: solid 2px rgba(182, 92, 92, 0.3);
+    transition: background-color 0.5s ease, border 0.5s ease, transform 0.5s ease;
+}
+
+.task-completed-with-issue {
+    background-color: rgba(253, 253, 150, 0.3); /* This will now smoothly transition */
+    transform: scale(0.9); /* Scale down to 80% size */
+    border: solid 2px rgba(155, 155, 90, 0.3);
 }
 
 .task-contents-left-side {
@@ -250,16 +264,15 @@ label {
     padding: 25px 0px 25px 25px;
     flex-basis: calc(100% - 120px); /* Adjust based on the right side's width */
     min-width: 0; /* Important for overflow in flexbox */
-    font-size: larger;
-    white-space: nowrap;
-    overflow: hidden;
+    font-size: 20px;
 }
 
 .task-completion-message {
     font-size: medium;
     color: rgb(109, 109, 109);
-    font-family: 'Courier New', Courier, monospace; /* Sets font family */
+    font-family: 'Courier'; /* Sets font family */
     padding-top: 10px;
+    height: 34px;
 }
 
 .task-contents-right-side {
@@ -300,6 +313,7 @@ label {
 
 .not-complete svg {
     fill: rgb(186, 199, 186); /* SVG icon starts as a very light green unselected */
+    transition: fill 0.3s ease
 }
 
 .not-complete svg:hover {
@@ -312,6 +326,7 @@ label {
 
 .no-issue svg {
     fill: rgb(255, 204, 204);; /* SVG icon starts as a very light red unselected */
+    transition: fill 0.3s ease
 }
 
 .no-issue svg:hover {

@@ -44,8 +44,8 @@
 
     {% if lists %}
         {% for list in lists %}
-            <div class="list-contents view-list" data-list-url="{% url 'checklist' list.id %}">
-                <div class="list-contents-left-side">
+            <div class="list-contents">
+                <div class="list-contents-left-side view-list" data-list-url="{% url 'checklist' list.id %}">
                     <div class="list-name-{{ list.id }}">
                         {{list.listName}}
                     </div>
@@ -57,7 +57,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="rgb(75, 75, 75)" class="bi bi-three-dots" viewBox="0 0 16 16">
                             <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
                         </svg>
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu" style="margin-right: 10px;">
                             <!-- Links to edit and delete list -->
                             <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#rename_list_modal_{{ list.id }}">Rename</a>
                             <a href="{% url 'delete_list' list.id %}" class="dropdown-item">Delete</a>
