@@ -384,3 +384,35 @@ label {
     visibility: visible;
     opacity: 1;
 }
+
+
+
+.table-minimalistic {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 16px; /* Adjust based on your needs */
+    color: #333; /* Dark grey text for readability */
+}
+
+.table-minimalistic thead {
+    background-color: #f5f5f5; /* Light grey background for the table header */
+    border-bottom: 2px solid #e1e1e1; /* Subtle border for header separation */
+}
+
+.table-minimalistic thead th {
+    text-align: left;
+    padding: 12px 15px; /* Spacing inside header cells */
+}
+
+.table-minimalistic tbody td {
+    padding: 10px 15px; /* Spacing inside data cells */
+    border-bottom: 1px solid #e1e1e1; /* Light border for separating rows */
+}
+
+.table-minimalistic tbody tr:hover {
+    background-color: #ededed; /* Slight highlight for hover */
+}
+
+.table-minimalistic tbody tr:last-child td {
+    border-bottom: none; /* Avoid double borders on the last row */
+}

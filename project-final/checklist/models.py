@@ -4,6 +4,7 @@ from django.db import models
 class User(AbstractUser):
     picture = models.ImageField(upload_to='profile-pics', default='profile-pics/default.jpg')
 
+
 class List(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="lists_owned")
     collaborators = models.ManyToManyField(User, related_name="collaborations", blank=True)
@@ -19,6 +20,7 @@ class List(models.Model):
     def issue_task_count(self):
         return self.tasks.filter(issueStatus=True).count()
     
+
 class Task(models.Model):
     list = models.ForeignKey(List, on_delete=models.CASCADE, related_name="tasks")
     description = models.TextField()
@@ -32,5 +34,15 @@ class Task(models.Model):
 
     def __str__(self):
         return f"The task '{self.description}' is apart of the {self.list.listName} list."
+    
 
+class Issue(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="issue")
+    severity = models.IntegerField()
+    importance = models.IntegerField()
+    description = models.TextField()
+    timeResolved = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"The issue '{self.description}' of severity {self.severity} is related to the task '{self.task.description}'"
 

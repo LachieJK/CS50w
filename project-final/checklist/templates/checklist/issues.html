@@ -1,0 +1,46 @@
+{% extends "checklist/layout.html" %} <!-- Extends a base layout template -->
+
+{% block body %} <!-- Starts the body content block -->
+
+    {% if message %}
+        <!-- Displays an alert if 'message' is provided -->
+        <div class="alert alert-danger alert-dismissible fade show justify-content-center" role="alert" style="margin-top: 20px; width: 60vw; margin-left: auto; margin-right: auto;">
+            <strong>Error! </strong>{{message}} <!-- Displays the error message -->
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+
+    {% if issues %}
+        <table class="table-minimalistic">
+            <thead>
+                <tr>
+                    <th style="width: 18%">Task with Issue</th>
+                    <th style="width: 35%">Issue Description</th>
+                    <th style="width: 5%">Severity</th>
+                    <th style="width: 5%">Importance</th>
+                    <th style="width: 10%">Reported By</th>
+                    <th style="width: 12%">Time Reported</th>
+                    <th style="width: 5%">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for issue in issues %}
+                    <tr>
+                        <td> {{ issue.task.description }}</td>
+                        <td>{{ issue.description }}</td>
+                        <td>{{ issue.severity }}</td>
+                        <td>{{ issue.importance }}</td>
+                        <td>{{ issue.task.alertedBy }}</td>
+                        <td>{{ issue.task.timeAlertedIssue }}</td>
+                        <td>Pending</td>
+                    </tr>           
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="empty-message">
+            You currently have no issues to resolve.
+        </div>
+    {% endif %}
+
+{% endblock %}

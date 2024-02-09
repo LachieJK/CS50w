@@ -15,6 +15,17 @@ function getCookie(name) {
     return cookieValue; // Return the value of the cookie, or null if not found
 }
 
+function issueModal(taskId) {
+    var modal = document.getElementById('reportIssueModal_' + taskId);
+    var modalInstance = new bootstrap.Modal(modal);
+
+    // Listen for the hidden event on the modal
+    modal.addEventListener('hidden.bs.modal', function () {
+        window.location.reload();
+    });
+
+    modalInstance.show();
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     const completeIcons = document.querySelectorAll('.complete-task-buttons svg');
@@ -88,9 +99,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     else {
                         taskDiv.classList.toggle('task-issue');
                     }
-                    setTimeout(function() {
-                        window.location.reload();
-                    }, 500);
+                    if (taskDiv.classList.contains('task-issue') || taskDiv.classList.contains('task-completed-with-issue')) {
+                        issueModal(taskId);
+                        console.log('reached here');
+                    }
+                    else {
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 500);
+                    }       
                 }
             });
         });

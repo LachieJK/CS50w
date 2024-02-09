@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.urls import reverse
-from .models import User, List, Task
+from .models import User, List, Task, Issue
 from itertools import chain
 from datetime import datetime
 
@@ -40,6 +40,17 @@ def checklist(request, list_id):
         "user": request.user,
         "list": list,
         "tasks": tasks
+    })
+
+
+def issues(request):
+    all_issues = Issue.objects.all()
+    user_related_issues = []
+    for issue in all_issues:
+        if request.user == issue.task.list.owner or request.user in issue.task.list.collaborators.all():
+            user_related_issues.append(issue)
+    return render(request, "checklist/issues.html", {
+        "issues": user_related_issues,
     })
 
 
@@ -124,7 +135,7 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))  # Redirect to index page on successful login
         else:
-            return render(request, "checklist/login.html", {
+            return render(request, "network/login.html", {
                 "message": "Invalid username and/or password."
             })
     else:
