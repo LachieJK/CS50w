@@ -14,25 +14,41 @@
         <table class="table-minimalistic">
             <thead>
                 <tr>
-                    <th style="width: 18%">Task with Issue</th>
-                    <th style="width: 35%">Issue Description</th>
-                    <th style="width: 5%">Severity</th>
-                    <th style="width: 5%">Importance</th>
-                    <th style="width: 10%">Reported By</th>
-                    <th style="width: 12%">Time Reported</th>
-                    <th style="width: 5%">Status</th>
-                </tr>
+                    <th style="width: 18%" class="d-none d-lg-table-cell">Task with Issue</th>
+                    <th style="width: 32%">Issue Description</th>
+                    <th style="width: 5%;">Severity</th>
+                    <th style="width: 5%;">Importance</th>
+                    <th style="width: 10%" class="d-none d-xl-table-cell">Reported By</th> <!-- Disappears below large screens -->
+                    <th style="width: 15%" class="d-none d-xxl-table-cell">Time Reported</th> <!-- Disappears below medium screens -->
+                    <th style="width: 5%; text-align: center;">Status</th>
+                </tr>                
             </thead>
             <tbody>
                 {% for issue in issues %}
                     <tr>
-                        <td> {{ issue.task.description }}</td>
+                        <td class="d-none d-lg-table-cell"> {{ issue.task.description }}</td>
                         <td>{{ issue.description }}</td>
-                        <td>{{ issue.severity }}</td>
-                        <td>{{ issue.importance }}</td>
-                        <td>{{ issue.task.alertedBy }}</td>
-                        <td>{{ issue.task.timeAlertedIssue }}</td>
-                        <td>Pending</td>
+                        <td>
+                            <div class="{% if issue.severity == 'Critical' %}critical-severity{% elif issue.severity == 'Moderate'%}moderate-severity{% elif issue.severity == 'Minimal'%}minimal-severity{% endif %}">
+                                {{ issue.severity }}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="{% if issue.importance == 'High' %}high-importance{% elif issue.importance == 'Normal'%}normal-importance{% elif issue.importance == 'Low'%}low-importance{% endif %}">
+                                {{ issue.importance }}
+                            </div>
+                        </td>
+                        <td class="d-none d-xl-table-cell">{{ issue.reportedBy }}</td>
+                        <td class="d-none d-xxl-table-cell">{{ issue.timeReported }}</td>
+                        <td style="text-align: center;">
+                            <div class="issue-resolved-button">
+                                <button class="resolve-issue-buttons not-resolved" data-issue-id="{{ issue.id }}" id="resolve-issue-button-{{ issue.id }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                      </svg>
+                                </button>
+                            </div>
+                        </td>
                     </tr>           
                 {% endfor %}
             </tbody>
@@ -42,5 +58,8 @@
             You currently have no issues to resolve.
         </div>
     {% endif %}
+
+    {% load static %}
+    <script src="{% static 'checklist/resolve_issue_button.js' %}"></script>
 
 {% endblock %}

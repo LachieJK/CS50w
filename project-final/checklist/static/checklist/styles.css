@@ -416,3 +416,51 @@ label {
 .table-minimalistic tbody tr:last-child td {
     border-bottom: none; /* Avoid double borders on the last row */
 }
+
+.issue-resolved-button svg {
+    height: 30px;
+    width: 30px;
+}
+
+.not-resolved svg {
+    fill: rgb(201, 201, 201); /* SVG icon starts as white unselected */
+    transition: fill 0.3s ease;
+}
+
+.not-resolved svg:hover {
+    fill: rgb(57, 175, 57); /* Changes the SVG icon to green when hovered over */
+}
+
+.modal-dropdowns {
+    margin-top: 20px;
+}
+
+.critical-severity, .high-importance {
+    background-color: rgb(255, 116, 116);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 4px 8px;
+    display: inline-block;
+}
+
+.moderate-severity, .normal-importance {
+    background-color: rgb(241, 227, 27);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 4px 8px;
+    display: inline-block;
+}
+
+.minimal-severity, .low-importance {
+    background-color: rgb(66, 226, 66);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 4px 8px;
+    display: inline-block;
+}

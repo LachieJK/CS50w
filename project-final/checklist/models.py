@@ -38,10 +38,11 @@ class Task(models.Model):
 
 class Issue(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="issue")
-    severity = models.IntegerField()
-    importance = models.IntegerField()
+    severity = models.TextField()
+    importance = models.TextField()
     description = models.TextField()
-    timeResolved = models.DateTimeField(null=True, blank=True)
+    reportedBy = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reported_by", null=True, blank=True)
+    timeReported = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     def __str__(self):
         return f"The issue '{self.description}' of severity {self.severity} is related to the task '{self.task.description}'"

@@ -54,6 +54,19 @@ def issues(request):
     })
 
 
+def report_issue(request, task_id):
+    if request.method == 'POST':
+        new_issue = Issue(
+            task=Task.objects.get(pk=task_id),
+            severity=request.POST.get('severity'),
+            importance=request.POST.get('importance'),
+            description=request.POST.get('description'),
+            reportedBy=request.user
+        )
+        new_issue.save()
+        return redirect('issues')
+
+
 def delete_list(request, list_id):
     # Retrieve and delete the specified list
     list = List.objects.get(pk=list_id)
@@ -121,6 +134,13 @@ def toggle_completion_status(request, task_id):
             task.timeCompleted = None
         task.save()
         return JsonResponse({'success': True, 'issueStatus': '{{ task.issueStatus }}'})
+    
+
+def resolve_issue(request, issue_id):
+    if request.method == 'POST':
+        issue = Issue.objects.get(pk=issue_id)
+        issue.delete()
+        return JsonResponse({'success': True})
 
 
 def login_view(request):
