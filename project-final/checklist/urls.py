@@ -6,6 +6,7 @@ urlpatterns = [
     path("index", views.index, name="index"),
     path("checklist/<int:list_id>", views.checklist, name="checklist"),
     path("issues", views.issues, name="issues"),
+    path("manage_lists", views.manage_lists, name="manage_lists"),
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
@@ -17,5 +18,7 @@ urlpatterns = [
     path("edit_task/<int:task_id>", views.edit_task, name="edit_task"),
     path('toggle-issue-status/<int:task_id>', views.toggle_issue_status, name='toggle_issue_status'),
     path('toggle-completion-status/<int:task_id>', views.toggle_completion_status, name='toggle_completion_status'),
-    path('resolve-issue/<int:issue_id>', views.resolve_issue, name='resolve_issue')
+    path('resolve-issue/<int:issue_id>', views.resolve_issue, name='resolve_issue'),
+    path('clear_tasks/<int:list_id>', views.clear_tasks, name='clear_tasks'),
+    path('clear_lists/', views.clear_lists, name='clear_lists')
 ]

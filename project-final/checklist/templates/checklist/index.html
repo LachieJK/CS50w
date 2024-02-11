@@ -94,8 +94,12 @@
                         </div>
                     </div>
                 </div>
-
             {% endfor %}
+            <div style="display: flex; justify-content: center;">
+                <button type="button" class="btn btn-primary" id="clear-lists-button">
+                    Clear Tasks in all Lists
+                </button>
+            </div>
         {% else %}
             <div class="empty-message">
                 Your account currently has no lists.
@@ -104,6 +108,7 @@
 
         <script src="static/checklist/three_dots_dropdown.js"></script> <!-- Script for editing and deleting lists -->
         <script src="static/checklist/list_url.js"></script> <!-- Script for navigating to an individual's list page-->
+        <script src="static/checklist/reset.js"></script>
 
     {% else %}
         <div class="empty-message">

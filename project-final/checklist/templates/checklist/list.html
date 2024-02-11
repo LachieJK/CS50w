@@ -176,6 +176,11 @@
                 </div>
             </div>
         {% endfor %}
+        <div style="display: flex; justify-content: center;">
+            <button type="button" class="btn btn-primary" id="clear-tasks-button" data-list-id="{{ list.id }}">
+                Clear all Tasks
+            </button>
+        </div>        
     {% else %}
         <div class="empty-message">
             This list currently has no tasks.
@@ -185,5 +190,6 @@
     {% load static %}
     <script src="{% static 'checklist/three_dots_dropdown.js' %}"></script> <!-- Script for editing and deleting tasks -->
     <script src="{% static 'checklist/task-buttons.js' %}"></script>
+    <script src="{% static 'checklist/reset.js' %}"></script>
 
 {% endblock %}

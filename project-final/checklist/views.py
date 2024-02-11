@@ -141,6 +141,38 @@ def resolve_issue(request, issue_id):
         issue = Issue.objects.get(pk=issue_id)
         issue.delete()
         return JsonResponse({'success': True})
+    
+
+def clear_tasks(request, list_id):
+    if request.method == 'POST':
+        tasks = Task.objects.filter(list=list_id)
+        for task in tasks:
+            task.completedStatus = False
+            task.completedBy = None
+            task.timeCompleted = None
+            task.issueStatus = False
+            task.alertedBy = None
+            task.timeAlertedIssue = None
+            task.save()
+        return JsonResponse({'success': True})
+    
+
+def clear_lists(request):
+    if request.method == 'POST':
+        tasks = Task.objects.all()
+        for task in tasks:
+            task.completedStatus = False
+            task.completedBy = None
+            task.timeCompleted = None
+            task.issueStatus = False
+            task.alertedBy = None
+            task.timeAlertedIssue = None
+            task.save()
+        return JsonResponse({'success': True})
+
+
+def manage_lists(request):
+    return render(request, "checklist/manage_lists.html")
 
 
 def login_view(request):
