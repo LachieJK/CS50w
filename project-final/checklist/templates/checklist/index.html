@@ -60,7 +60,11 @@
                             <div class="dropdown-menu" style="margin-right: 10px;">
                                 <!-- Links to edit and delete list -->
                                 <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#rename_list_modal_{{ list.id }}">Rename</a>
-                                <a href="{% url 'delete_list' list.id %}" class="dropdown-item">Delete</a>
+                                {% if user == list.owner %}
+                                    <a href="{% url 'delete_list' list.id %}" class="dropdown-item">Delete</a>
+                                {% else %}
+                                    <a href="{% url 'leave_list' list.id %}" class="dropdown-item">Leave</a>
+                                {% endif %}
                             </div>
                         </div>      
                         <div class="list-complete-count">

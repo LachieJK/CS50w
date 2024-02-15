@@ -24,6 +24,7 @@ def index(request):
         lists_collaborating = List.objects.filter(collaborators=request.user)
         all_lists = lists_owned.union(lists_collaborating).order_by('-timeCreated')
         return render(request, "checklist/index.html", {
+            "user": request.user,
             "lists": all_lists
         })
     return render(request, "checklist/index.html")
@@ -71,6 +72,13 @@ def delete_list(request, list_id):
     # Retrieve and delete the specified list
     list = List.objects.get(pk=list_id)
     list.delete()
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def leave_list(request, list_id):
+    # Retrieve and remove the user from the specified list
+    list = List.objects.get(pk=list_id)
+    list.collaborators.remove(request.user)
     return redirect(request.META.get('HTTP_REFERER'))
 
 
@@ -171,8 +179,8 @@ def clear_lists(request):
         return JsonResponse({'success': True})
 
 
-def manage_lists(request):
-    return render(request, "checklist/manage_lists.html")
+def history(request):
+    return render(request, "checklist/history.html")
 
 
 def login_view(request):

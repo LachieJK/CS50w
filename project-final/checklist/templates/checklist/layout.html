@@ -15,7 +15,7 @@
         <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top border-bottom border-body">
             <div class="container-fluid">
                 <!-- Logo and brand name -->
-                <img src="https://imagedelivery.net/5MYSbk45M80qAwecrlKzdQ/521b56fb-2e33-41e9-c473-72f2dd193200/preview" alt="logo" height="30" class="d-inline-block align-text-top" style="margin-right: 8px; margin-left: 10px; padding: 0px;">
+                <img src="https://imagedelivery.net/5MYSbk45M80qAwecrlKzdQ/521b56fb-2e33-41e9-c473-72f2dd193200/preview" height="30" class="d-inline-block align-text-top" style="margin-right: 8px; margin-left: 10px; padding: 0px;">
                 <a class="navbar-brand" style="padding-left: 5px; padding-top: 0px;">Cross Check</a>
                 <!-- Navbar toggler for mobile view -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,7 @@
                                 <a class="nav-link" aria-current="page" href="{% url 'issues' %}">Issues</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="{% url 'manage_lists' %}">Manage Lists</a>
+                                <a class="nav-link" aria-current="page" href="{% url 'history' %}">History</a>
                             </li>
                         {% endif %}
                         <!-- Dropdown for user authentication -->
@@ -41,7 +41,7 @@
                             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="display: flex; align-items: center; padding: 0px;">
                                 {% if request.user.is_authenticated %}
                                     <!-- Display user profile and username if authenticated -->
-                                    <img src="https://www.pngarts.com/files/10/Default-Profile-Picture-Transparent-Image.png" alt="Profile Picture" class="nav-profile-picture d-inline-block align-text-top">
+                                    <img src="https://www.pngarts.com/files/10/Default-Profile-Picture-Transparent-Image.png" class="nav-profile-picture d-inline-block align-text-top">
                                     <span style="padding-right: 5px;">Signed in as <strong>{{ request.user.username }}</strong></span>
                                 {% else %}
                                     <!-- Display 'Not signed in' if user is not authenticated -->
