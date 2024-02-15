@@ -61,6 +61,7 @@
                                 <!-- Links to edit and delete list -->
                                 <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#rename_list_modal_{{ list.id }}">Rename</a>
                                 {% if user == list.owner %}
+                                    <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#add_user_modal_{{ list.id }}">Add User</a>
                                     <a href="{% url 'delete_list' list.id %}" class="dropdown-item">Delete</a>
                                 {% else %}
                                     <a href="{% url 'leave_list' list.id %}" class="dropdown-item">Leave</a>
@@ -75,7 +76,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal for editing list -->
+                <!-- Modal for renaming list -->
                 <div class="modal fade" id="rename_list_modal_{{ list.id }}" tabindex="-1" role="dialog" aria-labelledby="renameListLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -88,6 +89,36 @@
                                 <div class="modal-body">
                                     <!-- Text area for editing the list -->
                                     <textarea id="name_textarea_{{ list.id }}" name="rename_list" class="form-control">{{ list.listName }}</textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <!-- Buttons to close the modal or save changes -->
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <input type="submit" class="btn btn-primary" value="Save changes">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal for adding user -->
+                <div class="modal fade" id="add_user_modal_{{ list.id }}" tabindex="-1" role="dialog" aria-labelledby="addUserLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form action="{% url 'edit_list_name' list.id %}" method="POST"> <!-- Form for adding user to list -->
+                                {% csrf_token %}
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="renameListNameLabel">Add User</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Dropdown of Users that can be added to list -->
+                                    <label>Select a User to Add to the List</label>
+                                    <select class="form-select" name="add_user_dropdown" aria-label="Default select example">
+                                        {% for user in users %}
+                                            {% if user != list.owner %}
+                                                <option value="{{ user.id }}">{{ user.username }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>      
                                 </div>
                                 <div class="modal-footer">
                                     <!-- Buttons to close the modal or save changes -->

@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.core.serializers import serialize
 from django.urls import reverse
 from .models import User, List, Task, Issue
 from itertools import chain
@@ -24,8 +25,9 @@ def index(request):
         lists_collaborating = List.objects.filter(collaborators=request.user)
         all_lists = lists_owned.union(lists_collaborating).order_by('-timeCreated')
         return render(request, "checklist/index.html", {
+            "users": User.objects.all(),
             "user": request.user,
-            "lists": all_lists
+            "lists": all_lists,
         })
     return render(request, "checklist/index.html")
 
