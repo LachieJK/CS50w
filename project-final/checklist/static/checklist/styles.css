@@ -431,6 +431,12 @@ label {
     fill: rgb(57, 175, 57); /* Changes the SVG icon to green when hovered over */
 }
 
+.issue-delete-button svg {
+    height: 25px;
+    width: 25px;
+
+}
+
 .modal-dropdowns {
     margin-top: 20px;
 }

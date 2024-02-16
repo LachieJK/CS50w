@@ -10,4 +10,56 @@
     </div>
     {% endif %}
 
+    {% if issues %}
+        <table class="table-minimalistic">
+            <thead>
+                <tr>
+                    <th style="width: 18%" class="d-none d-lg-table-cell">Task with Issue</th>
+                    <th style="width: 32%">Issue Description</th>
+                    <th style="width: 5%;">Severity</th>
+                    <th style="width: 5%;">Importance</th>
+                    <th style="width: 10%" class="d-none d-xl-table-cell">Reported By</th> <!-- Disappears below large screens -->
+                    <th style="width: 15%" class="d-none d-xxl-table-cell">Time Resolved</th> <!-- Disappears below medium screens -->
+                    <th style="width: 5%; text-align: center;">Delete</th>
+                </tr>                
+            </thead>
+            <tbody>
+                {% for issue in issues %}
+                    <tr>
+                        <td class="d-none d-lg-table-cell"> {{ issue.task.description }}</td>
+                        <td>{{ issue.description }}</td>
+                        <td>
+                            <div class="{% if issue.severity == 'Critical' %}critical-severity{% elif issue.severity == 'Moderate'%}moderate-severity{% elif issue.severity == 'Minimal'%}minimal-severity{% endif %}">
+                                {{ issue.severity }}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="{% if issue.importance == 'High' %}high-importance{% elif issue.importance == 'Normal'%}normal-importance{% elif issue.importance == 'Low'%}low-importance{% endif %}">
+                                {{ issue.importance }}
+                            </div>
+                        </td>
+                        <td class="d-none d-xl-table-cell">{{ issue.reportedBy }}</td>
+                        <td class="d-none d-xxl-table-cell">{{ issue.timeResolved }}</td>
+                        <td style="text-align: center;">
+                            <div class="issue-delete-button">
+                                <button class="delete-issue-buttons" data-issue-id="{{ issue.id }}" id="delete-issue-button-{{ issue.id }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                      </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>           
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="empty-message">
+            There are no records of any past issues.
+        </div>
+    {% endif %}
+
+    {% load static %}
+    <script src="{% static 'checklist/delete_issue_button.js' %}"></script>
+
 {% endblock %}

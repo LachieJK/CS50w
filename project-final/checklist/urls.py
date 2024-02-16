@@ -22,6 +22,7 @@ urlpatterns = [
     path('toggle-issue-status/<int:task_id>', views.toggle_issue_status, name='toggle_issue_status'),
     path('toggle-completion-status/<int:task_id>', views.toggle_completion_status, name='toggle_completion_status'),
     path('resolve-issue/<int:issue_id>', views.resolve_issue, name='resolve_issue'),
+    path('delete-issue/<int:issue_id>', views.delete_issue, name='delete_issue'),
     path('clear_tasks/<int:list_id>', views.clear_tasks, name='clear_tasks'),
     path('clear_lists/', views.clear_lists, name='clear_lists')
 ]

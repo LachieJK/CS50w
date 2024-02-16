@@ -48,9 +48,9 @@ def checklist(request, list_id):
 
 
 def issues(request):
-    all_issues = Issue.objects.all()
+    all_unresolved_issues = Issue.objects.filter(timeResolved=None)
     user_related_issues = []
-    for issue in all_issues:
+    for issue in all_unresolved_issues:
         if request.user == issue.task.list.owner or request.user in issue.task.list.collaborators.all():
             user_related_issues.append(issue)
     return render(request, "checklist/issues.html", {
@@ -170,6 +170,15 @@ def toggle_completion_status(request, task_id):
 def resolve_issue(request, issue_id):
     if request.method == 'POST':
         issue = Issue.objects.get(pk=issue_id)
+        issue.timeResolved = datetime.now()
+        issue.save()
+        return JsonResponse({'success': True})
+    
+
+def delete_issue(request, issue_id):
+    print("reached here")
+    if request.method == 'POST':
+        issue = Issue.objects.get(pk=issue_id)
         issue.delete()
         return JsonResponse({'success': True})
     
@@ -203,8 +212,14 @@ def clear_lists(request):
 
 
 def history(request):
-    return render(request, "checklist/history.html")
-
+    all_resolved_issues = Issue.objects.exclude(timeResolved=None)
+    user_related_issues = []
+    for issue in all_resolved_issues:
+        if request.user == issue.task.list.owner or request.user in issue.task.list.collaborators.all():
+            user_related_issues.append(issue)
+    return render(request, "checklist/history.html", {
+        "issues": user_related_issues,
+    })
 
 def login_view(request):
     if request.method == "POST":
