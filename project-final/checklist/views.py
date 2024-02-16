@@ -105,6 +105,17 @@ def add_user(request, list_id):
     return redirect('index')
 
 
+def remove_user(request, list_id):
+    # Retrieve the list and add the user
+    list = List.objects.get(pk=list_id)
+    user = User.objects.get(pk=request.POST.get('user_id'))
+    if user not in list.collaborators.all():
+        request.session['message'] = "This user isn't removable as they're not a collaborator of this list."
+        return redirect('index')
+    list.collaborators.remove(user)
+    return redirect('index')
+
+
 def delete_task(request, task_id):
     # Retrieve and delete the specified task
     task = Task.objects.get(pk=task_id)
