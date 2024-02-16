@@ -4,11 +4,13 @@
 
     {% if message %}
         <!-- Displays an alert if 'message' is provided -->
-        <div class="alert alert-danger alert-dismissible fade show justify-content-center" role="alert" style="margin-top: 20px; width: 60vw; margin-left: auto; margin-right: auto;">
-            <strong>Error! </strong>{{message}} <!-- Displays the error message -->
+        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 5px;">
+            <strong>Success! </strong>{{message}} <!-- Displays the success message -->
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endif %}
+
+    <h2>OPEN ISSUES</h2> <!-- Page title -->
 
     {% if issues %}
         <table class="table-minimalistic">
@@ -19,7 +21,7 @@
                     <th style="width: 5%;">Severity</th>
                     <th style="width: 5%;">Importance</th>
                     <th style="width: 10%" class="d-none d-xl-table-cell">Reported By</th> <!-- Disappears below large screens -->
-                    <th style="width: 15%" class="d-none d-xxl-table-cell">Time Reported</th> <!-- Disappears below medium screens -->
+                    <th style="width: 15%; min-width: 200px;" class="d-none d-xxl-table-cell">Time Reported</th> <!-- Disappears below medium screens -->
                     <th style="width: 5%; text-align: center;">Status</th>
                 </tr>                
             </thead>

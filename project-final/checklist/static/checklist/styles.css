@@ -6,6 +6,14 @@ body {
     background-color: #fafafa; /* Light grey background for contrast */
 }
 
+h2 {
+    font-size: 30px; /* Sets font size of heading to 30 pixels */
+    font-weight: bold; /* Makes the heading text bold */
+    margin-top: 10px;
+    margin-bottom: 30px; /* Adds space below the heading */
+    color: rgb(58, 58, 58);
+}
+
 /* Label styles */
 label {
     padding-bottom: 3px; /* Small padding below labels for spacing */
@@ -320,7 +328,7 @@ label {
 }
 
 .not-important svg:hover {
-    fill: rgb(255, 255, 0); /* Changes the SVG icon to yellow when hovered over */
+    fill: rgb(255, 255, 102); /* Changes the SVG icon to yellow when hovered over */
 }
 
 .important svg {
@@ -333,7 +341,7 @@ label {
 }
 
 .not-complete svg:hover {
-    fill: rgb(57, 175, 57); /* Changes the SVG icon to green when hovered over */
+    fill: rgb(84, 202, 84); /* Changes the SVG icon to green when hovered over */
 }
 
 .complete svg {
@@ -346,7 +354,7 @@ label {
 }
 
 .no-issue svg:hover {
-    fill: rgb(245, 95, 95); /* Changes the SVG icon to red when hovered over */
+    fill: rgb(238, 120, 120); /* Changes the SVG icon to red when hovered over */
 }
 
 .issue svg {
@@ -434,7 +442,6 @@ label {
 .issue-delete-button svg {
     height: 25px;
     width: 25px;
-
 }
 
 .modal-dropdowns {
@@ -469,4 +476,40 @@ label {
     border-radius: 10px;
     padding: 4px 8px;
     display: inline-block;
+}
+
+.clear-button {
+  background-color: #FFFFFF;
+  border: 1px solid #222222;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #222222;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  margin: 0;
+  outline: none;
+  padding: 13px 23px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  touch-action: manipulation;
+  transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
+  user-select: none;
+  -webkit-user-select: none;
+  width: auto;
+}
+
+.clear-button:hover {
+  box-shadow: #222222 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
+  transition: box-shadow .2s;
+}
+
+.clear-button:active {
+  background-color: #F7F7F7;
+  border-color: #000000;
+  transform: scale(.96);
 }

@@ -36,6 +36,7 @@ def index(request):
 def checklist(request, list_id):
     list = List.objects.get(pk=list_id)
     tasks = Task.objects.filter(list=list)
+    message = request.session.pop('message', None)
     if request.method == "POST":
         description = request.POST["description"]
         new_task = Task(list=list, description=description)
@@ -43,11 +44,13 @@ def checklist(request, list_id):
     return render(request, "checklist/list.html", {
         "user": request.user,
         "list": list,
-        "tasks": tasks
+        "tasks": tasks,
+        "message": message
     })
 
 
 def issues(request):
+    message = request.session.pop('message', None)
     all_unresolved_issues = Issue.objects.filter(timeResolved=None)
     user_related_issues = []
     for issue in all_unresolved_issues:
@@ -55,6 +58,7 @@ def issues(request):
             user_related_issues.append(issue)
     return render(request, "checklist/issues.html", {
         "issues": user_related_issues,
+        "message": message
     })
 
 
@@ -172,6 +176,7 @@ def resolve_issue(request, issue_id):
         issue = Issue.objects.get(pk=issue_id)
         issue.timeResolved = datetime.now()
         issue.save()
+        request.session['message'] = "Issue was successfully resolved."
         return JsonResponse({'success': True})
     
 
@@ -180,6 +185,7 @@ def delete_issue(request, issue_id):
     if request.method == 'POST':
         issue = Issue.objects.get(pk=issue_id)
         issue.delete()
+        request.session['message'] = "Issue was successfully deleted."
         return JsonResponse({'success': True})
     
 
@@ -194,6 +200,7 @@ def clear_tasks(request, list_id):
             task.alertedBy = None
             task.timeAlertedIssue = None
             task.save()
+        request.session['message'] = "All tasks have been cleared."
         return JsonResponse({'success': True})
     
 
@@ -208,10 +215,12 @@ def clear_lists(request):
             task.alertedBy = None
             task.timeAlertedIssue = None
             task.save()
+        request.session['message'] = "Tasks in all lists have been cleared."
         return JsonResponse({'success': True})
 
 
 def history(request):
+    message = request.session.pop('message', None)
     all_resolved_issues = Issue.objects.exclude(timeResolved=None)
     user_related_issues = []
     for issue in all_resolved_issues:
@@ -219,6 +228,7 @@ def history(request):
             user_related_issues.append(issue)
     return render(request, "checklist/history.html", {
         "issues": user_related_issues,
+        "message": message
     })
 
 def login_view(request):

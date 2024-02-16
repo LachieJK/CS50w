@@ -4,42 +4,40 @@
 
     {% if message %}
     <!-- Displays an alert if 'message' is provided -->
-    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 20px;">
-        <strong>Error! </strong>{{message}} <!-- Displays the error message -->
+    <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 5px;">
+        <strong>Success! </strong>{{message}} <!-- Displays the success message -->
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {% endif %}
+
+    <h2>CLOSED ISSUES</h2> <!-- Page title -->
 
     {% if issues %}
         <table class="table-minimalistic">
             <thead>
                 <tr>
-                    <th style="width: 18%" class="d-none d-lg-table-cell">Task with Issue</th>
-                    <th style="width: 32%">Issue Description</th>
-                    <th style="width: 5%;">Severity</th>
-                    <th style="width: 5%;">Importance</th>
-                    <th style="width: 10%" class="d-none d-xl-table-cell">Reported By</th> <!-- Disappears below large screens -->
-                    <th style="width: 15%" class="d-none d-xxl-table-cell">Time Resolved</th> <!-- Disappears below medium screens -->
+                    <th style="width: 15%">Task with Issue</th>
+                    <th style="width: 25%">Issue Description</th>
+                    <th style="width: 5%;" class="d-none d-lg-table-cell">Severity</th>
+                    <th style="width: 10%" class="d-none d-xl-table-cell">Reported By</th>
+                    <th style="width: 15%; min-width: 200px;" class="d-none d-xxl-table-cell">Time Reported</th>
+                    <th style="width: 15%; min-width: 200px;">Time Resolved</th>
                     <th style="width: 5%; text-align: center;">Delete</th>
                 </tr>                
-            </thead>
+            </thead>            
             <tbody>
                 {% for issue in issues %}
                     <tr>
-                        <td class="d-none d-lg-table-cell"> {{ issue.task.description }}</td>
+                        <td>{{ issue.task.description }}</td>
                         <td>{{ issue.description }}</td>
-                        <td>
+                        <td class="d-none d-lg-table-cell">
                             <div class="{% if issue.severity == 'Critical' %}critical-severity{% elif issue.severity == 'Moderate'%}moderate-severity{% elif issue.severity == 'Minimal'%}minimal-severity{% endif %}">
                                 {{ issue.severity }}
                             </div>
                         </td>
-                        <td>
-                            <div class="{% if issue.importance == 'High' %}high-importance{% elif issue.importance == 'Normal'%}normal-importance{% elif issue.importance == 'Low'%}low-importance{% endif %}">
-                                {{ issue.importance }}
-                            </div>
-                        </td>
                         <td class="d-none d-xl-table-cell">{{ issue.reportedBy }}</td>
-                        <td class="d-none d-xxl-table-cell">{{ issue.timeResolved }}</td>
+                        <td class="d-none d-xxl-table-cell">{{ issue.timeReported }}</td>
+                        <td>{{ issue.timeResolved }}</td>
                         <td style="text-align: center;">
                             <div class="issue-delete-button">
                                 <button class="delete-issue-buttons" data-issue-id="{{ issue.id }}" id="delete-issue-button-{{ issue.id }}">

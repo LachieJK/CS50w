@@ -30,10 +30,10 @@
                         </li>
                         {% if request.user.is_authenticated %}
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="{% url 'issues' %}">Issues</a>
+                                <a class="nav-link" aria-current="page" href="{% url 'issues' %}">Open Issues</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="{% url 'history' %}">History</a>
+                                <a class="nav-link" aria-current="page" href="{% url 'history' %}">Issue Logs</a>
                             </li>
                         {% endif %}
                         <!-- Dropdown for user authentication -->
