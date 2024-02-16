@@ -103,7 +103,7 @@
                 <div class="modal fade" id="add_user_modal_{{ list.id }}" tabindex="-1" role="dialog" aria-labelledby="addUserLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <form action="{% url 'edit_list_name' list.id %}" method="POST"> <!-- Form for adding user to list -->
+                            <form action="{% url 'add_user' list.id %}" method="POST"> <!-- Form for adding user to list -->
                                 {% csrf_token %}
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="renameListNameLabel">Add User</h5>
@@ -112,7 +112,7 @@
                                 <div class="modal-body">
                                     <!-- Dropdown of Users that can be added to list -->
                                     <label>Select a User to Add to the List</label>
-                                    <select class="form-select" name="add_user_dropdown" aria-label="Default select example">
+                                    <select class="form-select" name="user_id" aria-label="Default select example">
                                         {% for user in users %}
                                             {% if user != list.owner %}
                                                 <option value="{{ user.id }}">{{ user.username }}</option>

@@ -3,7 +3,6 @@ from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from django.core.serializers import serialize
 from django.urls import reverse
 from .models import User, List, Task, Issue
 from itertools import chain
@@ -21,6 +20,7 @@ def index(request):
         new_list = List(owner=request.user, listName=title)
         new_list.save()
     if request.user.is_authenticated:
+        message = request.session.pop('message', None)
         lists_owned = List.objects.filter(owner=request.user)
         lists_collaborating = List.objects.filter(collaborators=request.user)
         all_lists = lists_owned.union(lists_collaborating).order_by('-timeCreated')
@@ -28,6 +28,7 @@ def index(request):
             "users": User.objects.all(),
             "user": request.user,
             "lists": all_lists,
+            "message": message
         })
     return render(request, "checklist/index.html")
 
@@ -93,10 +94,20 @@ def edit_list_name(request, list_id):
     return redirect(request.META.get('HTTP_REFERER'))
 
 
+def add_user(request, list_id):
+    # Retrieve the list and add the user
+    list = List.objects.get(pk=list_id)
+    user = User.objects.get(pk=request.POST.get('user_id'))
+    if user in list.collaborators.all():
+        request.session['message'] = "This user is already a collaborator of this list."
+        return redirect('index')
+    list.collaborators.add(user)
+    return redirect('index')
+
+
 def delete_task(request, task_id):
     # Retrieve and delete the specified task
     task = Task.objects.get(pk=task_id)
-    list_id = task.list.id
     task.delete()
     return redirect(request.META.get('HTTP_REFERER'))
 
@@ -104,7 +115,6 @@ def delete_task(request, task_id):
 def edit_task(request, task_id):
     # Retrieve the list and edit the name
     task = Task.objects.get(pk=task_id)
-    list_id = task.list.id
     description = request.POST.get('edit_task')
     task.description = description
     task.save()
@@ -197,7 +207,7 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))  # Redirect to index page on successful login
         else:
-            return render(request, "network/login.html", {
+            return render(request, "checklist/login.html", {
                 "message": "Invalid username and/or password."
             })
     else:
