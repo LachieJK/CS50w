@@ -2,14 +2,6 @@
 
 {% block body %} <!-- Defines the body content block -->
 
-    {% if message %}
-    <!-- Displays an alert if 'message' is provided -->
-    <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 5px;">
-        <strong>Success! </strong>{{message}} <!-- Displays the success message -->
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    {% endif %}
-
     <h2>CLOSED ISSUES</h2> <!-- Page title -->
 
     {% if issues %}

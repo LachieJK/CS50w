@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.urls import reverse
 from .models import User, List, Task, Issue
-from itertools import chain
 from datetime import datetime
 
 # Create your views here.
@@ -50,15 +49,13 @@ def checklist(request, list_id):
 
 
 def issues(request):
-    message = request.session.pop('message', None)
     all_unresolved_issues = Issue.objects.filter(timeResolved=None)
     user_related_issues = []
     for issue in all_unresolved_issues:
         if request.user == issue.task.list.owner or request.user in issue.task.list.collaborators.all():
             user_related_issues.append(issue)
     return render(request, "checklist/issues.html", {
-        "issues": user_related_issues,
-        "message": message
+        "issues": user_related_issues
     })
 
 
@@ -103,9 +100,12 @@ def add_user(request, list_id):
     list = List.objects.get(pk=list_id)
     user = User.objects.get(pk=request.POST.get('user_id'))
     if user in list.collaborators.all():
-        request.session['message'] = "This user is already a collaborator of this list."
+        request.session['message'] = "This user is already a collaborator of the list."
+        request.session['message_type'] = "danger"
         return redirect('index')
     list.collaborators.add(user)
+    request.session['message'] = "This user is now a collaborator of the list"
+    request.session['message_type'] = "success"
     return redirect('index')
 
 
@@ -114,9 +114,12 @@ def remove_user(request, list_id):
     list = List.objects.get(pk=list_id)
     user = User.objects.get(pk=request.POST.get('user_id'))
     if user not in list.collaborators.all():
-        request.session['message'] = "This user isn't removable as they're not a collaborator of this list."
+        request.session['message'] = "This user isn't removable as they're not a collaborator of the list."
+        request.session['message_type'] = "danger"
         return redirect('index')
     list.collaborators.remove(user)
+    request.session['message'] = "This user is no longer a collaborator of the list"
+    request.session['message_type'] = "success"
     return redirect('index')
 
 
@@ -176,7 +179,6 @@ def resolve_issue(request, issue_id):
         issue = Issue.objects.get(pk=issue_id)
         issue.timeResolved = datetime.now()
         issue.save()
-        request.session['message'] = "Issue was successfully resolved."
         return JsonResponse({'success': True})
     
 
@@ -185,7 +187,6 @@ def delete_issue(request, issue_id):
     if request.method == 'POST':
         issue = Issue.objects.get(pk=issue_id)
         issue.delete()
-        request.session['message'] = "Issue was successfully deleted."
         return JsonResponse({'success': True})
     
 
@@ -201,6 +202,7 @@ def clear_tasks(request, list_id):
             task.timeAlertedIssue = None
             task.save()
         request.session['message'] = "All tasks have been cleared."
+        request.session['message_type'] = "success"
         return JsonResponse({'success': True})
     
 
@@ -216,6 +218,7 @@ def clear_lists(request):
             task.timeAlertedIssue = None
             task.save()
         request.session['message'] = "Tasks in all lists have been cleared."
+        request.session['message_type'] = "success"
         return JsonResponse({'success': True})
 
 
@@ -241,6 +244,8 @@ def login_view(request):
         # Check if authentication was successful
         if user is not None:
             login(request, user)
+            request.session['message'] = "You are now logged in."
+            request.session['message_type'] = "success"
             return HttpResponseRedirect(reverse("index"))  # Redirect to index page on successful login
         else:
             return render(request, "checklist/login.html", {

@@ -279,6 +279,19 @@ label {
     animation: flashAnimation 1s ease-out infinite;
 }
 
+.task-contents-handle {
+    display: flex;
+    align-items: center;
+    min-width: 0; /* Important for overflow in flexbox */
+}
+
+.task-contents-handle svg {
+    height: 30px;
+    width: 30px;
+    margin-left: 15px;
+    cursor: grab;
+}
+
 .task-contents-left-side {
     flex-grow: 1;
     flex-shrink: 1;
@@ -512,4 +525,26 @@ label {
   background-color: #F7F7F7;
   border-color: #000000;
   transform: scale(.96);
+}
+
+.back-button {
+    color: grey; /* Sets the text color */
+    text-decoration: none; /* Removes the underline from the text */
+    font-family: Arial, sans-serif; /* Specifies the button's font */
+    font-size: 16px; /* Sets the font size */
+    background-color: transparent; /* Ensures there is no background */
+    border: none; /* Removes the border */
+    cursor: pointer; /* Changes the cursor to indicate it's clickable */
+}
+
+.back-button:hover {
+    color: darkgrey; /* Darkens the text color slightly on hover for visual feedback */
+}
+
+.back-button-text {
+    padding-left: 5px; /* Adds a small space between the icon and text */
+}
+
+.back-button-text:hover {
+    text-decoration: underline; /* Optionally add an underline on hover to indicate it's clickable */
 }

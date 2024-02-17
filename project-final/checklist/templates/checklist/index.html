@@ -3,12 +3,17 @@
 {% block body %} <!-- Starts the body content block -->
 
     {% if message %}
-        <!-- Displays an alert if 'message' is provided -->
-        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 5px;">
-            <strong>Success! </strong>{{message}} <!-- Displays the success message -->
+        <div class="alert alert-{{ request.session.message_type }} alert-dismissible fade show" role="alert" style="margin-top: 5px;">
+            {% if request.session.message_type == "success" %}
+                <strong>Success! </strong>
+            {% elif request.session.message_type == "danger" %}
+                <strong>Error! </strong>
+            {% endif %}
+            {{ message }} <!-- Displays the message -->
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endif %}
+
     {% if user.is_authenticated %}
         <!-- Button trigger create new list modal -->
         <div class="centered-container">
