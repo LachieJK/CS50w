@@ -280,13 +280,13 @@ label {
     animation: flashAnimation 1s ease-out infinite;
 }
 
-.task-contents-handle {
+.contents-handle {
     display: flex;
     align-items: center;
     min-width: 0; /* Important for overflow in flexbox */
 }
 
-.task-contents-handle svg {
+.contents-handle svg {
     height: 30px;
     width: 30px;
     margin-left: 15px;

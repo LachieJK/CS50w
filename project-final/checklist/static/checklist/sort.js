@@ -16,7 +16,7 @@ function getCookie(name) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    let sortableList = document.getElementById('sortable-list');
+    let sortableList = document.getElementById('sortable-tasks');
     new Sortable(sortableList, {
         swapThreshold: 1,
         handle: '.handle', // handle class
@@ -25,18 +25,50 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get the order of task IDs
             var ids = [];
             sortableList.querySelectorAll('.task-contents').forEach(function (taskElement) {
-                ids.push(taskElement.getAttribute('data-id')); // Assuming each task has a data-id attribute
-                console.log(taskElement.getAttribute('data-id'));
+                ids.push(taskElement.getAttribute('data-id'));
             });
     
             // Send the new order to the server
-            fetch('/update-task-order/', {
+            fetch('/update-order/', {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': getCookie('csrftoken'), // Function to get CSRF token; see note below
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({'taskOrder': ids})
+                body: JSON.stringify({
+                    'type': 'task',
+                    'order': ids
+                })
+            }).then(response => response.json())
+            .then(data => console.log(data));
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let sortableList = document.getElementById('sortable-lists');
+    new Sortable(sortableList, {
+        swapThreshold: 1,
+        handle: '.handle', // handle class
+        animation: 200,
+        onEnd: function () {
+            // Get the order of list IDs
+            var ids = [];
+            sortableList.querySelectorAll('.list-contents').forEach(function (listElement) {
+                ids.push(listElement.getAttribute('data-id'));
+            });
+    
+            // Send the new order to the server
+            fetch('/update-order/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'), // Function to get CSRF token; see note below
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    'type': 'list',
+                    'order': ids
+                })
             }).then(response => response.json())
             .then(data => console.log(data));
         }

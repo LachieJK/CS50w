@@ -10,6 +10,7 @@ class List(models.Model):
     collaborators = models.ManyToManyField(User, related_name="collaborations", blank=True)
     timeCreated = models.DateTimeField(auto_now_add=True)
     listName = models.CharField(max_length=200)
+    order = models.PositiveIntegerField(default=0, blank=False, null=False)
 
     def total_task_count(self):
         return self.tasks.count()

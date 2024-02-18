@@ -23,7 +23,7 @@ def index(request):
         message = request.session.pop('message', None)
         lists_owned = List.objects.filter(owner=request.user)
         lists_collaborating = List.objects.filter(collaborators=request.user)
-        all_lists = lists_owned.union(lists_collaborating).order_by('-timeCreated')
+        all_lists = lists_owned.union(lists_collaborating).order_by('order')
         return render(request, "checklist/index.html", {
             "users": User.objects.all(),
             "user": request.user,
@@ -239,12 +239,17 @@ def history(request):
     })
 
 
-def update_task_order(request):
+def update_order(request):
     # Load JSON string from request.body and convert it to Python dict
     data = json.loads(request.body)
-    tasks_order = data.get('taskOrder', [])
-    for index, task_id in enumerate(tasks_order, start=1):
-        Task.objects.filter(id=task_id).update(order=index)
+    order_type = data.get('type')  # Get the type ('task' or 'list')
+    order_ids = data.get('order', [])
+    if order_type == 'task':
+        for index, id in enumerate(order_ids, start=1):
+            Task.objects.filter(id=id).update(order=index)
+    elif order_type == 'list':
+        for index, id in enumerate(order_ids, start=1):
+            List.objects.filter(id=id).update(order=index)
     return JsonResponse({"status": "success"})
 
 
