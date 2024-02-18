@@ -24,5 +24,6 @@ urlpatterns = [
     path('resolve-issue/<int:issue_id>', views.resolve_issue, name='resolve_issue'),
     path('delete-issue/<int:issue_id>', views.delete_issue, name='delete_issue'),
     path('clear_tasks/<int:list_id>', views.clear_tasks, name='clear_tasks'),
-    path('clear_lists/', views.clear_lists, name='clear_lists')
+    path('clear_lists/', views.clear_lists, name='clear_lists'),
+    path('update-task-order/', views.update_task_order, name='update_task_order')
 ]

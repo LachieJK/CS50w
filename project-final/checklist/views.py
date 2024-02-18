@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.urls import reverse
 from .models import User, List, Task, Issue
 from datetime import datetime
+import json
 
 # Create your views here.
 def open(request):
@@ -40,6 +41,9 @@ def checklist(request, list_id):
         description = request.POST["description"]
         new_task = Task(list=list, description=description)
         new_task.save()
+        # Redirect to the same page with a GET request
+        return redirect(reverse('checklist', args=[list_id]))
+    # For a GET request, or the initial load
     return render(request, "checklist/list.html", {
         "user": request.user,
         "list": list,
@@ -233,6 +237,16 @@ def history(request):
         "issues": user_related_issues,
         "message": message
     })
+
+
+def update_task_order(request):
+    # Load JSON string from request.body and convert it to Python dict
+    data = json.loads(request.body)
+    tasks_order = data.get('taskOrder', [])
+    for index, task_id in enumerate(tasks_order, start=1):
+        Task.objects.filter(id=task_id).update(order=index)
+    return JsonResponse({"status": "success"})
+
 
 def login_view(request):
     if request.method == "POST":

@@ -3,6 +3,7 @@ body {
     padding-top: 80px; /* Offset from top to account for fixed navbar */
     padding-left: 50px; /* Left padding for body content */
     padding-right: 50px; /* Right padding for body content */
+    padding-bottom: 50px; /* Space on the bottom of page */
     background-color: #fafafa; /* Light grey background for contrast */
 }
 

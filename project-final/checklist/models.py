@@ -31,9 +31,13 @@ class Task(models.Model):
     alertedBy = models.ForeignKey(User, on_delete=models.CASCADE, related_name="alerted_by", null=True, blank=True)
     issueStatus = models.BooleanField(default=False)
     importantFlag = models.BooleanField(default=False)
+    order = models.PositiveIntegerField(default=0, blank=False, null=False)
+
+    class Meta:
+        ordering = ['order']  # This ensures tasks are ordered by this field by default.
 
     def __str__(self):
-        return f"The task '{self.description}' is apart of the {self.list.listName} list."
+        return f"Task {self.id}: '{self.description}' is apart of the {self.list.listName} list."
     
 
 class Issue(models.Model):
