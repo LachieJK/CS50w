@@ -1,33 +1,38 @@
 {% extends "checklist/layout.html" %} <!-- Extends a base layout template -->
 
-{% block body %} <!-- Starts the body content block -->
+{% block body %} <!-- Begins the body content block -->
 
-    <h2>OPEN ISSUES</h2> <!-- Page title -->
+    <h2>OPEN ISSUES</h2> <!-- Heading indicating the page is about open issues -->
 
-    {% if issues %}
+    {% if issues %} <!-- Checks if there are any issues to display -->
+        <!-- Table with a minimalistic style to list issues -->
         <table class="table-minimalistic">
             <thead>
                 <tr>
+                    <!-- Table headers with responsive visibility classes -->
                     <th style="width: 18%" class="d-none d-lg-table-cell">Task with Issue</th>
                     <th style="width: 32%">Issue Description</th>
                     <th style="width: 5%;">Severity</th>
                     <th style="width: 5%;">Importance</th>
-                    <th style="width: 10%" class="d-none d-xl-table-cell">Reported By</th> <!-- Disappears below large screens -->
-                    <th style="width: 15%; min-width: 200px;" class="d-none d-xxl-table-cell">Time Reported</th> <!-- Disappears below medium screens -->
+                    <th style="width: 10%" class="d-none d-xl-table-cell">Reported By</th> <!-- Hidden on screens smaller than xl -->
+                    <th style="width: 15%; min-width: 200px;" class="d-none d-xxl-table-cell">Time Reported</th> <!-- Hidden on screens smaller than xxl -->
                     <th style="width: 5%; text-align: center;">Status</th>
                 </tr>                
             </thead>
             <tbody>
-                {% for issue in issues %}
+                {% for issue in issues %} <!-- Iterates through each issue -->
                     <tr>
+                        <!-- Issue details with responsive visibility -->
                         <td class="d-none d-lg-table-cell"> {{ issue.task.description }}</td>
                         <td>{{ issue.description }}</td>
                         <td>
+                            <!-- Div for severity with conditional class assignment based on severity level -->
                             <div class="{% if issue.severity == 'Critical' %}critical-severity{% elif issue.severity == 'Moderate'%}moderate-severity{% elif issue.severity == 'Minimal'%}minimal-severity{% endif %}">
                                 {{ issue.severity }}
                             </div>
                         </td>
                         <td>
+                            <!-- Div for importance with conditional class assignment based on importance level -->
                             <div class="{% if issue.importance == 'High' %}high-importance{% elif issue.importance == 'Normal'%}normal-importance{% elif issue.importance == 'Low'%}low-importance{% endif %}">
                                 {{ issue.importance }}
                             </div>
@@ -35,11 +40,12 @@
                         <td class="d-none d-xl-table-cell">{{ issue.reportedBy }}</td>
                         <td class="d-none d-xxl-table-cell">{{ issue.timeReported }}</td>
                         <td style="text-align: center;">
+                            <!-- Button to resolve the issue with an SVG icon -->
                             <div class="issue-resolved-button">
                                 <button class="resolve-issue-buttons not-resolved" data-issue-id="{{ issue.id }}" id="resolve-issue-button-{{ issue.id }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
                                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-                                      </svg>
+                                    </svg>
                                 </button>
                             </div>
                         </td>
@@ -48,12 +54,13 @@
             </tbody>
         </table>
     {% else %}
+        <!-- Message displayed if there are no open issues -->
         <div class="empty-message">
             You currently have no issues to resolve.
         </div>
     {% endif %}
 
-    {% load static %}
-    <script src="{% static 'checklist/resolve_issue_button.js' %}"></script>
+    {% load static %} <!-- Django template tag to include static files -->
+    <script src="{% static 'checklist/resolve_issue_button.js' %}"></script> <!-- JavaScript file to handle issue resolution -->
 
-{% endblock %}
+{% endblock %} <!-- Ends the body content block -->

@@ -2,41 +2,49 @@
 
 {% block body %} <!-- Starts the body content block -->
 
-    {% if message %}
+    {% if message %} <!-- Checks if there's a message to display -->
+        <!-- Alert box for displaying messages like success or error notifications -->
         <div class="alert alert-{{ request.session.message_type }} alert-dismissible fade show" role="alert" style="margin-top: 5px;">
+            <!-- Conditional display for message prefix based on its type (success or danger) -->
             {% if request.session.message_type == "success" %}
                 <strong>Success! </strong>
             {% elif request.session.message_type == "danger" %}
                 <strong>Error! </strong>
             {% endif %}
             {{ message }} <!-- Displays the message -->
+            <!-- Close button for the alert box -->
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endif %}
 
-    {% if user.is_authenticated %}
-        <!-- Button trigger create new list modal -->
+    {% if user.is_authenticated %} <!-- Checks if the user is authenticated -->
+        <!-- Section for the button that triggers the modal to create a new list -->
         <div class="centered-container">
             <button type="button" data-bs-toggle="modal" data-bs-target="#createListModal">
+                <!-- Button styling and text -->
                 <span class="animated-box-button" style="width: 60vw;">
                     Create New List
                 </span>
             </button>
         </div>
 
-        <!-- Create new list modal -->
+        <!-- Modal for creating a new list -->
         <div class="modal fade" id="createListModal" tabindex="-1" aria-labelledby="createListModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
+                    <!-- Modal header with title and close button -->
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="createListModalLabel">Create List</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <!-- Form for submitting the new list's title -->
                     <form method="POST" action="{% url 'index' %}">
                         {% csrf_token %}
                         <div class="modal-body">
+                            <!-- Textarea for inputting the new list's title -->
                             <textarea id="list_title_textarea" name="title" class="form-control" placeholder="What would you like to call the list?"></textarea>
                         </div>
+                        <!-- Modal footer with close and save buttons -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save changes</button>
@@ -46,30 +54,36 @@
             </div>
         </div>
     
-
         {% if lists %}
+            <!-- Container for sortable lists, allowing user interaction for list ordering -->
             <div id="sortable-lists">
                 {% for list in lists %}
+                    <!-- Individual list container with a data attribute for unique identification -->
                     <div class="list-contents" data-id="{{ list.id }}">
+                        <!-- Handle for dragging the list, facilitating the sorting functionality -->
                         <div class="contents-handle handle">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-move" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10M.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8"/>
                             </svg>
                         </div>
+                        <!-- Left-side content, primarily for displaying the list name and ownership/collaboration status -->
                         <div class="list-contents-left-side view-list" data-list-url="{% url 'checklist' list.id %}">
                             <div class="list-name-{{ list.id }}">
-                                {{ list.listName }}<span style="font-style: italic; color: rgb(161, 161, 161); font-family: 'Courier New', monospace; padding-left: 2em;">{% if user == list.owner %}(Owner){% else %}(Collaborator){% endif %}</span>
+                                {{ list.listName }}
+                                <span style="font-style: italic; color: rgb(161, 161, 161); font-family: 'Courier New', monospace; padding-left: 2em;">
+                                    {% if user == list.owner %}(Owner){% else %}(Collaborator){% endif %}
+                                </span>
                             </div>
                         </div>
+                        <!-- Right-side content for list management options like edit, delete, add or remove users -->
                         <div class="list-contents-right-side">
-                            <!-- Options to edit or delete the list -->
                             <div class="three-dots">
-                                <!-- Dropdown menu for editing and deleting -->
+                                <!-- Trigger for dropdown menu containing list management options -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="rgb(75, 75, 75)" class="bi bi-three-dots" viewBox="0 0 16 16">
                                     <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
                                 </svg>
                                 <div class="dropdown-menu" style="margin-right: 10px;">
-                                    <!-- Links to edit and delete list -->
+                                    <!-- Dropdown menu items for actions like rename, add user, remove user, delete list, or leave list -->
                                     <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#rename_list_modal_{{ list.id }}">Rename</a>
                                     {% if user == list.owner %}
                                         <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#add_user_modal_{{ list.id }}">Add User</a>
@@ -79,50 +93,59 @@
                                         <a href="{% url 'leave_list' list.id %}" class="dropdown-item">Leave</a>
                                     {% endif %}
                                 </div>
-                            </div>      
+                            </div>
+                            <!-- Displays the count of completed tasks versus total tasks for the list -->
                             <div class="list-complete-count">
                                 <b>Completed: </b>{{ list.completed_task_count }}/{{ list.total_task_count }}
                             </div>
+                            <!-- Displays the count of tasks with issues versus total tasks for the list -->
                             <div class="list-issues-count">
                                 <b>Issues: </b>{{ list.issue_task_count }}/{{ list.total_task_count }}
                             </div>
                         </div>
                     </div>
-                    <!-- Modal for renaming list -->
+
+                   <!-- Modal for renaming list -->
                     <div class="modal fade" id="rename_list_modal_{{ list.id }}" tabindex="-1" role="dialog" aria-labelledby="renameListLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
+                                <!-- Form for submitting the new list name -->
                                 <form action="{% url 'edit_list_name' list.id %}" method="POST">
-                                    {% csrf_token %}
+                                    {% csrf_token %} <!-- CSRF token for form submission security -->
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="renameListNameLabel">Edit List Name</h5>
+                                        <!-- Button to close the modal -->
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <!-- Text area for editing the list -->
+                                        <!-- Text area for inputting the new list name -->
                                         <textarea id="name_textarea_{{ list.id }}" name="rename_list" class="form-control">{{ list.listName }}</textarea>
                                     </div>
                                     <div class="modal-footer">
-                                        <!-- Buttons to close the modal or save changes -->
+                                        <!-- Button to cancel the operation and close the modal -->
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <!-- Button to submit the form and save the new list name -->
                                         <input type="submit" class="btn btn-primary" value="Save changes">
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <!-- Modal for adding user -->
+
+                    <!-- Modal for adding a user to the list -->
                     <div class="modal fade" id="add_user_modal_{{ list.id }}" tabindex="-1" role="dialog" aria-labelledby="addUserLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                                <form action="{% url 'add_user' list.id %}" method="POST"> <!-- Form for adding user to list -->
-                                    {% csrf_token %}
+                                <!-- Form for adding a user to the list -->
+                                <form action="{% url 'add_user' list.id %}" method="POST">
+                                    {% csrf_token %} <!-- CSRF token for form submission security -->
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="addUserLabel">Add User</h5>
+                                        <!-- Button to close the modal -->
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <!-- Dropdown of Users that can be added to list -->
+                                        <!-- Dropdown for selecting a user to add -->
                                         <label>Select a User to Add to the List</label>
                                         <select class="form-select" name="user_id" aria-label="Default select example">
                                             {% for user in users %}
@@ -130,29 +153,33 @@
                                                     <option value="{{ user.id }}">{{ user.username }}</option>
                                                 {% endif %}
                                             {% endfor %}
-                                        </select>      
+                                        </select>
                                     </div>
                                     <div class="modal-footer">
-                                        <!-- Buttons to close the modal or save changes -->
+                                        <!-- Button to cancel the operation and close the modal -->
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <!-- Button to submit the form and add the selected user -->
                                         <input type="submit" class="btn btn-primary" value="Save changes">
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                        <!-- Modal for removing user -->
+
+                    <!-- Modal for removing a user from the list -->
                     <div class="modal fade" id="remove_user_modal_{{ list.id }}" tabindex="-1" role="dialog" aria-labelledby="removeUserLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                                <form action="{% url 'remove_user' list.id %}" method="POST"> <!-- Form for adding user to list -->
-                                    {% csrf_token %}
+                                <!-- Form for removing a user from the list -->
+                                <form action="{% url 'remove_user' list.id %}" method="POST">
+                                    {% csrf_token %} <!-- CSRF token for form submission security -->
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="removeUserLabel">Add User</h5>
+                                        <h5 class="modal-title" id="removeUserLabel">Remove User</h5>
+                                        <!-- Button to close the modal -->
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <!-- Dropdown of Users that can be added to list -->
+                                        <!-- Dropdown for selecting a user to remove -->
                                         <label>Select a User to Remove from the List</label>
                                         <select class="form-select" name="user_id" aria-label="Default select example">
                                             {% for user in users %}
@@ -160,11 +187,12 @@
                                                     <option value="{{ user.id }}">{{ user.username }}</option>
                                                 {% endif %}
                                             {% endfor %}
-                                        </select>      
+                                        </select>
                                     </div>
                                     <div class="modal-footer">
-                                        <!-- Buttons to close the modal or save changes -->
+                                        <!-- Button to cancel the operation and close the modal -->
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <!-- Button to submit the form and remove the selected user -->
                                         <input type="submit" class="btn btn-primary" value="Save changes">
                                     </div>
                                 </form>
@@ -173,27 +201,31 @@
                     </div>
                 {% endfor %}
             </div>
+            <!-- Container for the 'Clear Tasks in all Lists' button, centered horizontally -->
             <div style="display: flex; justify-content: center;">
                 <button type="button" class="clear-button" id="clear-lists-button">
-                    Clear Tasks in all Lists
+                    Clear Tasks in all Lists <!-- Button text indicating its function -->
                 </button>
             </div>
         {% else %}
+            <!-- Displayed if the user has no lists -->
             <div class="empty-message">
-                Your account currently has no lists.
+                Your account currently has no lists. <!-- Informative message for users without lists -->
             </div>
         {% endif %}
 
-        <script src="static/checklist/three_dots_dropdown.js"></script> <!-- Script for editing and deleting lists -->
-        <script src="static/checklist/list_url.js"></script> <!-- Script for navigating to an individual's list page-->
-        <script src="static/checklist/reset.js"></script>
-        <script src="static/checklist/active_pages.js"></script>
-        <script src="static/checklist/sort.js"></script>
+        <!-- Include various JavaScript files for additional functionality -->
+        <script src="static/checklist/three_dots_dropdown.js"></script> <!-- Handles dropdown menus for list options -->
+        <script src="static/checklist/list_url.js"></script> <!-- Enables navigation to specific list pages -->
+        <script src="static/checklist/reset.js"></script> <!-- Might contain functionality to reset certain UI elements or forms -->
+        <script src="static/checklist/active_pages.js"></script> <!-- Script to mark the current page as active in the navigation menu, enhancing UX -->
+        <script src="static/checklist/sort.js"></script> <!-- Implements sorting functionality for lists, potentially making them draggable -->
 
     {% else %}
+        <!-- Message displayed to non-authenticated users trying to access list functionality -->
         <div class="empty-message">
-            You must create an account or sign in to access or create lists.
+            You must create an account or sign in to access or create lists. <!-- Prompting users to sign in or register -->
         </div>
     {% endif %}
 
-{% endblock %}
+{% endblock %} <!-- Ends the body content block, marking the end of content defined in this template -->

@@ -1,13 +1,14 @@
-{% extends "checklist/layout.html" %}
+{% extends "checklist/layout.html" %} <!-- Inherits the base layout from "checklist/layout.html" -->
 
-{% block body %} <!-- Defines the body content block -->
+{% block body %} <!-- Starts the block for page content within the body -->
 
-    <h2>CLOSED ISSUES</h2> <!-- Page title -->
+    <h2>CLOSED ISSUES</h2> <!-- Page title indicating the content is about closed issues -->
 
-    {% if issues %}
-        <table class="table-minimalistic">
-            <thead>
-                <tr>
+    {% if issues %} <!-- Checks if there are any closed issues to display -->
+        <table class="table-minimalistic"> <!-- Creates a table with a specified minimalistic style class -->
+            <thead> <!-- Table header section -->
+                <tr> <!-- Table header row -->
+                    <!-- Defines table columns with specific styles and classes for responsive visibility -->
                     <th style="width: 15%">Task with Issue</th>
                     <th style="width: 25%">Issue Description</th>
                     <th style="width: 5%;" class="d-none d-lg-table-cell">Severity</th>
@@ -17,12 +18,14 @@
                     <th style="width: 5%; text-align: center;">Delete</th>
                 </tr>                
             </thead>            
-            <tbody>
-                {% for issue in issues %}
-                    <tr>
+            <tbody> <!-- Table body section -->
+                {% for issue in issues %} <!-- Iterates over each issue in the issues collection -->
+                    <tr> <!-- Table row for an issue -->
+                        <!-- Table cells displaying various attributes of an issue -->
                         <td>{{ issue.task.description }}</td>
                         <td>{{ issue.description }}</td>
                         <td class="d-none d-lg-table-cell">
+                            <!-- Applies specific styling based on issue severity -->
                             <div class="{% if issue.severity == 'Critical' %}critical-severity{% elif issue.severity == 'Moderate'%}moderate-severity{% elif issue.severity == 'Minimal'%}minimal-severity{% endif %}">
                                 {{ issue.severity }}
                             </div>
@@ -31,11 +34,13 @@
                         <td class="d-none d-xxl-table-cell">{{ issue.timeReported }}</td>
                         <td>{{ issue.timeResolved }}</td>
                         <td style="text-align: center;">
+                            <!-- Button for deleting an issue, includes data attribute for issue ID -->
                             <div class="issue-delete-button">
                                 <button class="delete-issue-buttons" data-issue-id="{{ issue.id }}" id="delete-issue-button-{{ issue.id }}">
+                                    <!-- SVG icon for the delete button -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
                                         <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
-                                      </svg>
+                                    </svg>
                                 </button>
                             </div>
                         </td>
@@ -43,13 +48,13 @@
                 {% endfor %}
             </tbody>
         </table>
-    {% else %}
-        <div class="empty-message">
+    {% else %} <!-- Condition for when there are no issues to display -->
+        <div class="empty-message"> <!-- Styling for an empty message -->
             There are no records of any past issues.
         </div>
     {% endif %}
 
-    {% load static %}
-    <script src="{% static 'checklist/delete_issue_button.js' %}"></script>
+    {% load static %} <!-- Django tag to use static files -->
+    <script src="{% static 'checklist/delete_issue_button.js' %}"></script> <!-- Link to a JavaScript file handling delete button actions -->
 
-{% endblock %}
+{% endblock %} <!-- Ends the body content block -->
